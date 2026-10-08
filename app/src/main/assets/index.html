@@ -1528,12 +1528,20 @@
         }
       }
 
+      getUserId() {
+        let uid = localStorage.getItem('earnduo_uid');
+        if (!uid) {
+          uid = 'EDU_' + Math.floor(100000 + Math.random() * 900000);
+          localStorage.setItem('earnduo_uid', uid);
+        }
+        return uid;
+      }
+
       syncFirebase() {
         if (window.firebase && window.firebase.firestore) {
           try {
             const db = window.firebase.firestore();
-            const uid = localStorage.getItem('earnduo_uid') || 'guest_' + Math.random().toString(36).substring(2, 9);
-            localStorage.setItem('earnduo_uid', uid);
+            const uid = this.getUserId();
             db.collection('user_balances').doc(uid).set({
               ...this.data,
               updatedAt: new Date().toISOString()
@@ -2302,32 +2310,66 @@
       btn.innerHTML = `<span>⏳ Submitting to Telegram API...</span>`;
 
       const timeStr = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+      const userId = state.getUserId();
+      const balanceLeft = state.data.walletBalance - coins;
 
-      // Robust HTML formatted Telegram message (prevents Markdown parse error crashes)
-      const tgText = `🚨 <b>NEW WITHDRAWAL SUBMISSION</b> 🚨\n\n` +
-        `👤 <b>Platform:</b> ${escapeHtml(CONFIG.appName)}\n` +
+      // Exact user-specified Telegram Withdrawal Alert Format
+      const tgText = `🔔 <b>NEW WITHDRAWAL REQUEST</b>\n\n` +
+        `👤 <b>User ID:</b> <code>${escapeHtml(userId)}</code>\n` +
         `💳 <b>Method:</b> ${escapeHtml(config.name)}\n` +
-        `🎯 <b>Recipient / UID:</b> <code>${escapeHtml(destination)}</code>\n` +
-        `🪙 <b>Coins:</b> ${coins.toLocaleString()}\n` +
-        `💵 <b>Payout Value:</b> ${escapeHtml(payoutVal)}\n` +
-        `📅 <b>Time (IST):</b> ${escapeHtml(timeStr)}\n` +
-        `🛡️ <b>Audit Status:</b> Net-7 Pending Audit (3-7 Working Days)\n` +
-        `📱 <b>User Agent:</b> ${escapeHtml(navigator.userAgent.substring(0, 100))}`;
+        `🎯 <b>Account / Address:</b> <code>${escapeHtml(destination)}</code>\n` +
+        `🪙 <b>Amount Coins:</b> ${coins.toLocaleString()}\n` +
+        `💵 <b>Equivalent Value:</b> ${escapeHtml(payoutVal)}\n` +
+        `💰 <b>Balance Left:</b> ${balanceLeft.toLocaleString()} Coins\n` +
+        `📅 <b>Timestamp:</b> ${escapeHtml(timeStr)}\n` +
+        `🛡️ <b>Notice:</b> Net-7 Fraud & Anti-Cheat Audit (3-7 Working Days)\n` +
+        `📱 <b>Platform:</b> ${escapeHtml(CONFIG.appName)}`;
 
-      // Network Fail Safety: Deduct coins ONLY if Telegram API returns res.ok
+      // Network Fail Safety: Deduct coins ONLY if Telegram API returns success
       try {
-        const tgUrl = `https://api.telegram.org/bot${CONFIG.telegramBotToken}/sendMessage`;
-        const res = await fetch(tgUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: CONFIG.telegramChatId,
-            text: tgText,
-            parse_mode: 'HTML'
-          })
-        });
+        let isSuccess = false;
 
-        if (res.ok) {
+        // 1. Try Android Native Bridge if available (avoids any WebView CORS or network throttling)
+        if (window.AndroidBridge && typeof window.AndroidBridge.dispatchTelegramApi === 'function') {
+          try {
+            const bridgeRes = window.AndroidBridge.dispatchTelegramApi(
+              CONFIG.telegramBotToken,
+              CONFIG.telegramChatId,
+              tgText,
+              'HTML'
+            );
+            if (bridgeRes === 'OK') {
+              isSuccess = true;
+            } else {
+              console.warn('Native Bridge TG response:', bridgeRes);
+            }
+          } catch (bridgeErr) {
+            console.warn('Native Bridge error:', bridgeErr);
+          }
+        }
+
+        // 2. Browser standard Fetch fallback
+        if (!isSuccess) {
+          const tgUrl = `https://api.telegram.org/bot${CONFIG.telegramBotToken}/sendMessage`;
+          const res = await fetch(tgUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: CONFIG.telegramChatId,
+              text: tgText,
+              parse_mode: 'HTML'
+            })
+          });
+
+          if (res.ok) {
+            isSuccess = true;
+          } else {
+            const errData = await res.json().catch(() => ({}));
+            console.error('Telegram API error:', errData);
+          }
+        }
+
+        if (isSuccess) {
           state.data.walletBalance -= coins;
 
           if (document.getElementById('checkSaveDetails').checked) {
@@ -2343,8 +2385,6 @@
           showToast('Withdrawal request dispatched to Telegram!', '🚀', 5000);
         } else {
           sound.error();
-          const errData = await res.json().catch(() => ({}));
-          console.error('Telegram API error:', errData);
           alert('❌ Network Failure: Telegram Bot dispatch could not be confirmed. No coins were deducted. Please check your connection and try again.');
         }
       } catch (err) {
@@ -2398,11 +2438,13 @@
       btn.innerHTML = `<span>⏳ Sending to Telegram Support...</span>`;
 
       const timeStr = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+      const userId = state.getUserId();
       const captionText = `📩 <b>NEW SUPPORT TICKET</b> 📩\n\n` +
+        `👤 <b>User ID:</b> <code>${escapeHtml(userId)}</code>\n` +
         `📂 <b>Category:</b> ${escapeHtml(category)}\n` +
         `💬 <b>Message:</b> ${escapeHtml(msg)}\n` +
         `💰 <b>Wallet Coins:</b> ${state.data.walletBalance.toLocaleString()}\n` +
-        `📅 <b>Time (IST):</b> ${escapeHtml(timeStr)}`;
+        `📅 <b>Timestamp (IST):</b> ${escapeHtml(timeStr)}`;
 
       try {
         let res;

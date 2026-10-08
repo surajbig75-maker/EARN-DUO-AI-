@@ -117,6 +117,9 @@ class MainActivity : ComponentActivity() {
             databaseEnabled = true
             allowFileAccess = true
             allowContentAccess = true
+            allowFileAccessFromFileURLs = true
+            allowUniversalAccessFromFileURLs = true
+            mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
             mediaPlaybackRequiresUserGesture = false
             cacheMode = WebSettings.LOAD_DEFAULT
             useWideViewPort = true
@@ -131,6 +134,13 @@ class MainActivity : ComponentActivity() {
           addJavascriptInterface(WebAppBridge(this@MainActivity), "AndroidBridge")
 
           webViewClient = object : WebViewClient() {
+            override fun onRenderProcessGone(
+              view: WebView?,
+              detail: android.webkit.RenderProcessGoneDetail?
+            ): Boolean {
+              return true
+            }
+
             override fun shouldOverrideUrlLoading(
               view: WebView?,
               request: WebResourceRequest?
@@ -222,6 +232,37 @@ class MainActivity : ComponentActivity() {
     @JavascriptInterface
     fun isAndroidApp(): Boolean {
       return true
+    }
+
+    @JavascriptInterface
+    fun dispatchTelegramApi(botToken: String, chatId: String, text: String, parseMode: String): String {
+      return try {
+        val url = java.net.URL("https://api.telegram.org/bot$botToken/sendMessage")
+        val conn = (url.openConnection() as java.net.HttpURLConnection).apply {
+          requestMethod = "POST"
+          doOutput = true
+          setRequestProperty("Content-Type", "application/json")
+          connectTimeout = 15000
+          readTimeout = 15000
+        }
+        val payload = org.json.JSONObject().apply {
+          put("chat_id", chatId)
+          put("text", text)
+          put("parse_mode", parseMode)
+        }.toString()
+        conn.outputStream.use { os ->
+          os.write(payload.toByteArray(Charsets.UTF_8))
+        }
+        val code = conn.responseCode
+        if (code in 200..299) {
+          "OK"
+        } else {
+          val err = conn.errorStream?.bufferedReader()?.use { it.readText() } ?: "HTTP $code"
+          "ERROR: $err"
+        }
+      } catch (e: Exception) {
+        "ERROR: ${e.message}"
+      }
     }
   }
 }
