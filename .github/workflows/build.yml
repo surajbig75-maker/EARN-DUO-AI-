@@ -5,12 +5,15 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
+    - name: Checkout Code
       uses: actions/checkout@v4
 
     - name: Set up JDK 17
@@ -27,9 +30,12 @@ jobs:
     - name: Build Debug APK
       run: gradle assembleDebug --stacktrace
 
-    - name: Upload APK
-      uses: actions/upload-artifact@v4
+    - name: Upload Direct APK Release
+      uses: softprops/action-gh-release@v2
       with:
-        name: EarnDuoAI-App
-        path: app/build/outputs/apk/debug/*.apk
+        tag_name: v1.0
+        name: "Earn Duo AI App"
+        files: app/build/outputs/apk/debug/*.apk
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
