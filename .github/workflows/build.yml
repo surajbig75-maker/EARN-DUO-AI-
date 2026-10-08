@@ -19,14 +19,25 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
     - name: Setup Gradle 9.3.1
       uses: gradle/actions/setup-gradle@v3
       with:
         gradle-version: '9.3.1'
 
-    - name: Prepare Environment File
+    - name: Prepare Environment and Keystore
       run: |
+        # 1. Prepare .env for secrets gradle plugin
         cp .env.example .env 2>/dev/null || touch .env
+
+        # 2. Restore debug.keystore from base64 (gitignored file)
+        if [ -f "debug.keystore.base64" ]; then
+          base64 -d debug.keystore.base64 > debug.keystore
+        elif [ ! -f "debug.keystore" ]; then
+          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+        fi
 
     - name: Build Debug APK
       run: gradle assembleDebug --stacktrace
