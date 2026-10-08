@@ -22,13 +22,20 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
+
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
-      with:
-        gradle-version: '8.5'
 
     - name: Build Debug APK
-      run: gradle assembleDebug --stacktrace
+      run: |
+        if [ -f "./gradlew" ]; then
+          chmod +x ./gradlew
+          ./gradlew assembleDebug --stacktrace
+        else
+          gradle assembleDebug --stacktrace
+        fi
 
     - name: Upload Direct APK Release
       uses: softprops/action-gh-release@v2
