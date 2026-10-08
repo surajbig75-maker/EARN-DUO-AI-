@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.webkit.ConsoleMessage
+import android.webkit.JavascriptInterface
 import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
@@ -75,8 +76,15 @@ class MainActivity : ComponentActivity() {
               fileChooserCallback?.onReceiveValue(null)
               fileChooserCallback = callback
               try {
-                val intent = params.createIntent().apply {
-                  type = "image/*"
+                val intent = try {
+                  params.createIntent().apply {
+                    type = "image/*"
+                  }
+                } catch (e: Exception) {
+                  Intent(Intent.ACTION_GET_CONTENT).apply {
+                    type = "image/*"
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                  }
                 }
                 filePickerLauncher.launch(intent)
                 true
@@ -119,19 +127,22 @@ class MainActivity : ComponentActivity() {
 
           setBackgroundColor(android.graphics.Color.parseColor("#0A0D12"))
 
+          // Expose native bridge to JavaScript for foolproof popup & ad launching
+          addJavascriptInterface(WebAppBridge(this@MainActivity), "AndroidBridge")
+
           webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
               view: WebView?,
               request: WebResourceRequest?
             ): Boolean {
               val url = request?.url?.toString() ?: return false
-              // Open file asset URLs locally
               if (url.startsWith("file:///android_asset/")) {
                 return false
               }
-              // External links (Adsterra, Monetag, Telegram, Bybit, Binance, etc.) launch in external browser/intent
               return try {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+                  addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
                 context.startActivity(intent)
                 true
               } catch (e: Exception) {
@@ -167,7 +178,9 @@ class MainActivity : ComponentActivity() {
                   ): Boolean {
                     val targetUrl = req?.url?.toString() ?: return false
                     try {
-                      val intent = Intent(Intent.ACTION_VIEW, Uri.parse(targetUrl))
+                      val intent = Intent(Intent.ACTION_VIEW, Uri.parse(targetUrl)).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                      }
                       context.startActivity(intent)
                     } catch (_: Exception) {}
                     return true
@@ -190,5 +203,25 @@ class MainActivity : ComponentActivity() {
         }
       }
     )
+  }
+
+  class WebAppBridge(private val activity: Activity) {
+    @JavascriptInterface
+    fun openExternalUrl(url: String): Boolean {
+      return try {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+          addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        activity.startActivity(intent)
+        true
+      } catch (e: Exception) {
+        false
+      }
+    }
+
+    @JavascriptInterface
+    fun isAndroidApp(): Boolean {
+      return true
+    }
   }
 }

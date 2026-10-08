@@ -463,7 +463,8 @@
 
     .task-tile.completed {
       border-color: var(--accent-green);
-      opacity: 0.75;
+      opacity: 0.8;
+      background: rgba(34, 197, 94, 0.08);
     }
 
     .task-icon {
@@ -1297,14 +1298,14 @@
     </div>
   </div>
 
-  <!-- AUDIO ENGINE (Web Audio API Synthesizer) & CORE APPLICATION JAVASCRIPT -->
+  <!-- AUDIO ENGINE & APPLICATION JAVASCRIPT -->
   <script>
     /**
      * EARN DUO AI - SMART REWARD HUB
-     * Master Single-File Implementation
+     * Master Single-File Implementation (Production-Grade & Bug-Free)
      */
 
-    // --- 1. HARDCODED CONFIGURATION & CREDENTIALS ---
+    // --- 1. CONFIGURATION & CREDENTIALS ---
     const CONFIG = {
       appName: 'Earn Duo AI - Smart Reward Hub',
       adsterraLink: 'https://asiafilm.org/4/80fdcb51a793a03649e9debaa681c004',
@@ -1315,17 +1316,17 @@
       telegramChatId: '6098454675',
       telegramBotUser: '@earnduo_alert_bot',
 
-      // Rates
-      coinToInr: 0.01,          // 1,000 Coins = 10 INR
+      // Currency Rates
+      coinToInr: 0.01,          // 1,000 Coins = ₹10 INR
       coinsPerUsdt: 9000,       // 9,000 Coins = 1 USDT
 
-      // Streaks
+      // 7-Day Streak Rewards
       streakRewards: [100, 150, 200, 250, 300, 350, 500],
 
       // Spin Wheel Segments
       wheelSegments: [20, 30, 40, 50, 100, 150, 200, 500],
 
-      // Tasks
+      // Social Tasks
       tasks: {
         youtube: { name: 'YouTube', timer: 30, code: '8421', reward: 200, url: 'https://www.youtube.com' },
         instagram: { name: 'Instagram', timer: 30, code: '4123', reward: 150, url: 'https://www.instagram.com' },
@@ -1334,15 +1335,24 @@
         bybit: { name: 'Bybit Signup', timer: 30, isUid: true, reward: 500, url: 'https://www.bybit.com/invite?ref=WWXMBLX' }
       },
 
-      // Withdraw Limits
+      // Withdrawal Limits & Formats
       withdrawMethods: {
-        bybit: { name: 'Bybit UID', min: 9000, fee: 0, currency: 'USDT', inputLabel: 'Recipient Bybit UID (Numeric 7-10 digits):' },
-        binance: { name: 'Binance Pay ID', min: 9000, fee: 0, currency: 'USDT', inputLabel: 'Recipient Binance Pay ID (Numeric 7-10 digits):' },
-        upi: { name: 'UPI ID', min: 5000, fee: 0, currency: 'INR', inputLabel: 'Recipient UPI ID (e.g. mobile@upi):' },
-        celo: { name: 'CELO Network', min: 27000, fee: 0, currency: 'USDT', inputLabel: 'Recipient CELO Wallet Address (0x...):' },
-        bep20: { name: 'BNB Smart Chain (BEP20)', min: 45000, fee: 0, currency: 'USDT', inputLabel: 'Recipient BEP20 USDT Address (0x...):' }
+        bybit: { name: 'Bybit UID', min: 9000, fee: 0, currency: 'USDT', isNumeric: true, inputLabel: 'Recipient Bybit UID (Numeric 7-10 digits):' },
+        binance: { name: 'Binance Pay ID', min: 9000, fee: 0, currency: 'USDT', isNumeric: true, inputLabel: 'Recipient Binance Pay ID (Numeric 7-10 digits):' },
+        upi: { name: 'UPI ID', min: 5000, fee: 0, currency: 'INR', isNumeric: false, inputLabel: 'Recipient UPI ID (e.g. yourname@okhdfcbank):' },
+        celo: { name: 'CELO Network', min: 27000, fee: 0, currency: 'USDT', isNumeric: false, inputLabel: 'Recipient CELO USDT Wallet Address (0x...):' },
+        bep20: { name: 'BNB Smart Chain (BEP20)', min: 45000, fee: 0, currency: 'USDT', isNumeric: false, inputLabel: 'Recipient BEP20 USDT Address (0x...):' }
       }
     };
+
+    // --- HTML ESCAPE HELPER FOR TELEGRAM BOT API ---
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
 
     // --- 2. AUDIO SYNTHESIZER ENGINE (Web Audio API) ---
     class SoundEngine {
@@ -1359,7 +1369,7 @@
           }
         }
         if (this.ctx && this.ctx.state === 'suspended') {
-          this.ctx.resume();
+          this.ctx.resume().catch(() => {});
         }
       }
 
@@ -1390,7 +1400,7 @@
           osc.start(start);
           osc.stop(start + duration);
         } catch (e) {
-          console.warn('Audio play error', e);
+          // Ignore audio errors silently
         }
       }
 
@@ -1424,27 +1434,29 @@
 
     // --- 3. TIME HELPER: INDIAN MIDNIGHT (12:00 AM IST) RESET ---
     function getLocalToday() {
-      // Calculate current date in Asia/Kolkata (IST = UTC + 5:30)
-      const now = new Date();
-      const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
-      const istTime = new Date(utcTime + (5.5 * 3600000));
-      const year = istTime.getFullYear();
-      const month = String(istTime.getMonth() + 1).padStart(2, '0');
-      const day = String(istTime.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
+      try {
+        return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
+      } catch (e) {
+        const now = new Date();
+        const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+        const istTime = new Date(utcTime + (5.5 * 3600000));
+        return `${istTime.getFullYear()}-${String(istTime.getMonth() + 1).padStart(2, '0')}-${String(istTime.getDate()).padStart(2, '0')}`;
+      }
     }
 
     function getYesterdayLocal(todayStr) {
-      const parts = todayStr.split('-').map(Number);
-      const d = new Date(parts[0], parts[1] - 1, parts[2]);
-      d.setDate(d.getDate() - 1);
-      const year = d.getFullYear();
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
+      try {
+        const [y, m, d] = todayStr.split('-').map(Number);
+        const date = new Date(Date.UTC(y, m - 1, d - 1));
+        return new Intl.DateTimeFormat('en-CA', { timeZone: 'UTC' }).format(date);
+      } catch (e) {
+        const parts = todayStr.split('-').map(Number);
+        const d = new Date(parts[0], parts[1] - 1, parts[2] - 1);
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      }
     }
 
-    // --- 4. STATE STORE & PERSISTENCE (Firebase + LocalStorage fallback) ---
+    // --- 4. STATE STORE & PERSISTENCE ---
     class AppState {
       constructor() {
         this.data = {
@@ -1458,7 +1470,7 @@
           adDate: '',
           savedPayoutDetails: {},
           completedTasks: {},
-          shadowbanUntil: 0, // Timestamp
+          shadowbanUntil: 0,
           failedTaskAttempts: 0
         };
         this.isGlobalActionLocked = false;
@@ -1478,39 +1490,38 @@
 
         const today = getLocalToday();
 
-        // 1. Daily Spins reset at IST midnight
+        // 1. Daily Spins Reset at Indian Midnight
         if (this.data.spinsDate !== today) {
           this.data.spinsDate = today;
           this.data.spinsLeftToday = 10;
         }
 
-        // 2. Daily Ads reset
+        // 2. Daily Ads Count Reset
         if (this.data.adDate !== today) {
           this.data.adDate = today;
           this.data.adCountToday = 0;
         }
 
-        // 3. Streak evaluation
+        // 3. Streak Evaluation
         const yesterday = getYesterdayLocal(today);
         if (this.data.streakLastClaimDate) {
           if (this.data.streakLastClaimDate === today) {
             // Already claimed today
           } else if (this.data.streakLastClaimDate === yesterday) {
-            // Can claim next day
+            // Consecutive Day
           } else {
-            // Missed more than a day -> Reset to Day 1
+            // Missed consecutive day -> Reset to Day 1
             this.data.streakCurrentDay = 1;
           }
         }
 
-        this.checkPendingCoins();
+        this.checkPendingCoins(false);
         this.save();
       }
 
       save() {
         try {
           localStorage.setItem('earnduo_state', JSON.stringify(this.data));
-          // Attempt Firebase sync if available
           this.syncFirebase();
         } catch (e) {
           console.error('LocalStorage save failed', e);
@@ -1518,7 +1529,6 @@
       }
 
       syncFirebase() {
-        // Optional cloud mirror
         if (window.firebase && window.firebase.firestore) {
           try {
             const db = window.firebase.firestore();
@@ -1532,8 +1542,8 @@
         }
       }
 
-      // Check and unlock 24-hour pending hold coins
-      checkPendingCoins() {
+      // Check and release 24-hour pending hold coins
+      checkPendingCoins(notify = true) {
         const now = Date.now();
         let unlockedTotal = 0;
         const stillPending = [];
@@ -1549,7 +1559,10 @@
         if (unlockedTotal > 0) {
           this.data.walletBalance += unlockedTotal;
           this.data.pendingCoins = stillPending;
-          showToast(`⚡ ${unlockedTotal} coins unlocked from 24h Security Hold!`);
+          this.save();
+          if (notify) {
+            showToast(`⚡ ${unlockedTotal} coins unlocked from 24h Security Hold!`, '💰');
+          }
         }
       }
 
@@ -1564,10 +1577,10 @@
       recordFailedAttempt() {
         this.data.failedTaskAttempts = (this.data.failedTaskAttempts || 0) + 1;
         if (this.data.failedTaskAttempts >= 3) {
-          this.data.shadowbanUntil = Date.now() + (24 * 3600 * 1000); // 24 hours
+          this.data.shadowbanUntil = Date.now() + (24 * 3600 * 1000); // 24 hours lock
           this.data.failedTaskAttempts = 0;
           this.save();
-          return true; // Newly banned
+          return true;
         }
         this.save();
         return false;
@@ -1581,11 +1594,13 @@
 
     const state = new AppState();
 
-    // --- 5. UI TOAST & UTILITIES ---
+    // --- 5. UI TOAST & SAFE UTILITIES ---
     function showToast(msg, icon = '⚡', duration = 3000) {
       const toast = document.getElementById('toast');
       const toastMsg = document.getElementById('toastMsg');
       const toastIcon = document.getElementById('toastIcon');
+      if (!toast || !toastMsg || !toastIcon) return;
+
       toastMsg.textContent = msg;
       toastIcon.textContent = icon;
       toast.classList.add('show');
@@ -1610,16 +1625,25 @@
       }
     }
 
-    // Pop-up Blocker Detection Wrapper
+    // Robust External Link Opener (AndroidBridge Native Intent + Browser Fallback)
     function openExternalLink(url) {
       sound.click();
+
+      // 1. Android native WebView bridge
+      if (window.AndroidBridge && typeof window.AndroidBridge.openExternalUrl === 'function') {
+        const success = window.AndroidBridge.openExternalUrl(url);
+        if (success) return true;
+      }
+
+      // 2. Web browser fallback (WITHOUT 'noopener' so window reference isn't forced to null!)
       let win = null;
       try {
-        win = window.open(url, '_blank', 'noopener,noreferrer');
+        win = window.open(url, '_blank');
       } catch (e) {
         win = null;
       }
 
+      // 3. Popup Blocker Detection
       if (!win || win.closed || typeof win.closed === 'undefined') {
         alert('⚠️ Pop-up was blocked by your browser! Please allow pop-ups for this site to verify sponsor ads and credit your reward coins.');
         return false;
@@ -1642,7 +1666,7 @@
 
     // --- 6. RENDER DASHBOARD METRICS ---
     function renderMetrics() {
-      state.checkPendingCoins();
+      state.checkPendingCoins(false);
 
       // 1. Balance & Fiats
       const bal = state.data.walletBalance;
@@ -1651,7 +1675,7 @@
       const usdtVal = (bal / CONFIG.coinsPerUsdt).toFixed(2);
       document.getElementById('metricFiat').textContent = `₹${inrVal} | $${usdtVal}`;
 
-      // 2. Pending
+      // 2. Pending 24h Hold
       const pendingTotal = state.getTotalPending();
       document.getElementById('metricPending').textContent = pendingTotal.toLocaleString();
 
@@ -1663,7 +1687,7 @@
       const bonusAmount = CONFIG.streakRewards[currentDay - 1] || 100;
       document.getElementById('metricStreakBonus').textContent = claimedToday ? 'Claimed Today' : `+${bonusAmount} Today`;
 
-      // 4. Spins
+      // 4. Daily Spins
       document.getElementById('metricSpins').textContent = `${state.data.spinsLeftToday}/10`;
       document.getElementById('wheelBadge').textContent = `${state.data.spinsLeftToday} Left`;
 
@@ -1693,8 +1717,11 @@
         btnSpin.innerHTML = `<span>🎯 SPIN NOW (${state.data.spinsLeftToday} left)</span>`;
       }
 
-      // Render 7-day track
+      // Render Streak track
       renderStreakTrack();
+
+      // Render Completed Tasks badges
+      renderCompletedTasks();
 
       // Shadowban UI check
       checkShadowbanUI();
@@ -1725,6 +1752,19 @@
       }
     }
 
+    function renderCompletedTasks() {
+      for (const key of Object.keys(CONFIG.tasks)) {
+        const tile = document.querySelector(`.task-tile[data-task="${key}"]`);
+        if (tile) {
+          if (state.data.completedTasks[key]) {
+            tile.classList.add('completed');
+          } else {
+            tile.classList.remove('completed');
+          }
+        }
+      }
+    }
+
     function checkShadowbanUI() {
       const banner = document.getElementById('shadowbanBanner');
       const timerSpan = document.getElementById('shadowbanTimer');
@@ -1741,6 +1781,20 @@
     }
 
     setInterval(checkShadowbanUI, 1000);
+    // Auto-unlock pending hold coins every 10 seconds
+    setInterval(() => {
+      state.checkPendingCoins(true);
+      renderMetrics();
+    }, 10000);
+
+    // Auto-check Indian midnight rollover every 60 seconds
+    setInterval(() => {
+      const today = getLocalToday();
+      if (state.data.spinsDate !== today || state.data.adDate !== today) {
+        state.load();
+        renderMetrics();
+      }
+    }, 60000);
 
     // --- 7. DUAL ADS ENGINE (Adsterra & Monetag) ---
     document.getElementById('btnWatchAd1').addEventListener('click', () => {
@@ -1800,7 +1854,7 @@
           if (state.data.streakCurrentDay < 7) {
             state.data.streakCurrentDay += 1;
           } else {
-            state.data.streakCurrentDay = 1; // Completed 7 days, loops back
+            state.data.streakCurrentDay = 1;
           }
           state.save();
           sound.win();
@@ -1810,7 +1864,7 @@
       });
     });
 
-    // --- 9. LUCKY SPIN WHEEL (HTML5 Canvas & Anti-Gacha Exploit Protection) ---
+    // --- 9. LUCKY SPIN WHEEL (Anti-Gacha Exploit Protection) ---
     const canvas = document.getElementById('wheelCanvas');
     const ctx = canvas.getContext('2d');
     let currentWheelAngle = 0;
@@ -1845,7 +1899,7 @@
         ctx.lineTo(0, 0);
         ctx.fill();
 
-        // Edge rim highlight
+        // Rim highlight
         ctx.beginPath();
         ctx.strokeStyle = segmentAccents[i];
         ctx.lineWidth = 3;
@@ -1856,9 +1910,12 @@
         ctx.save();
         ctx.rotate(segAngle + arc / 2);
         ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
         ctx.fillStyle = segmentAccents[i];
         ctx.font = 'bold 15px sans-serif';
-        ctx.fillText(`+${CONFIG.wheelSegments[i]}`, radius - 18, 5);
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+        ctx.shadowBlur = 4;
+        ctx.fillText(`+${CONFIG.wheelSegments[i]}`, radius - 18, 0);
         ctx.restore();
       }
 
@@ -1875,8 +1932,7 @@
         return;
       }
 
-      // ANTI-GACHA EXPLOIT:
-      // Deduct 1 spin from the counter BEFORE the wheel rotates to prevent refresh cheating!
+      // Anti-Gacha Exploit: Deduct 1 spin BEFORE wheel rotates
       state.data.spinsLeftToday -= 1;
       state.save();
       renderMetrics();
@@ -1884,16 +1940,14 @@
       isSpinning = true;
       sound.tick();
 
-      // Random target segment
       const numSegments = CONFIG.wheelSegments.length;
       const targetIndex = Math.floor(Math.random() * numSegments);
       pendingSpinReward = CONFIG.wheelSegments[targetIndex];
 
-      // Segment angle calculation (pointer is at top 270 deg / -90 deg)
       const arc = (2 * Math.PI) / numSegments;
       const targetSegmentCenter = (targetIndex * arc) + (arc / 2);
-      const rotations = 6 + Math.floor(Math.random() * 3); // 6 to 8 full spins
-      const pointerOffset = (3 * Math.PI) / 2; // top is 3*pi/2
+      const rotations = 6 + Math.floor(Math.random() * 3);
+      const pointerOffset = (3 * Math.PI) / 2;
 
       const finalAngle = (rotations * 2 * Math.PI) + (pointerOffset - targetSegmentCenter);
       const duration = 3800;
@@ -1906,12 +1960,10 @@
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
 
-        // Ease-out cubic easing
         const easeOut = 1 - Math.pow(1 - progress, 3);
         currentWheelAngle = startAngle + (finalAngle - startAngle) * easeOut;
         drawWheel(currentWheelAngle);
 
-        // Tick sound on segment crossings
         if (Math.abs(currentWheelAngle - lastTickAngle) > (arc / 2)) {
           sound.tick();
           lastTickAngle = currentWheelAngle;
@@ -1922,7 +1974,6 @@
         } else {
           isSpinning = false;
           sound.win();
-          // Open Spin Celebration Modal with Ad-Gate Claim
           document.getElementById('spinWinTitle').textContent = `YOU WON +${pendingSpinReward} COINS!`;
           document.getElementById('spinWinMsg').textContent = `Lucky Wheel landed on the +${pendingSpinReward} prize slice!`;
           openModal('modalSpinWin');
@@ -1970,6 +2021,12 @@
         return;
       }
 
+      if (state.data.completedTasks[key]) {
+        sound.click();
+        showToast('This task is already completed and in pending hold!', '✅');
+        return;
+      }
+
       sound.click();
       activeTaskKey = key;
       const task = CONFIG.tasks[key];
@@ -2000,17 +2057,17 @@
         input.pattern = '[0-9]*';
       }
 
-      // Reset timer state
       if (taskTimerInterval) clearInterval(taskTimerInterval);
       taskLinkHasOpened = false;
       taskTimerSeconds = task.timer;
-      document.getElementById('taskExecTimer').textContent = `⏳ ${taskTimerSeconds}s Locked`;
+      const timerBadge = document.getElementById('taskExecTimer');
+      timerBadge.textContent = `⏳ ${taskTimerSeconds}s Locked`;
+      timerBadge.style.color = 'var(--accent-cyan)';
 
-      // Scroll card into view smoothly
       card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
-    // Link Protection: 30s timer starts ONLY after the task link successfully opens
+    // Link Protection: 30s timer starts ONLY after task link opens
     document.getElementById('btnOpenTaskLink').addEventListener('click', () => {
       if (!activeTaskKey) return;
       if (state.isShadowbanned()) return;
@@ -2054,14 +2111,11 @@
       const input = document.getElementById('taskInputVal');
       const val = input.value.trim();
 
-      // Check validation
       let isValid = false;
       if (task.isUid) {
-        // Strict 7-10 digit Numeric UID regex: /^\d{7,10}$/
         const uidRegex = /^\d{7,10}$/;
         isValid = uidRegex.test(val);
       } else {
-        // Secret code check
         isValid = (val === task.code);
       }
 
@@ -2081,13 +2135,11 @@
         }
       }
 
-      // Success! Reset failed attempts
       state.resetFailedAttempts();
       sound.win();
 
-      // 24-Hour Security Hold Rule:
-      // Approved task coins enter a 24-hour pending lock and automatically credit to main wallet via checkPendingCoins()
-      const holdDuration = 24 * 3600 * 1000; // 24 Hours
+      // 24-Hour Security Hold Rule
+      const holdDuration = 24 * 3600 * 1000;
       const unlockTimestamp = Date.now() + holdDuration;
 
       state.data.pendingCoins.push({
@@ -2097,17 +2149,11 @@
         reason: `${task.name} Verification`
       });
 
-      // Mark completed
       state.data.completedTasks[activeTaskKey] = true;
       state.save();
 
       showToast(`🎉 Verified! +${task.reward} Coins locked in 24h Security Hold!`, '⏳', 4000);
       document.getElementById('taskExecCard').style.display = 'none';
-
-      // Mark tile
-      const currentTile = document.querySelector(`.task-tile[data-task="${activeTaskKey}"]`);
-      if (currentTile) currentTile.classList.add('completed');
-
       renderMetrics();
     });
 
@@ -2153,10 +2199,17 @@
       document.getElementById('withdrawInputLabel').textContent = config.inputLabel;
       document.getElementById('withdrawCoinsAmount').placeholder = `Min: ${config.min.toLocaleString()} Coins`;
 
-      // Check saved details for this method
+      const inputDest = document.getElementById('withdrawDestination');
+      if (config.isNumeric) {
+        inputDest.inputMode = 'numeric';
+        inputDest.pattern = '[0-9]*';
+      } else {
+        inputDest.inputMode = 'text';
+        inputDest.removeAttribute('pattern');
+      }
+
       const saved = state.data.savedPayoutDetails[selectedWithdrawMethod];
       const pill = document.getElementById('savedDetailsPill');
-      const inputDest = document.getElementById('withdrawDestination');
 
       if (saved) {
         pill.style.display = 'flex';
@@ -2199,7 +2252,7 @@
       showToast('Saved recipient details removed.', '🗑️');
     });
 
-    // Submit Withdrawal Request with Telegram Bot API & Network Fail Safety
+    // Submit Withdrawal Request (with Telegram HTML API & Network Fail Safety)
     document.getElementById('btnSubmitWithdrawal').addEventListener('click', async () => {
       if (state.isGlobalActionLocked) return;
 
@@ -2209,10 +2262,17 @@
       const destination = inputDest.value.trim();
       const coins = parseInt(inputCoins.value.replace(/\D/g, '') || 0, 10);
 
-      // 1. Validation
+      // Validation
       if (!destination) {
         sound.error();
         alert('Please enter your recipient Address, Bybit UID, or UPI ID.');
+        inputDest.focus();
+        return;
+      }
+
+      if (config.isNumeric && !/^\d{7,10}$/.test(destination)) {
+        sound.error();
+        alert(`Please enter a valid 7 to 10 digit numeric UID for ${config.name}.`);
         inputDest.focus();
         return;
       }
@@ -2230,12 +2290,10 @@
         return;
       }
 
-      // 2. Calculate values
       const inrEquiv = (coins * CONFIG.coinToInr).toFixed(2);
       const usdtEquiv = (coins / CONFIG.coinsPerUsdt).toFixed(2);
       const payoutVal = (config.currency === 'INR') ? `₹${inrEquiv} INR` : `${usdtEquiv} USDT`;
 
-      // 3. User Confirmation with Net-7 Notice
       const confirmMsg = `Confirm Withdrawal Request?\n\nMethod: ${config.name}\nRecipient: ${destination}\nAmount: ${coins.toLocaleString()} Coins (${payoutVal})\n\n⚠️ NOTE: All withdrawals undergo a mandatory 3 to 7 working days (Net-7) fraud & anti-cheat audit before disbursement.`;
       if (!confirm(confirmMsg)) return;
 
@@ -2243,20 +2301,20 @@
       btn.disabled = true;
       btn.innerHTML = `<span>⏳ Submitting to Telegram API...</span>`;
 
-      // Format Telegram Message
       const timeStr = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-      const tgText = `🚨 *NEW WITHDRAWAL SUBMISSION* 🚨\n\n` +
-        `👤 *Platform:* ${CONFIG.appName}\n` +
-        `💳 *Method:* ${config.name}\n` +
-        `🎯 *Recipient / UID:* \`${destination}\`\n` +
-        `🪙 *Coins:* ${coins.toLocaleString()}\n` +
-        `💵 *Payout Value:* ${payoutVal}\n` +
-        `📅 *Time (IST):* ${timeStr}\n` +
-        `🛡️ *Audit Status:* Net-7 Pending Audit (3-7 Working Days)\n` +
-        `📱 *User Agent:* ${navigator.userAgent.substring(0, 120)}`;
 
-      // 4. NETWORK FAIL SAFETY:
-      // Deduct coins from wallet ONLY if Telegram API fetch returns res.ok
+      // Robust HTML formatted Telegram message (prevents Markdown parse error crashes)
+      const tgText = `🚨 <b>NEW WITHDRAWAL SUBMISSION</b> 🚨\n\n` +
+        `👤 <b>Platform:</b> ${escapeHtml(CONFIG.appName)}\n` +
+        `💳 <b>Method:</b> ${escapeHtml(config.name)}\n` +
+        `🎯 <b>Recipient / UID:</b> <code>${escapeHtml(destination)}</code>\n` +
+        `🪙 <b>Coins:</b> ${coins.toLocaleString()}\n` +
+        `💵 <b>Payout Value:</b> ${escapeHtml(payoutVal)}\n` +
+        `📅 <b>Time (IST):</b> ${escapeHtml(timeStr)}\n` +
+        `🛡️ <b>Audit Status:</b> Net-7 Pending Audit (3-7 Working Days)\n` +
+        `📱 <b>User Agent:</b> ${escapeHtml(navigator.userAgent.substring(0, 100))}`;
+
+      // Network Fail Safety: Deduct coins ONLY if Telegram API returns res.ok
       try {
         const tgUrl = `https://api.telegram.org/bot${CONFIG.telegramBotToken}/sendMessage`;
         const res = await fetch(tgUrl, {
@@ -2265,15 +2323,13 @@
           body: JSON.stringify({
             chat_id: CONFIG.telegramChatId,
             text: tgText,
-            parse_mode: 'Markdown'
+            parse_mode: 'HTML'
           })
         });
 
         if (res.ok) {
-          // Success! Deduct coins now
           state.data.walletBalance -= coins;
 
-          // Save details if checked
           if (document.getElementById('checkSaveDetails').checked) {
             state.data.savedPayoutDetails[selectedWithdrawMethod] = destination;
           }
@@ -2315,7 +2371,6 @@
         return;
       }
 
-      // Check file validation: Accept ONLY image files (Max 10MB)
       let imageFile = null;
       if (fileInput.files && fileInput.files[0]) {
         const file = fileInput.files[0];
@@ -2333,7 +2388,7 @@
         imageFile = file;
       }
 
-      // Caption Auto-trim: Trim message captions to 1,000 characters before sending to Telegram API
+      // Caption Auto-trim to 950 chars
       if (msg.length > 950) {
         msg = msg.substring(0, 950) + '... (trimmed)';
       }
@@ -2343,20 +2398,19 @@
       btn.innerHTML = `<span>⏳ Sending to Telegram Support...</span>`;
 
       const timeStr = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-      const captionText = `📩 *NEW SUPPORT TICKET* 📩\n\n` +
-        `📂 *Category:* ${category}\n` +
-        `💬 *Message:* ${msg}\n` +
-        `💰 *Wallet Coins:* ${state.data.walletBalance.toLocaleString()}\n` +
-        `📅 *Time (IST):* ${timeStr}`;
+      const captionText = `📩 <b>NEW SUPPORT TICKET</b> 📩\n\n` +
+        `📂 <b>Category:</b> ${escapeHtml(category)}\n` +
+        `💬 <b>Message:</b> ${escapeHtml(msg)}\n` +
+        `💰 <b>Wallet Coins:</b> ${state.data.walletBalance.toLocaleString()}\n` +
+        `📅 <b>Time (IST):</b> ${escapeHtml(timeStr)}`;
 
       try {
         let res;
         if (imageFile) {
-          // Send photo multipart
           const formData = new FormData();
           formData.append('chat_id', CONFIG.telegramChatId);
           formData.append('caption', captionText);
-          formData.append('parse_mode', 'Markdown');
+          formData.append('parse_mode', 'HTML');
           formData.append('photo', imageFile);
 
           res = await fetch(`https://api.telegram.org/bot${CONFIG.telegramBotToken}/sendPhoto`, {
@@ -2364,14 +2418,13 @@
             body: formData
           });
         } else {
-          // Send plain text
           res = await fetch(`https://api.telegram.org/bot${CONFIG.telegramBotToken}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               chat_id: CONFIG.telegramChatId,
               text: captionText,
-              parse_mode: 'Markdown'
+              parse_mode: 'HTML'
             })
           });
         }
