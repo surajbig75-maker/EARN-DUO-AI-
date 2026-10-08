@@ -129,6 +129,7 @@ class MainActivity : ComponentActivity() {
           }
 
           setBackgroundColor(android.graphics.Color.parseColor("#0A0D12"))
+          setLayerType(android.view.View.LAYER_TYPE_SOFTWARE, null)
 
           // Expose native bridge to JavaScript for foolproof popup & ad launching
           addJavascriptInterface(WebAppBridge(this@MainActivity), "AndroidBridge")
