@@ -2,285 +2,249 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Earn Duo AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Earn Duo AI - Premium</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    :root {
+      --bg-dark: #0f172a;
+      --card-bg: #1e293b;
+      --primary: #3b82f6;
+      --accent: #f59e0b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
     }
-    body {
-      background-color: #0f172a;
-      color: #f8fafc;
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
-    }
-    .app-container {
-      width: 100%;
-      max-width: 480px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .header-card {
-      background: linear-gradient(135deg, #1e293b, #334155);
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-      border: 1px solid #475569;
-    }
-    .header-card h1 {
-      font-size: 18px;
-      color: #94a3b8;
-      margin-bottom: 8px;
-    }
-    .coin-display {
-      font-size: 36px;
-      font-weight: 700;
-      color: #facc15;
-    }
-    .section-card {
-      background-color: #1e293b;
-      border-radius: 14px;
-      padding: 16px;
-      border: 1px solid #334155;
-    }
-    .section-title {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      color: #38bdf8;
-    }
-    .btn {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .btn-primary {
-      background-color: #2563eb;
-      color: white;
-    }
-    .btn-primary:active {
-      background-color: #1d4ed8;
-    }
-    .btn-success {
-      background-color: #16a34a;
-      color: white;
-    }
-    .btn-disabled {
-      background-color: #475569 !important;
-      color: #94a3b8 !important;
-      cursor: not-allowed;
-    }
-    .task-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid #334155;
-    }
-    .task-item:last-child {
-      border-bottom: none;
-    }
-    .task-info p {
-      font-size: 14px;
-      font-weight: 500;
-    }
-    .task-info span {
-      font-size: 12px;
-      color: #facc15;
-    }
-    .task-btn {
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 13px;
-      border: none;
-      background-color: #0284c7;
-      color: white;
-      cursor: pointer;
-    }
-    .input-box {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #475569;
-      background-color: #0f172a;
-      color: white;
-      margin-bottom: 10px;
-      font-size: 14px;
-    }
-    .notice {
-      font-size: 12px;
-      color: #94a3b8;
-      text-align: center;
-      margin-top: 6px;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg-dark); color: var(--text); padding-bottom: 70px; }
+    
+    /* Header & Coin Display */
+    .header { background: linear-gradient(135deg, #1e3a8a, #1e293b); padding: 25px 20px; text-align: center; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+    .coin-box { display: inline-flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.3); padding: 10px 25px; border-radius: 30px; border: 1px solid #3b82f6; }
+    .coin-text { font-size: 32px; font-weight: bold; color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+    .coin-icon { color: #ffd700; font-size: 28px; }
+
+    /* Main Container */
+    .container { padding: 20px; display: none; animation: fadeIn 0.3s; }
+    .active-tab { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Cards & Typography */
+    .card { background: var(--card-bg); border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.05); }
+    .card-title { font-size: 18px; color: var(--primary); margin-bottom: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+
+    /* Spin Wheel UI */
+    .wheel-container { position: relative; width: 280px; height: 280px; margin: 0 auto 20px; }
+    .wheel { width: 100%; height: 100%; border-radius: 50%; border: 4px solid #334155; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); background: conic-gradient(#ef4444 0 60deg, #f59e0b 60deg 120deg, #10b981 120deg 180deg, #3b82f6 180deg 240deg, #8b5cf6 240deg 300deg, #ec4899 300deg 360deg); box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+    .wheel-pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid white; z-index: 10; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+    .spin-btn { background: linear-gradient(to right, #3b82f6, #2563eb); color: white; border: none; padding: 15px 40px; border-radius: 30px; font-size: 18px; font-weight: bold; width: 100%; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
+
+    /* Task List */
+    .task-item { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #334155; }
+    .task-info h4 { font-size: 15px; margin-bottom: 5px; }
+    .task-info p { font-size: 13px; color: var(--accent); font-weight: bold; }
+    .task-btn { background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; }
+    .task-btn:disabled { background: #475569; color: #94a3b8; cursor: not-allowed; }
+
+    /* Forms */
+    .input-field { width: 100%; background: #0f172a; border: 1px solid #334155; color: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; font-size: 16px; }
+    .submit-btn { background: #10b981; color: white; width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; }
+
+    /* Bottom Navigation */
+    .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #334155; z-index: 1000; }
+    .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); text-decoration: none; font-size: 12px; gap: 5px; cursor: pointer; }
+    .nav-item i { font-size: 20px; }
+    .nav-item.active { color: var(--primary); }
   </style>
 </head>
 <body>
 
-<div class="app-container">
-  <!-- कॉइन बैलेंस कार्ड -->
-  <div class="header-card">
-    <h1>कुल कॉइन बैलेंस</h1>
-    <div class="coin-display" id="coinBalance">0</div>
-    <div class="notice">न्यूनतम निकासी सीमा: 1000 कॉइन (₹10)</div>
-  </div>
-
-  <!-- डेली चेक-इन -->
-  <div class="section-card">
-    <div class="section-title">दैनिक बोनस</div>
-    <button class="btn btn-primary" id="dailyCheckInBtn" onclick="claimDailyReward()">
-      आज का रिवॉर्ड लें (+50 कॉइन)
-    </button>
-  </div>
-
-  <!-- लकी स्पिनर -->
-  <div class="section-card" style="text-align: center;">
-    <div class="section-title">लकी स्पिन (हर 1 घंटे में)</div>
-    <div id="spinResult" style="font-size: 18px; margin: 10px 0; font-weight: 600; color: #facc15;">
-      स्पिन करने के लिए बटन दबाएँ
+  <!-- Header -->
+  <div class="header">
+    <div class="coin-box">
+      <i class="fas fa-coins coin-icon"></i>
+      <span class="coin-text" id="balance">0</span>
     </div>
-    <button class="btn btn-primary" id="spinBtn" onclick="spinWheel()">स्पिन घुमाएँ</button>
   </div>
 
-  <!-- टास्क ज़ोन -->
-  <div class="section-card">
-    <div class="section-title">दैनिक टास्क</div>
-    <div class="task-item">
-      <div class="task-info">
-        <p>वेबसाइट विज़िट करें (30 सेकंड)</p>
-        <span>+30 कॉइन</span>
+  <!-- Home / Spin Tab -->
+  <div id="homeTab" class="container active-tab">
+    <div class="card" style="text-align: center;">
+      <div class="card-title" style="justify-content: center;"><i class="fas fa-gift"></i> लकी स्पिन व्हील</div>
+      <div class="wheel-container">
+        <div class="wheel-pointer"></div>
+        <div class="wheel" id="wheel"></div>
       </div>
-      <button class="task-btn" id="task1Btn" onclick="startTimerTask(1, 30, 30)">शुरू करें</button>
+      <button class="spin-btn" id="spinBtn" onclick="spinWheel()">स्पिन करें</button>
+      <p id="spinMessage" style="margin-top: 15px; color: var(--accent); font-weight: bold;"></p>
     </div>
-    <div class="task-item">
-      <div class="task-info">
-        <p>आर्टिकल पढ़ें (60 सेकंड)</p>
-        <span>+60 कॉइन</span>
+  </div>
+
+  <!-- Tasks Tab -->
+  <div id="tasksTab" class="container">
+    <div class="card">
+      <div class="card-title"><i class="fas fa-tasks"></i> प्रीमियम टास्क</div>
+      
+      <div class="task-item">
+        <div class="task-info">
+          <h4><i class="fab fa-telegram" style="color:#0088cc;"></i> Telegram जॉइन करें</h4>
+          <p>+100 कॉइन (30 सेकंड)</p>
+        </div>
+        <button class="task-btn" id="btn-task1" onclick="startTask('task1', 'https://telegram.org', 30, 100, true)">शुरू करें</button>
       </div>
-      <button class="task-btn" id="task2Btn" onclick="startTimerTask(2, 60, 60)">शुरू करें</button>
+
+      <div class="task-item">
+        <div class="task-info">
+          <h4><i class="fab fa-instagram" style="color:#e1306c;"></i> Instagram फॉलो</h4>
+          <p>+80 कॉइन (30 सेकंड)</p>
+        </div>
+        <button class="task-btn" id="btn-task2" onclick="startTask('task2', 'https://instagram.com', 30, 80, true)">शुरू करें</button>
+      </div>
+      
+      <div class="task-item">
+        <div class="task-info">
+          <h4><i class="fas fa-globe" style="color:#10b981;"></i> वेबसाइट विज़िट (Ad)</h4>
+          <p>+50 कॉइन (20 सेकंड)</p>
+        </div>
+        <button class="task-btn" id="btn-task3" onclick="startTask('task3', 'https://google.com', 20, 50, false)">शुरू करें</button>
+      </div>
     </div>
   </div>
 
-  <!-- विथड्रॉल सेक्शन -->
-  <div class="section-card">
-    <div class="section-title">कॉइन निकासी (UPI / Wallet)</div>
-    <input type="text" id="upiId" class="input-box" placeholder="अपनी UPI ID दर्ज करें">
-    <input type="number" id="withdrawCoins" class="input-box" placeholder="कॉइन की संख्या (उदा. 1000)">
-    <button class="btn btn-success" onclick="processWithdraw()">निकासी अनुरोध भेजें</button>
-    <div class="notice" id="withdrawStatus"></div>
+  <!-- Wallet Tab -->
+  <div id="walletTab" class="container">
+    <div class="card">
+      <div class="card-title"><i class="fas fa-wallet"></i> कॉइन निकासी</div>
+      <p style="margin-bottom: 15px; font-size: 14px; color: var(--text-muted);">न्यूनतम निकासी: 1000 कॉइन</p>
+      <input type="text" id="upiInput" class="input-field" placeholder="अपनी UPI ID (Paytm/PhonePe) दर्ज करें">
+      <input type="number" id="coinInput" class="input-field" placeholder="कितने कॉइन निकालने हैं?">
+      <button class="submit-btn" onclick="withdraw()">निकासी करें</button>
+    </div>
   </div>
-</div>
 
-<script>
-  let coins = parseInt(localStorage.getItem('user_coins')) || 0;
-  let lastDailyClaim = localStorage.getItem('last_daily_claim');
-  let lastSpinTime = localStorage.getItem('last_spin_time');
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="switchTab('homeTab', this)">
+      <i class="fas fa-home"></i>
+      <span>होम</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('tasksTab', this)">
+      <i class="fas fa-list-check"></i>
+      <span>टास्क</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('walletTab', this)">
+      <i class="fas fa-wallet"></i>
+      <span>वॉलेट</span>
+    </div>
+  </div>
 
-  function updateBalanceDisplay() {
-    document.getElementById('coinBalance').innerText = coins;
-    localStorage.setItem('user_coins', coins);
-  }
-  updateBalanceDisplay();
+  <script>
+    // --- State Management ---
+    let coins = parseInt(localStorage.getItem('earn_coins')) || 0;
+    document.getElementById('balance').innerText = coins;
 
-  // डेली चेक-इन
-  function claimDailyReward() {
-    const today = new Date().toDateString();
-    if (lastDailyClaim === today) {
-      alert("आप आज का रिवॉर्ड ले चुके हैं। कल दोबारा आएँ!");
-      return;
+    function addCoins(amount) {
+      coins += amount;
+      localStorage.setItem('earn_coins', coins);
+      document.getElementById('balance').innerText = coins;
     }
-    coins += 50;
-    localStorage.setItem('last_daily_claim', today);
-    lastDailyClaim = today;
-    updateBalanceDisplay();
-    alert("बधाई हो! आपको 50 कॉइन मिल गए हैं।");
-    checkDailyStatus();
-  }
 
-  function checkDailyStatus() {
-    const today = new Date().toDateString();
-    const btn = document.getElementById('dailyCheckInBtn');
-    if (lastDailyClaim === today) {
-      btn.innerText = "आज का रिवॉर्ड प्राप्त हुआ ✔";
-      btn.classList.add('btn-disabled');
+    // --- Tab Switching ---
+    function switchTab(tabId, element) {
+      document.querySelectorAll('.container').forEach(c => c.classList.remove('active-tab'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active-tab');
+      element.classList.add('active');
     }
-  }
-  checkDailyStatus();
 
-  // स्पिन व्हील
-  function spinWheel() {
-    const now = Date.now();
-    const oneHour = 60 * 60 * 1000;
-    if (lastSpinTime && (now - lastSpinTime < oneHour)) {
-      const remainingMinutes = Math.ceil((oneHour - (now - lastSpinTime)) / 60000);
-      alert("कृपया " + remainingMinutes + " मिनट बाद दोबारा स्पिन करें।");
-      return;
+    // --- Spin Wheel Logic ---
+    let currentDegree = 0;
+    function spinWheel() {
+      const btn = document.getElementById('spinBtn');
+      const msg = document.getElementById('spinMessage');
+      
+      btn.disabled = true;
+      msg.innerText = "स्पिन हो रहा है...";
+      msg.style.color = "#f8fafc";
+      
+      // Random rotation between 5 to 10 full turns
+      const extraDegrees = Math.floor(Math.random() * 360) + 1800; 
+      currentDegree += extraDegrees;
+      
+      document.getElementById('wheel').style.transform = `rotate(${currentDegree}deg)`;
+      
+      setTimeout(() => {
+        // Simple random reward logic for demo
+        const rewards = [10, 20, 50, 100];
+        const win = rewards[Math.floor(Math.random() * rewards.length)];
+        addCoins(win);
+        msg.innerText = `बधाई हो! आपको ${win} कॉइन मिले!`;
+        msg.style.color = "#10b981";
+        btn.disabled = false;
+      }, 4000); // 4 seconds animation time
     }
-    const rewards = [10, 20, 30, 50, 100];
-    const win = rewards[Math.floor(Math.random() * rewards.length)];
-    coins += win;
-    localStorage.setItem('last_spin_time', now);
-    lastSpinTime = now;
-    document.getElementById('spinResult').innerText = "जीत: +" + win + " कॉइन!";
-    updateBalanceDisplay();
-  }
 
-  // टाइमर टास्क
-  function startTimerTask(taskId, seconds, rewardCoins) {
-    const btn = document.getElementById('task' + taskId + 'Btn');
-    btn.disabled = true;
-    let remaining = seconds;
-    btn.innerText = remaining + "s";
+    // --- Advanced Task Timer & Anti-Hack ---
+    function startTask(taskId, url, seconds, reward, requireUID) {
+      const btn = document.getElementById('btn-' + taskId);
+      
+      // Open the target link in a new tab
+      window.open(url, '_blank');
+      
+      btn.disabled = true;
+      let timeLeft = seconds;
+      btn.innerText = `प्रतीक्षा करें (${timeLeft}s)`;
 
-    const timer = setInterval(() => {
-      remaining--;
-      btn.innerText = remaining + "s";
-      if (remaining <= 0) {
-        clearInterval(timer);
-        coins += rewardCoins;
-        updateBalanceDisplay();
-        btn.innerText = "पूरा हुआ ✔";
-        btn.classList.add('btn-disabled');
+      const timer = setInterval(() => {
+        timeLeft--;
+        btn.innerText = `प्रतीक्षा करें (${timeLeft}s)`;
+        
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          
+          if(requireUID) {
+            btn.innerText = "Verify UID";
+            btn.style.background = "#f59e0b";
+            btn.onclick = () => verifyUIDAndReward(taskId, reward);
+            btn.disabled = false;
+          } else {
+            completeTask(taskId, reward);
+          }
+        }
+      }, 1000);
+    }
+
+    function verifyUIDAndReward(taskId, reward) {
+      let uid = prompt("टास्क पूरा करने वाले अकाउंट की UID/Username दर्ज करें:");
+      if(uid && uid.length > 3) {
+        completeTask(taskId, reward);
+      } else {
+        alert("सही UID दर्ज करना अनिवार्य है!");
       }
-    }, 1000);
-  }
-
-  // निकासी
-  function processWithdraw() {
-    const upi = document.getElementById('upiId').value.trim();
-    const reqCoins = parseInt(document.getElementById('withdrawCoins').value);
-    const status = document.getElementById('withdrawStatus');
-
-    if (!upi) {
-      alert("कृपया सही UPI ID भरें!");
-      return;
-    }
-    if (isNaN(reqCoins) || reqCoins < 1000) {
-      alert("न्यूनतम निकासी 1000 कॉइन है!");
-      return;
-    }
-    if (reqCoins > coins) {
-      alert("आपके पास पर्याप्त कॉइन नहीं हैं!");
-      return;
     }
 
-    coins -= reqCoins;
-    updateBalanceDisplay();
-    status.innerText = "अनुरोध स्वीकार किया गया! 24 घंटे में भुगतान हो जाएगा।";
-    status.style.color = "#4ade80";
-  }
-</script>
+    function completeTask(taskId, reward) {
+      const btn = document.getElementById('btn-' + taskId);
+      addCoins(reward);
+      btn.innerText = "पूरा हुआ ✔";
+      btn.style.background = "#10b981";
+      btn.disabled = true;
+      alert(`सफलतापूर्वक ${reward} कॉइन आपके वॉलेट में जुड़ गए!`);
+    }
 
+    // --- Withdraw Logic ---
+    function withdraw() {
+      const upi = document.getElementById('upiInput').value;
+      const amount = parseInt(document.getElementById('coinInput').value);
+
+      if(!upi) { alert("कृपया अपनी UPI ID दर्ज करें!"); return; }
+      if(!amount || amount < 1000) { alert("न्यूनतम निकासी 1000 कॉइन है!"); return; }
+      if(amount > coins) { alert("आपके वॉलेट में पर्याप्त कॉइन नहीं हैं!"); return; }
+
+      addCoins(-amount);
+      alert(`सफल! आपका ${amount} कॉइन का निकासी अनुरोध दर्ज कर लिया गया है। 24 घंटे में भुगतान हो जाएगा।`);
+      document.getElementById('upiInput').value = '';
+      document.getElementById('coinInput').value = '';
+    }
+  </script>
 </body>
 </html>
