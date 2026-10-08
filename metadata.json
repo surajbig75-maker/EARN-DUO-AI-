@@ -1,0 +1,6 @@
+{
+  "name": "Earn Duo AI",
+  "description": "Earn Duo AI - Smart Reward Hub with daily streaks, lucky spin wheel, verified social tasks, fast payouts, and Telegram support.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
