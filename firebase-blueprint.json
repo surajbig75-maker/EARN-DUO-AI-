@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Earn Duo AI Firestore Schema",
+  "entities": {
+    "UserBalance": {
+      "collection": "user_balances",
+      "documentId": "{userId}",
+      "description": "User wallet balance, daily streaks, spins, and tasks state",
+      "fields": {
+        "walletBalance": { "type": "number", "minimum": 0 },
+        "pendingCoins": { "type": "array" },
+        "streakCurrentDay": { "type": "integer", "minimum": 1, "maximum": 7 },
+        "streakLastClaimDate": { "type": "string" },
+        "spinsLeftToday": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "spinsDate": { "type": "string" },
+        "adCountToday": { "type": "integer", "minimum": 0 },
+        "adDate": { "type": "string" },
+        "savedPayoutDetails": { "type": "object" },
+        "completedTasks": { "type": "object" },
+        "shadowbanUntil": { "type": "number" },
+        "failedTaskAttempts": { "type": "integer", "minimum": 0 },
+        "updatedAt": { "type": "string" }
+      }
+    }
+  }
+}

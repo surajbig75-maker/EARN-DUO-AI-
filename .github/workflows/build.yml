@@ -1,50 +1,68 @@
-name: Build Android APK
+name: Build & Release Android APK
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - '**'
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
+    name: Build Android APK
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
+      - name: Set up Java JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
 
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
 
-    - name: Setup Gradle 9.3.1
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        gradle-version: '9.3.1'
+      - name: Make Gradlew Executable
+        run: chmod +x gradlew || true
 
-    - name: Prepare Environment and Keystore
-      run: |
-        # 1. Prepare .env for secrets gradle plugin
-        cp .env.example .env 2>/dev/null || touch .env
+      - name: Prepare Secrets & Keystore
+        run: |
+          cp .env.example .env 2>/dev/null || touch .env
+          if [ -f "debug.keystore.base64" ]; then
+            base64 -d debug.keystore.base64 > debug.keystore
+          elif [ ! -f "debug.keystore" ]; then
+            keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          fi
 
-        # 2. Restore debug.keystore from base64 (gitignored file)
-        if [ -f "debug.keystore.base64" ]; then
-          base64 -d debug.keystore.base64 > debug.keystore
-        elif [ ! -f "debug.keystore" ]; then
-          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
-        fi
+      - name: Build Debug APK with Gradle
+        run: |
+          ./gradlew assembleDebug --stacktrace --no-daemon
 
-    - name: Build Debug APK
-      run: gradle assembleDebug --stacktrace
+      - name: Upload APK to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: EarnDuoAI-Debug-APK
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
 
-    - name: Upload APK Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: EarnDuoAI-App
-        path: app/build/outputs/apk/debug/*.apk
-        if-no-files-found: error
+      - name: Create GitHub Release for Direct Phone Download
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Earn Duo AI App v1.0.${{ github.run_number }}
+          body: |
+            ## 📱 Earn Duo AI - Native Android APK Download
+            
+            Download the APK file directly to your Android device:
+            - **File:** `app-debug.apk`
+            - Tap to download and install directly on your phone (Enable "Install from unknown sources" in settings).
+            - No 3rd party converter app needed! This is a 100% native Android build.
+          files: app/build/outputs/apk/debug/*.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
