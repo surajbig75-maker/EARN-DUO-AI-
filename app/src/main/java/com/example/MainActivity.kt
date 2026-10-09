@@ -220,12 +220,32 @@ class MainActivity : ComponentActivity() {
     @JavascriptInterface
     fun openExternalUrl(url: String): Boolean {
       return try {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+        val uri = Uri.parse(url)
+        val viewIntent = Intent(Intent.ACTION_VIEW, uri).apply {
+          addCategory(Intent.CATEGORY_BROWSABLE)
           addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
-        activity.startActivity(intent)
+        
+        // Prefer Chrome or default system browser so monetization network cookies and redirects register on Adsterra & Monetag servers
+        val pm = activity.packageManager
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"))
+        val resolveInfo = pm.resolveActivity(browserIntent, android.content.pm.PackageManager.MATCH_DEFAULT_ONLY)
+        if (resolveInfo != null && resolveInfo.activityInfo != null) {
+          viewIntent.setPackage(resolveInfo.activityInfo.packageName)
+        }
+        
+        try {
+          activity.startActivity(viewIntent)
+        } catch (e: Exception) {
+          // Fallback to chooser without setPackage
+          val genericIntent = Intent(Intent.ACTION_VIEW, uri).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+          }
+          activity.startActivity(genericIntent)
+        }
         true
       } catch (e: Exception) {
+        android.util.Log.e("EarnDuoApp", "Error opening ad URL: $url", e)
         false
       }
     }
