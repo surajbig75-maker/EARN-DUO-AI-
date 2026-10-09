@@ -1,2971 +1,1308 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Earn Duo AI - Smart Reward Hub</title>
-  <style>
-    :root {
-      --bg-dark: #0a0d12;
-      --bg-surface: #121822;
-      --bg-card: #18202e;
-      --bg-card-hover: #1f2a3c;
-      --accent-lime: #a3e635;
-      --accent-lime-glow: rgba(163, 230, 53, 0.35);
-      --accent-cyan: #06b6d4;
-      --accent-cyan-glow: rgba(6, 182, 212, 0.3);
-      --accent-yellow: #facc15;
-      --accent-red: #f43f5e;
-      --accent-green: #22c55e;
-      --border-color: #273449;
-      --border-light: #374661;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --font-stack: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      --radius-sm: 6px;
-      --radius-md: 10px;
-      --radius-lg: 14px;
-      --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.45);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
-
-    input, textarea, button {
-      user-select: auto;
-      font-family: inherit;
-    }
-
-    body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      font-family: var(--font-stack);
-      line-height: 1.4;
-      overflow-x: hidden;
-      min-height: 100vh;
-      padding-bottom: 24px;
-    }
-
-    /* Scrollbars */
-    ::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--bg-dark);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--border-color);
-      border-radius: 4px;
-    }
-
-    /* Container */
-    .app-container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 6px 8px;
-    }
-
-    /* Multi-Column Responsive Grid System (Agal-Bagal Multi-Column Layout) */
-    .multi-col-row {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .col-half {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      min-width: 0;
-    }
-
-    /* Agal-Bagal side-by-side layout: activates side-by-side on mobile devices & tablets */
-    @media (min-width: 600px) {
-      .multi-col-row {
-        grid-template-columns: 1fr 1fr;
-        align-items: start;
-      }
-    }
-
-    /* For wide screens / tablets, 2 balanced equal columns */
-    @media (min-width: 820px) {
-      .multi-col-row {
-        grid-template-columns: 1.05fr 0.95fr;
-        gap: 16px;
-      }
-    }
-
-    /* Header */
-    .app-header {
-      background: linear-gradient(180deg, #182232 0%, var(--bg-surface) 100%);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 8px 10px;
-      margin-bottom: 8px;
-      box-shadow: var(--shadow-card);
-    }
-
-    .header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-
-    .brand-title {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-      color: #fff;
-    }
-
-    .brand-badge {
-      background: linear-gradient(135deg, var(--accent-lime), #84cc16);
-      color: #000;
-      font-size: 9px;
-      font-weight: 900;
-      padding: 2px 5px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .icon-btn {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 4px 8px;
-      font-size: 12px;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      transition: all 0.2s ease;
-    }
-    .icon-btn:active {
-      transform: scale(0.95);
-      border-color: var(--accent-lime);
-    }
-
-    /* Live Payout Ticker */
-    .ticker-wrap {
-      background: rgba(0, 0, 0, 0.45);
-      border-radius: var(--radius-sm);
-      padding: 3px 6px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    .ticker-tag {
-      background: var(--accent-cyan);
-      color: #000;
-      font-size: 8px;
-      font-weight: 900;
-      padding: 1px 4px;
-      border-radius: 3px;
-      white-space: nowrap;
-    }
-    .ticker-marquee {
-      font-size: 10px;
-      color: var(--accent-lime);
-      white-space: nowrap;
-      display: inline-block;
-      animation: marquee 22s linear infinite;
-    }
-    @keyframes marquee {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-
-    /* 4-COLUMN STRICT METRICS ROW */
-    .grid-4-col {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 5px;
-      margin-bottom: 8px;
-    }
-
-    .metric-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
-      padding: 6px 4px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 60px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    }
-
-    .metric-label {
-      font-size: 9px;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      margin-bottom: 2px;
-      white-space: nowrap;
-    }
-
-    .metric-val {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--accent-lime);
-      line-height: 1.1;
-    }
-
-    .metric-sub {
-      font-size: 8.5px;
-      color: var(--text-dim);
-      margin-top: 2px;
-      white-space: nowrap;
-    }
-
-    /* 4-COLUMN ACTION & AD MODULE CONTAINER */
-    .action-module-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
-      margin-bottom: 8px;
-    }
-
-    .span-2-col {
-      grid-column: span 2;
-    }
-
-    .card-box {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 8px;
-      box-shadow: var(--shadow-card);
-      position: relative;
-    }
-
-    .card-title {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .card-badge {
-      font-size: 8.5px;
-      padding: 2px 5px;
-      border-radius: 4px;
-      background: rgba(163, 230, 53, 0.15);
-      color: var(--accent-lime);
-      border: 1px solid rgba(163, 230, 53, 0.3);
-      font-weight: 700;
-    }
-
-    /* Streak Visual Track */
-    .streak-track {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 3px;
-      margin: 6px 0;
-    }
-
-    .streak-day-node {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      padding: 3px 1px;
-      text-align: center;
-      font-size: 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-    }
-
-    .streak-day-node.active {
-      border-color: var(--accent-lime);
-      background: rgba(163, 230, 53, 0.12);
-      color: var(--accent-lime);
-      font-weight: 700;
-    }
-
-    .streak-day-node.completed {
-      background: #14381b;
-      border-color: var(--accent-green);
-      color: #86efac;
-    }
-
-    .streak-coins {
-      font-size: 8px;
-      font-weight: 800;
-    }
-
-    /* Spin Wheel Canvas */
-    .wheel-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      margin-top: 2px;
-    }
-
-    .wheel-canvas-wrap {
-      position: relative;
-      width: 140px;
-      height: 140px;
-    }
-
-    #wheelCanvas {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      border: 2px solid var(--accent-lime);
-      box-shadow: 0 0 14px var(--accent-lime-glow);
-    }
-
-    .wheel-pointer {
-      position: absolute;
-      top: -6px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 7px solid transparent;
-      border-right: 7px solid transparent;
-      border-top: 14px solid #f43f5e;
-      z-index: 5;
-      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.6));
-    }
-
-    .wheel-center-cap {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 24px;
-      height: 24px;
-      background: var(--bg-dark);
-      border: 2px solid var(--accent-lime);
-      border-radius: 50%;
-      z-index: 4;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 9px;
-      font-weight: 900;
-      color: var(--accent-lime);
-    }
-
-    /* Buttons */
-    .btn-action {
-      width: 100%;
-      padding: 7px 6px;
-      font-size: 11px;
-      font-weight: 800;
-      border-radius: var(--radius-sm);
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      transition: all 0.15s ease;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-
-    .btn-lime {
-      background: linear-gradient(135deg, #bef264 0%, #a3e635 100%);
-      color: #0b1502;
-      box-shadow: 0 2px 8px var(--accent-lime-glow);
-    }
-    .btn-lime:active {
-      transform: scale(0.97);
-      background: #84cc16;
-    }
-
-    .btn-ad1 {
-      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-      color: #fff;
-      box-shadow: 0 2px 8px rgba(56, 189, 248, 0.35);
-    }
-    .btn-ad1:active { transform: scale(0.97); }
-
-    .btn-ad2 {
-      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
-      color: #000;
-      box-shadow: 0 2px 8px rgba(251, 191, 36, 0.35);
-    }
-    .btn-ad2:active { transform: scale(0.97); }
-
-    .btn-disabled {
-      opacity: 0.5;
-      cursor: not-allowed !important;
-      transform: none !important;
-      box-shadow: none !important;
-    }
-
-    /* 5-COLUMN SOCIAL TASK HUB */
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 5px;
-      padding: 0 2px;
-    }
-
-    .section-title {
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .guide-link {
-      font-size: 9.5px;
-      color: var(--accent-cyan);
-      text-decoration: underline;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .grid-5-col {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 5px;
-      margin-bottom: 8px;
-    }
-
-    .task-tile {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
-      padding: 6px 2px;
-      text-align: center;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 64px;
-      transition: all 0.2s ease;
-      position: relative;
-    }
-
-    .task-tile:active {
-      transform: scale(0.95);
-      border-color: var(--accent-lime);
-    }
-
-    .task-tile.selected {
-      border-color: var(--accent-lime);
-      background: rgba(163, 230, 53, 0.08);
-      box-shadow: 0 0 10px var(--accent-lime-glow);
-    }
-
-    .task-tile.completed {
-      border-color: var(--accent-green);
-      opacity: 0.8;
-      background: rgba(34, 197, 94, 0.08);
-    }
-
-    .task-icon {
-      font-size: 16px;
-      margin-bottom: 2px;
-    }
-
-    .task-name {
-      font-size: 8.5px;
-      font-weight: 700;
-      color: var(--text-main);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100%;
-    }
-
-    .task-reward-badge {
-      font-size: 8px;
-      font-weight: 800;
-      color: var(--accent-lime);
-      background: rgba(163, 230, 53, 0.15);
-      border-radius: 3px;
-      padding: 1px 3px;
-      margin-top: 3px;
-    }
-
-    /* Active Task Execution Card */
-    .task-exec-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 10px;
-      margin-bottom: 8px;
-      box-shadow: var(--shadow-card);
-      display: none;
-    }
-
-    .task-exec-title {
-      font-size: 12px;
-      font-weight: 800;
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-
-    .task-steps {
-      background: var(--bg-card);
-      border-radius: var(--radius-sm);
-      padding: 6px 8px;
-      font-size: 10px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-      border: 1px solid var(--border-color);
-    }
-
-    .task-steps ol {
-      padding-left: 16px;
-    }
-    .task-steps li {
-      margin-bottom: 2px;
-    }
-
-    .timer-badge {
-      background: rgba(6, 182, 212, 0.15);
-      color: var(--accent-cyan);
-      border: 1px solid rgba(6, 182, 212, 0.3);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-weight: 800;
-      font-size: 10px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .input-group {
-      display: flex;
-      gap: 5px;
-      margin-top: 6px;
-    }
-
-    .input-field {
-      flex: 1;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: #fff;
-      padding: 6px 8px;
-      border-radius: var(--radius-sm);
-      font-size: 11px;
-      outline: none;
-      transition: border 0.2s;
-    }
-
-    .input-field:focus {
-      border-color: var(--accent-lime);
-    }
-
-    /* 5-COLUMN WITHDRAWAL SELECTOR */
-    .withdraw-badge {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
-      padding: 5px 2px;
-      text-align: center;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 52px;
-      transition: all 0.15s ease;
-    }
-
-    .withdraw-badge.selected {
-      border-color: var(--accent-lime);
-      background: rgba(163, 230, 53, 0.1);
-      box-shadow: 0 0 8px var(--accent-lime-glow);
-    }
-
-    .withdraw-badge-icon {
-      font-size: 13px;
-      margin-bottom: 2px;
-    }
-
-    .withdraw-badge-name {
-      font-size: 8.5px;
-      font-weight: 700;
-      color: var(--text-main);
-      white-space: nowrap;
-    }
-
-    .withdraw-badge-min {
-      font-size: 7.5px;
-      color: var(--text-dim);
-      margin-top: 1px;
-    }
-
-    /* Withdrawal Form & Notice */
-    .withdraw-form-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 10px;
-      margin-bottom: 8px;
-      box-shadow: var(--shadow-card);
-    }
-
-    .audit-notice {
-      background: rgba(245, 158, 11, 0.1);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      border-radius: var(--radius-sm);
-      padding: 5px 8px;
-      margin-bottom: 8px;
-      font-size: 9px;
-      color: #fde68a;
-      display: flex;
-      align-items: flex-start;
-      gap: 5px;
-      line-height: 1.3;
-    }
-
-    .saved-details-pill {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
-      padding: 4px 6px;
-      font-size: 9.5px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-
-    /* Support Form Card */
-    .support-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 10px;
-      margin-bottom: 8px;
-      box-shadow: var(--shadow-card);
-    }
-
-    .select-dropdown {
-      width: 100%;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: #fff;
-      padding: 6px 8px;
-      border-radius: var(--radius-sm);
-      font-size: 11px;
-      outline: none;
-      margin-bottom: 6px;
-    }
-
-    .textarea-field {
-      width: 100%;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: #fff;
-      padding: 6px 8px;
-      border-radius: var(--radius-sm);
-      font-size: 11px;
-      outline: none;
-      resize: vertical;
-      min-height: 52px;
-      margin-bottom: 6px;
-    }
-
-    .file-input-wrap {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 6px;
-      font-size: 10px;
-      color: var(--text-muted);
-    }
-
-    /* Shadowban Alert Banner */
-    .shadowban-banner {
-      background: rgba(244, 63, 94, 0.15);
-      border: 1px solid var(--accent-red);
-      color: #fca5a5;
-      padding: 6px 10px;
-      border-radius: var(--radius-sm);
-      font-size: 10px;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 8px;
-      display: none;
-    }
-
-    /* Modal dialogs */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(4px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      padding: 14px;
-    }
-
-    .modal-box {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      max-width: 440px;
-      width: 100%;
-      padding: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-      max-height: 85vh;
-      overflow-y: auto;
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-      padding-bottom: 6px;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .modal-title {
-      font-size: 13px;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .modal-close {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .modal-content {
-      font-size: 10.5px;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    .creator-code-box {
-      background: var(--bg-card);
-      border: 2px dashed var(--accent-lime);
-      border-radius: var(--radius-sm);
-      padding: 10px;
-      text-align: center;
-      margin: 8px 0;
-    }
-
-    .creator-code-val {
-      font-size: 24px;
-      font-weight: 900;
-      color: var(--accent-lime);
-      letter-spacing: 4px;
-    }
-
-    /* Assistant Chat Drawer */
-    .chat-drawer {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%) translateY(105%);
-      width: 100%;
-      max-width: 560px;
-      background: var(--bg-surface);
-      border-top: 2px solid var(--accent-cyan);
-      box-shadow: 0 -8px 25px rgba(0,0,0,0.8);
-      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-      padding: 10px;
-      z-index: 10000;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .chat-drawer.open {
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .chat-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .chat-messages {
-      height: 180px;
-      overflow-y: auto;
-      background: var(--bg-card);
-      border-radius: var(--radius-sm);
-      padding: 8px;
-      margin-bottom: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      font-size: 10.5px;
-    }
-
-    .chat-msg {
-      padding: 5px 8px;
-      border-radius: 6px;
-      max-width: 85%;
-      word-break: break-word;
-    }
-
-    .chat-msg.bot {
-      background: #1e293b;
-      color: #e2e8f0;
-      align-self: flex-start;
-      border-left: 2px solid var(--accent-cyan);
-    }
-
-    .chat-msg.user {
-      background: var(--accent-lime);
-      color: #000;
-      align-self: flex-end;
-      font-weight: 600;
-    }
-
-    .faq-chips-row {
-      display: flex;
-      gap: 4px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      margin-bottom: 6px;
-    }
-
-    .faq-chip {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: var(--accent-cyan);
-      font-size: 9px;
-      font-weight: 700;
-      padding: 3px 6px;
-      border-radius: 12px;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-
-    /* Notification Toast */
-    .toast {
-      position: fixed;
-      top: 12px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-100px);
-      background: var(--bg-card);
-      color: #fff;
-      border: 1px solid var(--accent-lime);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 700;
-      z-index: 100000;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      pointer-events: none;
-    }
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* Footer Credits & Indian Time Notice */
-    .app-footer {
-      text-align: center;
-      font-size: 9px;
-      color: var(--text-dim);
-      margin-top: 10px;
-      padding: 4px;
-    }
-
-    /* Floating AI Help Button */
-    .fab-ai {
-      position: fixed;
-      bottom: 16px;
-      right: 16px;
-      background: linear-gradient(135deg, #06b6d4, #a3e635);
-      color: #020617;
-      padding: 8px 14px;
-      border-radius: 25px;
-      font-size: 11px;
-      font-weight: 800;
-      box-shadow: 0 4px 16px rgba(6, 182, 212, 0.4);
-      cursor: pointer;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .fab-ai:active {
-      transform: scale(0.95);
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#070b14" />
+<title>Earn Duo AI</title>
+<style>
+/* ============================================================
+   EARN DUO AI  —  single-file reward app
+   Dark glassmorphism + neon blue / golden accents
+   ============================================================ */
+:root{
+  --bg:#070b14;
+  --bg-2:#0b1220;
+  --panel:rgba(255,255,255,.055);
+  --panel-strong:rgba(255,255,255,.09);
+  --stroke:rgba(255,255,255,.10);
+  --stroke-strong:rgba(255,255,255,.18);
+  --text:#eaf0ff;
+  --muted:#8ea0c4;
+  --muted-2:#64748b;
+  --neon:#38bdf8;
+  --neon-2:#6366f1;
+  --gold:#ffcf5c;
+  --gold-2:#ff9d2e;
+  --green:#34d399;
+  --red:#fb7185;
+  --radius:22px;
+  --radius-sm:14px;
+  --shadow:0 18px 50px -18px rgba(0,0,0,.85);
+  --nav-h:78px;
+  --sat: env(safe-area-inset-top,0px);
+  --sab: env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(1100px 700px at 15% -10%, rgba(99,102,241,.20), transparent 55%),
+    radial-gradient(900px 600px at 100% 0%, rgba(56,189,248,.16), transparent 55%),
+    radial-gradient(800px 700px at 50% 115%, rgba(255,157,46,.13), transparent 60%),
+    linear-gradient(180deg,var(--bg) 0%, var(--bg-2) 100%);
+  background-attachment:fixed;
+  min-height:100%;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(rgba(255,255,255,.045) 1px, transparent 1px);
+  background-size:26px 26px;
+  mask-image:radial-gradient(circle at 50% 30%, #000 0%, transparent 78%);
+}
+#app{
+  position:relative;z-index:1;
+  max-width:520px;margin:0 auto;
+  min-height:100vh;
+  padding:calc(var(--sat) + 14px) 16px calc(var(--nav-h) + var(--sab) + 96px);
+}
+
+/* ---------- generic ---------- */
+.glass{
+  background:var(--panel);
+  border:1px solid var(--stroke);
+  border-radius:var(--radius);
+  backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  box-shadow:var(--shadow);
+}
+.row{display:flex;align-items:center;gap:12px}
+.between{justify-content:space-between}
+.muted{color:var(--muted)}
+.tiny{font-size:11.5px}
+.small{font-size:13px}
+.center{text-align:center}
+.gold{color:var(--gold)}
+.hidden{display:none !important}
+button{font-family:inherit}
+
+/* ---------- top bar ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin:2px 2px 16px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{
+  width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:800;
+  background:linear-gradient(135deg,var(--neon),var(--neon-2));
+  box-shadow:0 0 22px rgba(56,189,248,.45);
+  color:#04121f;font-size:18px;
+}
+.brand h1{font-size:15.5px;margin:0;letter-spacing:.3px}
+.brand span{font-size:11px;color:var(--muted)}
+.chip{
+  display:flex;align-items:center;gap:7px;padding:8px 13px;border-radius:999px;
+  background:linear-gradient(135deg, rgba(255,207,92,.16), rgba(255,157,46,.10));
+  border:1px solid rgba(255,207,92,.35);
+  font-weight:700;font-size:13.5px;color:var(--gold);
+  box-shadow:0 0 18px rgba(255,157,46,.18) inset;
+}
+.chip .dot{width:15px;height:15px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#ffe9a8,#ff9d2e 65%,#c26a00);
+  box-shadow:0 0 8px rgba(255,157,46,.7)}
+
+/* ---------- screens ---------- */
+.screen{display:none;animation:fade .42s cubic-bezier(.2,.7,.3,1)}
+.screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---------- home hero ---------- */
+.hero{
+  position:relative;overflow:hidden;padding:22px;
+  border-radius:26px;
+  background:
+    radial-gradient(120% 130% at 10% 0%, rgba(56,189,248,.22), transparent 55%),
+    radial-gradient(120% 130% at 100% 100%, rgba(99,102,241,.22), transparent 55%),
+    var(--panel-strong);
+  border:1px solid var(--stroke-strong);
+  box-shadow:var(--shadow);
+}
+.hero .glow{
+  position:absolute;width:230px;height:230px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,207,92,.32),transparent 65%);
+  top:-120px;right:-70px;filter:blur(6px);pointer-events:none;
+}
+.hero .lbl{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted)}
+.balance{
+  font-size:46px;font-weight:800;line-height:1;margin:10px 0 2px;
+  background:linear-gradient(180deg,#fff3c4,#ffcf5c 40%,#ff9d2e 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 0 32px rgba(255,177,60,.35);
+  letter-spacing:-1px;
+}
+.balance small{font-size:17px;font-weight:700;letter-spacing:0}
+.eq{
+  display:inline-flex;align-items:center;gap:6px;margin-top:8px;
+  padding:6px 12px;border-radius:999px;font-size:12.5px;font-weight:700;
+  background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.32);color:var(--green);
+}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.stat{padding:13px 12px;border-radius:var(--radius-sm);background:var(--panel);border:1px solid var(--stroke)}
+.stat .v{font-size:19px;font-weight:800}
+.stat .k{font-size:10.5px;color:var(--muted);margin-top:3px;letter-spacing:.4px}
+
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:22px 4px 12px}
+.section-title h2{font-size:15px;margin:0;letter-spacing:.3px}
+.section-title a{font-size:12px;color:var(--neon);text-decoration:none;font-weight:600}
+
+/* ---------- feature cards ---------- */
+.card{padding:16px;border-radius:var(--radius);background:var(--panel);border:1px solid var(--stroke);margin-bottom:12px}
+.card.tapable:active{transform:scale(.985);transition:transform .08s}
+.feature{
+  display:flex;align-items:center;gap:14px;padding:16px;border-radius:var(--radius);
+  background:linear-gradient(135deg, rgba(56,189,248,.12), rgba(99,102,241,.10));
+  border:1px solid rgba(56,189,248,.28);margin-bottom:12px;
+}
+.feature.gold-feature{background:linear-gradient(135deg, rgba(255,207,92,.14), rgba(255,157,46,.09));border-color:rgba(255,207,92,.32)}
+.ficon{
+  width:50px;height:50px;flex:0 0 50px;border-radius:15px;display:grid;place-items:center;font-size:23px;
+  background:rgba(255,255,255,.06);border:1px solid var(--stroke-strong);
+}
+.feature .ft{font-weight:700;font-size:14.5px}
+.feature .fs{font-size:12px;color:var(--muted);margin-top:2px}
+.arrow{margin-left:auto;color:var(--muted);font-size:20px}
+
+/* ---------- buttons ---------- */
+.btn{
+  border:0;border-radius:15px;padding:14px 18px;font-size:14.5px;font-weight:800;letter-spacing:.2px;
+  cursor:pointer;color:#04121f;width:100%;
+  background:linear-gradient(135deg,var(--neon),var(--neon-2));
+  box-shadow:0 12px 26px -12px rgba(56,189,248,.8);
+  transition:transform .08s, filter .2s;
+}
+.btn:active{transform:translateY(1px) scale(.99)}
+.btn.gold{background:linear-gradient(135deg,#ffe08a,var(--gold-2));box-shadow:0 12px 26px -12px rgba(255,157,46,.85)}
+.btn.ghost{background:var(--panel);border:1px solid var(--stroke-strong);color:var(--text);box-shadow:none}
+.btn.green{background:linear-gradient(135deg,#6ee7b7,var(--green));box-shadow:0 12px 26px -12px rgba(52,211,153,.8)}
+.btn[disabled]{opacity:.5;filter:grayscale(.35);cursor:not-allowed}
+.btn.sm{padding:11px 15px;font-size:13px;border-radius:13px;width:auto}
+
+/* ---------- spin wheel ---------- */
+.wheel-wrap{position:relative;display:grid;place-items:center;margin:6px auto 4px;width:min(340px,86vw);aspect-ratio:1}
+.wheel-ring{
+  position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg, #ffcf5c, #38bdf8, #6366f1, #ffcf5c);
+  filter:blur(.4px);
+  box-shadow:0 0 40px rgba(56,189,248,.35), 0 0 70px rgba(255,157,46,.20);
+  animation:ringspin 8s linear infinite;
+}
+@keyframes ringspin{to{transform:rotate(360deg)}}
+.wheel-ring::after{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--bg-2)}
+#wheel{position:relative;width:94%;height:94%;border-radius:50%;display:block}
+.pin{
+  position:absolute;width:66px;height:66px;border-radius:50%;display:grid;place-items:center;z-index:5;
+  background:radial-gradient(circle at 35% 30%,#fff,#e6ecff 45%,#9fb3d8);
+  color:#0b1220;font-weight:900;font-size:12px;letter-spacing:.5px;
+  box-shadow:0 8px 22px rgba(0,0,0,.6), 0 0 0 6px rgba(255,255,255,.08);
+}
+.pointer{
+  position:absolute;top:-6px;left:50%;transform:translateX(-50%);z-index:6;
+  width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;
+  border-top:26px solid var(--gold);
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.6));
+}
+.spin-meta{display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding:0 6px}
+.timer-pill{
+  font-variant-numeric:tabular-nums;font-weight:800;font-size:13px;
+  padding:7px 13px;border-radius:999px;background:var(--panel);border:1px solid var(--stroke)
+}
+
+/* ---------- tasks ---------- */
+.task{display:flex;align-items:center;gap:13px;padding:15px;border-radius:var(--radius);background:var(--panel);border:1px solid var(--stroke);margin-bottom:11px;position:relative;overflow:hidden}
+.task .ticon{width:46px;height:46px;flex:0 0 46px;border-radius:14px;display:grid;place-items:center;font-size:22px;background:rgba(255,255,255,.06);border:1px solid var(--stroke-strong)}
+.task .tt{font-weight:700;font-size:14px}
+.task .tr{font-size:12px;margin-top:3px;color:var(--gold);font-weight:700}
+.task .go{margin-left:auto}
+.task.done{border-color:rgba(52,211,153,.35);background:linear-gradient(135deg, rgba(52,211,153,.10), transparent)}
+.badge-done{position:absolute;top:12px;right:12px;font-size:11px;font-weight:800;color:var(--green);display:flex;align-items:center;gap:5px}
+.progress-line{position:absolute;left:0;bottom:0;height:3px;width:0;background:linear-gradient(90deg,var(--neon),var(--gold));transition:width 1s linear}
+
+/* ---------- wallet ---------- */
+.wallet-hero{padding:20px;border-radius:26px;text-align:center;background:linear-gradient(135deg, rgba(255,207,92,.14), rgba(99,102,241,.12));border:1px solid var(--stroke-strong);margin-bottom:16px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12px;color:var(--muted);margin:0 0 7px 3px;letter-spacing:.3px}
+.field input{
+  width:100%;padding:14px 15px;border-radius:14px;background:rgba(255,255,255,.05);
+  border:1px solid var(--stroke-strong);color:var(--text);font-size:14.5px;outline:none;font-family:inherit;
+}
+.field input:focus{border-color:var(--neon);box-shadow:0 0 0 3px rgba(56,189,248,.18)}
+.hist{display:flex;align-items:center;gap:12px;padding:13px;border-radius:14px;background:var(--panel);border:1px solid var(--stroke);margin-bottom:9px}
+.hist .hi{width:38px;height:38px;flex:0 0 38px;border-radius:11px;display:grid;place-items:center;background:rgba(255,255,255,.06);font-size:17px}
+.pill{font-size:10.5px;font-weight:800;padding:5px 10px;border-radius:999px;background:rgba(255,157,46,.15);color:var(--gold);border:1px solid rgba(255,157,46,.3)}
+.empty{text-align:center;color:var(--muted-2);font-size:13px;padding:26px 10px}
+
+/* ---------- profile ---------- */
+.profile-head{display:flex;flex-direction:column;align-items:center;padding:24px 16px;border-radius:26px;background:var(--panel-strong);border:1px solid var(--stroke-strong);margin-bottom:14px}
+.avatar{width:82px;height:82px;border-radius:50%;display:grid;place-items:center;font-size:34px;font-weight:800;color:#04121f;
+  background:linear-gradient(135deg,var(--neon),var(--neon-2));box-shadow:0 0 30px rgba(56,189,248,.5)}
+.profile-head h2{margin:12px 0 3px;font-size:19px}
+.prow{display:flex;align-items:center;justify-content:space-between;padding:14px 15px;border-radius:14px;background:var(--panel);border:1px solid var(--stroke);margin-bottom:9px}
+.prow .k{font-size:13.5px}
+.prow .v{font-weight:700;font-size:13.5px}
+
+/* ---------- bottom nav (curved floating dock) ---------- */
+.nav{
+  position:fixed;left:50%;transform:translateX(-50%);
+  bottom:calc(var(--sab) + 12px);
+  width:calc(100% - 26px);max-width:496px;height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-around;
+  padding:0 8px;
+  border-radius:30px 30px 34px 34px;
+  background:linear-gradient(180deg, rgba(18,26,45,.92), rgba(10,16,30,.96));
+  border:1px solid var(--stroke-strong);
+  backdrop-filter:blur(20px) saturate(150%);
+  -webkit-backdrop-filter:blur(20px) saturate(150%);
+  box-shadow:0 -8px 40px -12px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.03) inset;
+  z-index:50;
+}
+.nav::before{
+  content:"";position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+  width:120px;height:22px;border-radius:50%;
+  background:linear-gradient(180deg, rgba(56,189,248,.22), transparent);
+  filter:blur(9px);
+}
+.nav-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  background:none;border:0;color:var(--muted-2);cursor:pointer;padding:6px 0;position:relative;
+  transition:color .25s, transform .25s;
+}
+.nav-btn svg{width:23px;height:23px;transition:transform .28s cubic-bezier(.2,1.4,.4,1)}
+.nav-btn span{font-size:10px;font-weight:600;letter-spacing:.2px;opacity:.9}
+.nav-btn.active{color:var(--neon)}
+.nav-btn.active svg{transform:translateY(-2px) scale(1.12);filter:drop-shadow(0 0 9px rgba(56,189,248,.8))}
+.nav-btn.active span{color:var(--neon)}
+.nav-btn.active::after{
+  content:"";position:absolute;top:-1px;width:26px;height:3px;border-radius:3px;
+  background:linear-gradient(90deg,var(--neon),var(--gold));box-shadow:0 0 12px rgba(56,189,248,.9)
+}
+.nav-btn .gift-dot{position:absolute;top:2px;right:calc(50% - 20px);width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
+
+/* ---------- modal ---------- */
+.overlay{
+  position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;padding:20px;
+  background:rgba(4,8,16,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+.overlay.show{display:flex;animation:fade .25s ease}
+.modal{width:100%;max-width:380px;padding:24px;border-radius:26px;background:linear-gradient(180deg,#111a2e,#0b1220);border:1px solid var(--stroke-strong);box-shadow:var(--shadow);animation:pop .3s cubic-bezier(.2,1.3,.4,1)}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.modal h3{margin:0 0 6px;font-size:18px}
+.modal p{margin:0 0 16px;font-size:13px;color:var(--muted);line-height:1.5}
+.modal .mico{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:26px;margin:0 auto 12px;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3)}
+
+/* ---------- ad player ---------- */
+.adbox{width:100%;max-width:400px;padding:22px;border-radius:26px;background:linear-gradient(180deg,#0e1830,#080f1e);border:1px solid var(--stroke-strong);text-align:center}
+.ad-screen{position:relative;height:210px;border-radius:18px;overflow:hidden;display:grid;place-items:center;background:
+  radial-gradient(circle at 30% 20%, rgba(56,189,248,.25), transparent 60%),
+  radial-gradient(circle at 80% 90%, rgba(255,157,46,.25), transparent 60%),
+  linear-gradient(135deg,#0c1628,#111f3a);border:1px solid var(--stroke)}
+.ad-screen .adtag{position:absolute;top:10px;left:10px;font-size:10px;font-weight:800;letter-spacing:1px;padding:4px 9px;border-radius:6px;background:rgba(0,0,0,.45);border:1px solid var(--stroke-strong);color:#cfe0ff}
+.ad-screen .adcta{font-size:13px;color:var(--muted)}
+.ad-screen .adbig{font-size:22px;font-weight:800;margin-bottom:6px;background:linear-gradient(135deg,#fff,#9fd0ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.bar{height:9px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin:16px 0 10px}
+.bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--gold));border-radius:999px}
+.count-big{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
+
+/* ---------- toast ---------- */
+#toasts{position:fixed;left:50%;transform:translateX(-50%);top:calc(var(--sat) + 14px);z-index:100;display:flex;flex-direction:column;gap:9px;width:calc(100% - 40px);max-width:440px;pointer-events:none}
+.toast{
+  display:flex;align-items:center;gap:10px;padding:13px 15px;border-radius:15px;font-size:13.5px;font-weight:600;
+  background:linear-gradient(135deg, rgba(20,30,52,.98), rgba(12,18,34,.98));
+  border:1px solid var(--stroke-strong);box-shadow:var(--shadow);
+  animation:toastin .35s cubic-bezier(.2,1.2,.4,1);color:var(--text)
+}
+.toast.ok{border-color:rgba(52,211,153,.4)}
+.toast.err{border-color:rgba(251,113,133,.4)}
+.toast .ti{font-size:18px}
+@keyframes toastin{from{opacity:0;transform:translateY(-14px) scale(.96)}to{opacity:1;transform:none}}
+.toast.out{animation:toastout .3s ease forwards}
+@keyframes toastout{to{opacity:0;transform:translateY(-10px) scale(.97)}}
+.coinfly{position:fixed;z-index:120;font-weight:900;color:var(--gold);pointer-events:none;font-size:16px;text-shadow:0 0 12px rgba(255,157,46,.8);animation:fly .95s ease-out forwards}
+@keyframes fly{0%{opacity:0;transform:translateY(0) scale(.6)}25%{opacity:1}100%{opacity:0;transform:translateY(-70px) scale(1.25)}}
+
+/* ---------- official links ---------- */
+.link-row{display:flex;align-items:center;gap:13px;padding:14px 15px;border-radius:16px;background:var(--panel);border:1px solid var(--stroke);margin-bottom:10px;text-decoration:none;color:var(--text);transition:transform .08s}
+.link-row:active{transform:scale(.985)}
+.link-row .li{width:42px;height:42px;flex:0 0 42px;border-radius:13px;display:grid;place-items:center;font-size:20px;background:rgba(255,255,255,.06);border:1px solid var(--stroke-strong)}
+.link-row .lt{font-weight:700;font-size:13.7px}
+.link-row .lu{font-size:11.5px;color:var(--muted);margin-top:2px;word-break:break-all}
+.link-row .lx{margin-left:auto;color:var(--muted);font-size:19px}
+
+/* ---------- AI assistant ---------- */
+.fab{position:fixed;right:16px;bottom:calc(var(--sab) + var(--nav-h) + 20px);width:60px;height:60px;border-radius:50%;border:0;z-index:60;display:grid;place-items:center;cursor:pointer;color:#04121f;font-size:26px;
+  background:linear-gradient(135deg,var(--neon),var(--neon-2));box-shadow:0 14px 30px -10px rgba(56,189,248,.9),0 0 0 6px rgba(56,189,248,.12);transition:transform .2s}
+.fab:active{transform:scale(.92)}
+.fab .fab-dot{position:absolute;top:1px;right:1px;width:13px;height:13px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);border:2px solid var(--bg)}
+.chat-overlay{position:fixed;inset:0;z-index:90;display:none;justify-content:center;align-items:flex-end;background:rgba(4,8,16,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.chat-overlay.show{display:flex;animation:fade .2s ease}
+.chat{width:100%;max-width:520px;height:min(86vh,760px);display:flex;flex-direction:column;background:linear-gradient(180deg,#0e1830,#080f1e);border:1px solid var(--stroke-strong);border-radius:26px 26px 0 0;overflow:hidden;animation:slideup .32s cubic-bezier(.2,.9,.3,1)}
+@keyframes slideup{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+.chat-head{display:flex;align-items:center;gap:11px;padding:15px 16px;border-bottom:1px solid var(--stroke);background:rgba(255,255,255,.03)}
+.chat-head .ai-av{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:20px;background:linear-gradient(135deg,var(--neon),var(--neon-2));color:#04121f;font-weight:800}
+.chat-head .ai-t{font-weight:800;font-size:14.5px}
+.chat-head .ai-s{font-size:11px;color:var(--green);display:flex;align-items:center;gap:5px;margin-top:2px}
+.chat-head .ai-s i{width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 7px currentColor;display:inline-block}
+.icon-btn{margin-left:auto;background:var(--panel);border:1px solid var(--stroke-strong);color:var(--muted);width:36px;height:36px;border-radius:11px;cursor:pointer;font-size:15px;display:grid;place-items:center}
+.icon-btn+.icon-btn{margin-left:8px}
+.chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:11px}
+.msg{max-width:84%;padding:11px 14px;border-radius:16px;font-size:13.7px;line-height:1.55;white-space:pre-wrap;word-wrap:break-word;animation:fade .25s ease}
+.msg.bot{align-self:flex-start;background:var(--panel-strong);border:1px solid var(--stroke);border-bottom-left-radius:5px;color:var(--text)}
+.msg.user{align-self:flex-end;background:linear-gradient(135deg,var(--neon),var(--neon-2));color:#04121f;font-weight:600;border-bottom-right-radius:5px}
+.msg.typing{display:flex;gap:5px;align-items:center;padding:15px 16px}
+.msg.typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+.msg.typing i:nth-child(2){animation-delay:.2s}.msg.typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+.chips{display:flex;flex-wrap:wrap;gap:7px;padding:0 16px 10px}
+.chips button{background:var(--panel);border:1px solid var(--stroke-strong);color:var(--neon);font-size:12px;font-weight:600;padding:7px 12px;border-radius:999px;cursor:pointer;font-family:inherit}
+.chat-input{display:flex;gap:9px;padding:12px 14px calc(12px + var(--sab));border-top:1px solid var(--stroke);background:rgba(255,255,255,.03)}
+.chat-input input{flex:1;padding:13px 15px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--stroke-strong);color:var(--text);font-size:14px;outline:none;font-family:inherit}
+.chat-input input:focus{border-color:var(--neon)}
+.chat-input button{width:48px;flex:0 0 48px;border:0;border-radius:14px;background:linear-gradient(135deg,var(--neon),var(--neon-2));color:#04121f;font-size:18px;cursor:pointer}
+.chat-note{font-size:10.5px;color:var(--muted-2);text-align:center;padding:0 16px 12px}
+.ai-set{padding:13px 16px;border-bottom:1px solid var(--stroke);background:rgba(56,189,248,.05);display:none}
+.ai-set.show{display:block}
+.ai-set input{width:100%;padding:11px 13px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--stroke-strong);color:var(--text);font-size:13px;outline:none;font-family:inherit}
+</style>
 </head>
 <body>
-
-  <!-- Floating Ask AI Button -->
-  <div id="fabAi" class="fab-ai" onclick="openAiHub()" title="Ask AI Assistant">
-    <span>🤖 Ask AI</span>
+<div id="app">
+  <!-- ===== top bar ===== -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">E</div>
+      <div>
+        <h1>Earn Duo AI</h1>
+        <span>Watch • Spin • Earn</span>
+      </div>
+    </div>
+    <div class="chip"><span class="dot"></span><span id="topCoins">0</span></div>
   </div>
 
-  <!-- Toast Notification -->
-  <div id="toast" class="toast">
-    <span id="toastIcon">⚡</span>
-    <span id="toastMsg">Ready</span>
-  </div>
-
-  <div class="app-container">
-
-    <!-- Header Module -->
-    <header class="app-header">
-      <div class="header-top">
-        <div class="brand-title">
-          <span>⚡ Earn Duo AI</span>
-          <span class="brand-badge">SMART HUB</span>
-        </div>
-        <div class="header-actions">
-          <button id="btnSoundToggle" class="icon-btn" title="Toggle Sound">
-            <span id="soundIcon">🔊</span>
-          </button>
-          <button id="btnUidHelp" class="icon-btn" title="UID Help">
-            <span>ℹ️ UID</span>
-          </button>
-          <button id="btnOpenChat" class="icon-btn" title="Assistant AI">
-            <span>💬 AI Help</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Live Payout Ticker -->
-      <div class="ticker-wrap">
-        <span class="ticker-tag">LIVE PAYOUTS</span>
-        <div class="ticker-marquee" id="tickerMarquee">
-          🔥 @rahul*** received ₹50 via UPI • ⚡ @alex_bybit withdrew 1.00 USDT (9,000 Coins) • 💎 @crypto_king claimed 3.00 USDT on CELO • 🚀 @binance_fan received 1.00 USDT via Binance Pay • ⚡ @priya_99 redeemed ₹100 UPI
-        </div>
-      </div>
-    </header>
-
-    <!-- Shadowban Alert Banner -->
-    <div id="shadowbanBanner" class="shadowban-banner">
-      ⚠️ TASK HUB SECURITY LOCKOUT: 3 wrong codes entered. Suspended until: <span id="shadowbanTimer">24:00:00</span>
+  <!-- ============ HOME ============ -->
+  <section class="screen active" id="screen-home">
+    <div class="hero">
+      <div class="glow"></div>
+      <div class="lbl">Total Coin Balance</div>
+      <div class="balance"><span id="heroCoins">0</span> <small>coins</small></div>
+      <div class="eq">💵 ≈ ₹<span id="heroRupees">0.00</span> &nbsp;·&nbsp; 1,000 coins = ₹10</div>
     </div>
 
-    <!-- 1. PRIMARY METRICS ROW (Strict 4 Columns) -->
-    <section class="grid-4-col" aria-label="Wallet Metrics">
-      <div class="metric-card">
-        <div class="metric-label">💰 Balance</div>
-        <div class="metric-val" id="metricBalance">0</div>
-        <div class="metric-sub" id="metricFiat">₹0.00 | $0.00</div>
+    <div class="stats">
+      <div class="stat"><div class="v" id="statTasks">0/5</div><div class="k">TASKS DONE</div></div>
+      <div class="stat"><div class="v" id="statSpins">0</div><div class="k">TOTAL SPINS</div></div>
+      <div class="stat"><div class="v" id="statEarned">0</div><div class="k">EARNED</div></div>
+    </div>
+
+    <div class="section-title"><h2>Quick Earn</h2></div>
+
+    <div class="feature gold-feature" id="homeAdCard">
+      <div class="ficon">📺</div>
+      <div>
+        <div class="ft">Watch Ad &amp; Earn</div>
+        <div class="fs">Watch a short video · <b class="gold">+30 coins</b></div>
       </div>
-      <div class="metric-card">
-        <div class="metric-label">⏳ Pending</div>
-        <div class="metric-val" style="color: var(--accent-yellow);" id="metricPending">0</div>
-        <div class="metric-sub">24h Security Hold</div>
+      <div class="arrow">›</div>
+    </div>
+
+    <div class="feature" id="homeSpinCard">
+      <div class="ficon">🎡</div>
+      <div>
+        <div class="ft">Lucky Spin Wheel</div>
+        <div class="fs">Win up to <b class="gold">1,000 coins</b> per spin</div>
       </div>
-      <div class="metric-card">
-        <div class="metric-label">🔥 Streak</div>
-        <div class="metric-val" style="color: #fb923c;" id="metricStreak">Day 1</div>
-        <div class="metric-sub" id="metricStreakBonus">+100 Today</div>
+      <div class="arrow">›</div>
+    </div>
+
+    <div class="feature" id="homeTaskCard">
+      <div class="ficon">✅</div>
+      <div>
+        <div class="ft">Social Tasks</div>
+        <div class="fs">Complete tasks · earn up to <b class="gold">+350 coins</b></div>
       </div>
-      <div class="metric-card">
-        <div class="metric-label">🎡 Spins</div>
-        <div class="metric-val" style="color: var(--accent-cyan);" id="metricSpins">10/10</div>
-        <div class="metric-sub">Daily Limit</div>
-      </div>
-    </section>
+      <div class="arrow">›</div>
+    </div>
 
-    <!-- 2. MULTI-COLUMN CONTENT ROW (Agal-Bagal Multi-Column Layout) -->
-    <div class="multi-col-row">
-
-      <!-- LEFT COLUMN (Agal): Daily Streak, Spin Wheel & Watch Ads -->
-      <div class="col-half">
-
-        <!-- 2A. ACTION & AD MODULES -->
-        <section class="action-module-grid">
-
-          <!-- Core Card 1: 7-Day Login Streak (Spans 2 columns) -->
-          <div class="card-box span-2-col">
-            <div class="card-title">
-              <span>7-Day Streak</span>
-              <span class="card-badge" id="streakBadge">IST Reset 12 AM</span>
-            </div>
-            <div class="streak-track" id="streakTrack">
-              <!-- 7 day nodes injected by JS -->
-            </div>
-            <button id="btnClaimStreak" class="btn-action btn-lime" style="margin-top: 4px;">
-              <span>⚡ Claim Day <span id="streakDayNum">1</span></span>
-            </button>
-          </div>
-
-          <!-- Core Card 2: Lucky Spin Wheel (Spans 2 columns) -->
-          <div class="card-box span-2-col">
-            <div class="card-title">
-              <span>Lucky Wheel</span>
-              <span class="card-badge" id="wheelBadge">10 Left</span>
-            </div>
-            <div class="wheel-container">
-              <div class="wheel-canvas-wrap">
-                <div class="wheel-pointer"></div>
-                <canvas id="wheelCanvas" width="280" height="280"></canvas>
-                <div class="wheel-center-cap">★</div>
-              </div>
-            </div>
-            <button id="btnSpinWheel" class="btn-action btn-lime" style="margin-top: 6px;">
-              <span>🎯 SPIN NOW</span>
-            </button>
-          </div>
-
-          <!-- Ad Module: Watch Ad 1 - Adsterra (Spans 2 columns) -->
-          <div class="span-2-col">
-            <button id="btnWatchAd1" class="btn-action btn-ad1">
-              <span>📺 Watch Ad 1 (Adsterra) (+20 Coins)</span>
-            </button>
-          </div>
-
-          <!-- Ad Module: Watch Ad 2 - Monetag (Spans 2 columns) -->
-          <div class="span-2-col">
-            <button id="btnWatchAd2" class="btn-action btn-ad2">
-              <span>🔥 Watch Ad 2 (Monetag) (+30 Coins)</span>
-            </button>
-          </div>
-
-        </section>
-
-        <!-- 2B. SOCIAL MEDIA TASK HUB -->
+    <div class="section-title"><h2>Daily Bonus</h2></div>
+    <div class="card">
+      <div class="row between">
         <div>
-          <div class="section-header">
-            <div class="section-title">
-              <span>🌐 Social Media Tasks (Strict Verification)</span>
-            </div>
-            <span class="guide-link" id="btnOpenCreatorGuide">Creator Guide</span>
-          </div>
-
-          <section class="grid-5-col" id="socialTasksGrid">
-            <!-- 1: YouTube -->
-            <div class="task-tile" data-task="youtube">
-              <div class="task-icon">▶️</div>
-              <div class="task-name">YouTube</div>
-              <div class="task-reward-badge">+200</div>
-            </div>
-            <!-- 2: Instagram -->
-            <div class="task-tile" data-task="instagram">
-              <div class="task-icon">📸</div>
-              <div class="task-name">Instagram</div>
-              <div class="task-reward-badge">+150</div>
-            </div>
-            <!-- 3: Facebook -->
-            <div class="task-tile" data-task="facebook">
-              <div class="task-icon">📘</div>
-              <div class="task-name">Facebook</div>
-              <div class="task-reward-badge">+150</div>
-            </div>
-            <!-- 4: Binance Square -->
-            <div class="task-tile" data-task="binance">
-              <div class="task-icon">🟡</div>
-              <div class="task-name">Binance</div>
-              <div class="task-reward-badge">+300</div>
-            </div>
-            <!-- 5: Bybit Signup -->
-            <div class="task-tile" data-task="bybit">
-              <div class="task-icon">🟠</div>
-              <div class="task-name">Bybit</div>
-              <div class="task-reward-badge">+500</div>
-            </div>
-          </section>
-
-          <!-- Active Task Execution Card -->
-          <div id="taskExecCard" class="task-exec-card">
-            <div class="task-exec-title">
-              <span id="taskExecName">Task Verification</span>
-              <span id="taskExecTimer" class="timer-badge">⏳ 30s Timer</span>
-            </div>
-            <div class="task-steps" id="taskExecInstructions">
-              <ol>
-                <li>Click 'Open Task Link' below. The 30s timer begins immediately.</li>
-                <li>Complete the required activity and obtain verification code/UID.</li>
-                <li>Enter code/UID after countdown finishes to credit coins to 24h Security Hold.</li>
-              </ol>
-            </div>
-            <div style="display: flex; gap: 5px; margin-bottom: 6px;">
-              <button id="btnOpenTaskLink" class="btn-action btn-ad1" style="flex: 1;">
-                <span>🔗 Open Task Link</span>
-              </button>
-            </div>
-            <div class="input-group">
-              <input type="text" id="taskInputVal" class="input-field" placeholder="Enter Secret Code or Numeric UID" disabled>
-              <button id="btnSubmitTask" class="btn-action btn-lime btn-disabled" style="width: auto; padding: 6px 14px;" disabled>
-                <span>Verify</span>
-              </button>
-            </div>
-          </div>
+          <div style="font-weight:700;font-size:14px">🎁 Daily Check-in</div>
+          <div class="small muted" style="margin-top:3px">Claim free coins every 24 hours</div>
         </div>
-
+        <button class="btn sm gold" id="dailyBtn">Claim</button>
       </div>
+    </div>
+  </section>
 
-      <!-- RIGHT COLUMN (Bagal): Withdrawal Hub, AI Assistant & Support Form -->
-      <div class="col-half">
-
-        <!-- 2C. WITHDRAWAL SYSTEM (Strict 5-Column Method Selector & Form) -->
-        <div>
-          <div class="section-header">
-            <div class="section-title">
-              <span>💳 Instant Withdrawal Hub</span>
-            </div>
-            <span style="font-size: 8.5px; color: var(--accent-lime); font-weight: 700;">1000 = ₹10 | 9000 = 1$</span>
-          </div>
-
-          <section class="grid-5-col" id="withdrawMethodsGrid">
-            <div class="withdraw-badge selected" data-method="bybit">
-              <div class="withdraw-badge-icon">🟠</div>
-              <div class="withdraw-badge-name">Bybit</div>
-              <div class="withdraw-badge-min">Min 9k (1$)</div>
-            </div>
-            <div class="withdraw-badge" data-method="binance">
-              <div class="withdraw-badge-icon">🟡</div>
-              <div class="withdraw-badge-name">Binance</div>
-              <div class="withdraw-badge-min">Min 9k (1$)</div>
-            </div>
-            <div class="withdraw-badge" data-method="upi">
-              <div class="withdraw-badge-icon">🇮🇳</div>
-              <div class="withdraw-badge-name">UPI</div>
-              <div class="withdraw-badge-min">Min 5k (₹50)</div>
-            </div>
-            <div class="withdraw-badge" data-method="celo">
-              <div class="withdraw-badge-icon">🟢</div>
-              <div class="withdraw-badge-name">CELO</div>
-              <div class="withdraw-badge-min">Min 27k (3$)</div>
-            </div>
-            <div class="withdraw-badge" data-method="bep20">
-              <div class="withdraw-badge-icon">⛓️</div>
-              <div class="withdraw-badge-name">BEP20</div>
-              <div class="withdraw-badge-min">Min 45k (5$)</div>
-            </div>
-          </section>
-
-          <!-- Withdrawal Form Card -->
-          <div class="withdraw-form-card">
-            <!-- Net-7 Audit Notice -->
-            <div class="audit-notice">
-              <span>🛡️</span>
-              <div>
-                <strong>Mandatory Net-7 Audit Notice:</strong> All withdrawal submissions undergo a 3 to 7 working days (Net-7) fraud, anti-cheat, and traffic compliance audit before funds are disbursed to your recipient address.
-              </div>
-            </div>
-
-            <!-- Saved Details Pill -->
-            <div id="savedDetailsPill" class="saved-details-pill" style="display: none;">
-              <span>💾 Saved Account: <strong id="savedAccountText">-</strong></span>
-              <div style="display: flex; gap: 4px;">
-                <button id="btnEditSavedAccount" style="background: none; border: none; color: var(--accent-cyan); font-size: 9px; cursor: pointer;">Edit</button>
-                <button id="btnClearSavedAccount" style="background: none; border: none; color: var(--accent-red); font-size: 9px; cursor: pointer;">Clear</button>
-              </div>
-            </div>
-
-            <div style="margin-bottom: 6px;">
-              <label id="withdrawInputLabel" style="font-size: 9.5px; color: var(--text-muted); display: block; margin-bottom: 2px;">Recipient Address / Bybit UID:</label>
-              <input type="text" id="withdrawDestination" class="input-field" placeholder="Enter recipient Bybit UID" style="width: 100%;">
-              <div id="withdrawMethodHint" style="font-size: 9px; color: var(--accent-lime); margin-top: 3px; padding: 4px 6px; background: rgba(163, 230, 53, 0.08); border-radius: var(--radius-sm); border: 1px dashed rgba(163, 230, 53, 0.25);">
-                🟠 Bybit UID: 7-10 Digit Numeric UID for 0% fee instant payouts.
-              </div>
-            </div>
-
-            <div style="display: flex; gap: 6px; margin-bottom: 8px;">
-              <div style="flex: 1;">
-                <label style="font-size: 9.5px; color: var(--text-muted); display: block; margin-bottom: 2px;">Coins to Withdraw:</label>
-                <input type="text" inputmode="numeric" pattern="[0-9]*" id="withdrawCoinsAmount" class="input-field" placeholder="e.g. 9000" style="width: 100%;">
-              </div>
-              <div style="flex: 1;">
-                <label style="font-size: 9.5px; color: var(--text-muted); display: block; margin-bottom: 2px;">Payout Value:</label>
-                <div id="withdrawEquivalent" style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 6px 8px; border-radius: var(--radius-sm); font-size: 11px; font-weight: 700; color: var(--accent-lime); height: 29px; display: flex; align-items: center;">
-                  0.00 USDT
-                </div>
-              </div>
-            </div>
-
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-              <label style="font-size: 9.5px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; cursor: pointer;">
-                <input type="checkbox" id="checkSaveDetails" checked style="accent-color: var(--accent-lime);">
-                <span>Save recipient details for next time</span>
-              </label>
-              <span style="font-size: 8.5px; color: var(--text-dim);" id="withdrawFeeLabel">Fee: 0%</span>
-            </div>
-
-            <button id="btnSubmitWithdrawal" class="btn-action btn-lime">
-              <span>🚀 Submit Withdrawal Request</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- 2D. EARN DUO AI ASSISTANT (Dedicated In-App AI Hub) -->
-        <div>
-          <div class="section-header" id="sectionAiHub">
-            <div class="section-title">
-              <span>🤖 Earn Duo AI Assistant (Aapke Sawal - AI Ke Jawab)</span>
-            </div>
-            <span style="font-size: 8.5px; color: var(--accent-cyan); font-weight: 700;">24/7 Live AI Help</span>
-          </div>
-
-          <div class="card-box" style="border-color: rgba(6, 182, 212, 0.4); background: linear-gradient(180deg, rgba(6, 182, 212, 0.05) 0%, rgba(15, 23, 42, 0.8) 100%); margin-bottom: 8px;">
-            <div style="font-size: 10.5px; color: var(--text-muted); margin-bottom: 6px;">
-              💡 App se jude kisi bhi sawal (UPI ID, Monetag ads kamai, Spin wheel, Secret codes) ka jawab yaha puchein:
-            </div>
-            <div class="faq-chips-row">
-              <span class="faq-chip" onclick="handleAiPrompt('upi')">🇮🇳 UPI Payout Rules</span>
-              <span class="faq-chip" onclick="handleAiPrompt('monetag')">📺 Monetag Kamai Zero Kyu Hai?</span>
-              <span class="faq-chip" onclick="handleAiPrompt('spin')">🎡 Spin Wheel & Ads</span>
-              <span class="faq-chip" onclick="handleAiPrompt('secret')">🔑 Task Secret Codes</span>
-              <span class="faq-chip" onclick="handleAiPrompt('hold')">⏳ 24h Hold & Net-7</span>
-            </div>
-            <div id="mainAiChatBox" class="chat-messages" style="height: 170px; margin-bottom: 8px;">
-              <div class="chat-msg bot">
-                👋 <b>Namaste!</b> Mai hu <b>Earn Duo AI Assistant</b>. Aapka koi bhi sawal ho—UPI ID kaise daalein, Monetag ads kamai kaise badhayein, ya task codes—yaha neeche likhkar poohein!
-              </div>
-            </div>
-            <div style="display: flex; gap: 5px;">
-              <input type="text" id="mainAiInput" class="input-field" placeholder="Apna sawal likhein (Hindi / Hinglish / English)..." onkeydown="if(event.key==='Enter')sendMainAiMessage()">
-              <button id="btnMainAiSend" onclick="sendMainAiMessage()" class="btn-action btn-lime" style="width: auto; padding: 6px 14px;">
-                <span>Poochhein 🚀</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- 2E. TELEGRAM CUSTOMER SUPPORT FORM -->
-        <div>
-          <div class="section-header">
-            <div class="section-title">
-              <span>📩 Telegram Customer Support (Direct Dispatch)</span>
-            </div>
-            <span style="font-size: 8.5px; color: var(--accent-cyan); font-weight: 700;">@earnduo_alert_bot</span>
-          </div>
-
-          <div class="support-card">
-            <select id="supportCategory" class="select-dropdown">
-              <option value="Withdrawal Inquiry">💰 Payout & Withdrawal Inquiry</option>
-              <option value="Task Verification">🌐 Task Verification / Secret Code Help</option>
-              <option value="Account / Streak">🔥 Login Streak & Balance Issue</option>
-              <option value="Anti-Fraud Audit">🛡️ Net-7 Audit Status Update</option>
-              <option value="Bug Report">🐛 Technical Bug Report</option>
-              <option value="Creator Partnership">🤝 Creator Program / Partnership</option>
-            </select>
-
-            <textarea id="supportMessage" class="textarea-field" placeholder="Describe your issue or query with transaction ID / UID details..."></textarea>
-
-            <div class="file-input-wrap">
-              <span>📷 Attach Screenshot (Images only, &lt;10MB):</span>
-              <input type="file" id="supportImageFile" accept="image/*" style="font-size: 9px; flex: 1;">
-            </div>
-
-            <button id="btnSendSupportTicket" class="btn-action btn-ad1">
-              <span>📨 Send Support Ticket to Telegram Bot</span>
-            </button>
-          </div>
-        </div>
-
+  <!-- ============ SPIN ============ -->
+  <section class="screen" id="screen-spin">
+    <div class="section-title"><h2>Lucky Spin Wheel</h2><a id="spinLeft" class="muted tiny"></a></div>
+    <div class="glass" style="padding:20px 16px 22px">
+      <div class="wheel-wrap">
+        <div class="wheel-ring"></div>
+        <canvas id="wheel" width="640" height="640"></canvas>
+        <div class="pointer"></div>
+        <div class="pin">SPIN</div>
       </div>
+      <div class="spin-meta">
+        <div class="timer-pill" id="spinTimer">Ready to spin</div>
+        <div class="timer-pill" id="spinLastWin">Last: —</div>
+      </div>
+      <button class="btn gold" id="spinBtn" style="margin-top:16px">🎡 SPIN NOW</button>
+      <p class="tiny muted center" style="margin:12px 0 0">1 hour cooldown between spins. Rewards are added instantly.</p>
+    </div>
+  </section>
 
+  <!-- ============ TASKS ============ -->
+  <section class="screen" id="screen-tasks">
+    <div class="section-title"><h2>Social Tasks</h2><a id="taskCount" class="muted tiny"></a></div>
+    <p class="tiny muted" style="margin:0 4px 14px">Open the link, wait 30s, then verify with your UID to claim coins.</p>
+    <div id="taskList"></div>
+  </section>
+
+  <!-- ============ WALLET ============ -->
+  <section class="screen" id="screen-wallet">
+    <div class="wallet-hero">
+      <div class="lbl muted tiny" style="letter-spacing:1.4px">WALLET BALANCE</div>
+      <div class="balance" style="font-size:40px"><span id="walletCoins">0</span> <small>coins</small></div>
+      <div class="eq">💵 Withdrawable: ₹<span id="walletRupees">0.00</span></div>
     </div>
 
-    <!-- App Footer -->
-    <footer class="app-footer">
-      <div>Earn Duo AI - Smart Reward Hub • Net-7 Anti-Fraud Protected</div>
-      <div style="margin-top: 2px;">Daily resets automatically at 12:00 AM IST (Indian Standard Time)</div>
-    </footer>
+    <div class="section-title"><h2>Withdraw to UPI</h2></div>
+    <div class="card">
+      <div class="field">
+        <label>UPI ID (Paytm / PhonePe / GPay)</label>
+        <input id="upiInput" type="text" inputmode="email" placeholder="yourname@upi" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label>Coins to withdraw (min 1,000)</label>
+        <input id="coinInput" type="number" inputmode="numeric" placeholder="1000" min="1000" step="100" />
+      </div>
+      <div class="row between small muted" style="margin:-2px 2px 12px">
+        <span>You receive</span>
+        <span class="gold" style="font-weight:800">₹<span id="withdrawPreview">0.00</span></span>
+      </div>
+      <button class="btn gold" id="withdrawBtn">Withdraw Now</button>
+      <p class="tiny muted center" style="margin:11px 0 0">Minimum 1,000 coins = ₹10 · processed within 24h</p>
+    </div>
 
+    <div class="section-title"><h2>Withdrawal History</h2></div>
+    <div id="histList"><div class="empty">No withdrawals yet</div></div>
+  </section>
+
+  <!-- ============ PROFILE ============ -->
+  <section class="screen" id="screen-profile">
+    <div class="profile-head">
+      <div class="avatar" id="avatarLetter">U</div>
+      <h2 id="profileName">Earn Duo User</h2>
+      <div class="small muted">Member since <span id="profileSince">—</span></div>
+    </div>
+
+    <div class="section-title"><h2>Account</h2></div>
+    <div class="field" style="margin:0 4px 12px">
+      <label>Display name</label>
+      <input id="nameInput" type="text" placeholder="Your name" maxlength="22" />
+    </div>
+
+    <div class="section-title"><h2>Statistics</h2></div>
+    <div class="prow"><span class="k">🪙 Current balance</span><span class="v gold" id="pfBalance">0</span></div>
+    <div class="prow"><span class="k">📈 Total earned</span><span class="v" id="pfEarned">0</span></div>
+    <div class="prow"><span class="k">🎡 Total spins</span><span class="v" id="pfSpins">0</span></div>
+    <div class="prow"><span class="k">✅ Tasks completed</span><span class="v" id="pfTasks">0</span></div>
+    <div class="prow"><span class="k">📤 Total withdrawn</span><span class="v" id="pfWithdrawn">0</span></div>
+
+    <div class="section-title"><h2>Official Links</h2></div>
+    <div id="linksList"></div>
+
+    <div class="section-title"><h2>Settings</h2></div>
+    <div class="prow"><span class="k">🔊 Sound effects</span>
+      <button class="btn sm ghost" id="soundToggle">On</button></div>
+    <div class="prow"><span class="k">🗑️ Reset all data</span>
+      <button class="btn sm ghost" id="resetBtn" style="color:var(--red);border-color:rgba(251,113,133,.35)">Reset</button></div>
+    <p class="tiny muted center" style="margin:18px 0 0">Earn Duo AI · v1.0 · Demo build<br>Rewards & withdrawals are simulated for personal use.</p>
+  </section>
+</div>
+
+<!-- ===== bottom nav ===== -->
+<nav class="nav" id="nav">
+  <button class="nav-btn active" data-tab="home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></svg>
+    <span>Home</span>
+  </button>
+  <button class="nav-btn" data-tab="spin">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 4"/></svg>
+    <span>Spin</span>
+  </button>
+  <button class="nav-btn" data-tab="tasks">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    <span>Tasks</span>
+    <span class="gift-dot" id="taskDot"></span>
+  </button>
+  <button class="nav-btn" data-tab="wallet">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="13" rx="3"/><path d="M2.5 10h19"/><circle cx="17" cy="14" r="1.3" fill="currentColor" stroke="none"/></svg>
+    <span>Wallet</span>
+  </button>
+  <button class="nav-btn" data-tab="profile">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+    <span>Profile</span>
+  </button>
+</nav>
+
+<!-- ===== modals ===== -->
+<div class="overlay" id="uidOverlay">
+  <div class="modal">
+    <div class="mico" id="uidIcon">🔐</div>
+    <h3 id="uidTitle">Verify your UID</h3>
+    <p id="uidDesc">Enter the username / UID you used on the opened link to confirm the task.</p>
+    <div class="field">
+      <label>Your Username / UID</label>
+      <input id="uidInput" type="text" placeholder="e.g. @yourname or 12345678" autocomplete="off" />
+    </div>
+    <button class="btn green" id="uidSubmit">Verify &amp; Claim</button>
+    <button class="btn ghost" id="uidCancel" style="margin-top:9px">Cancel</button>
   </div>
+</div>
 
-  <!-- MODAL: Creator Guide -->
-  <div id="modalCreatorGuide" class="modal-overlay">
-    <div class="modal-box">
-      <div class="modal-header">
-        <span class="modal-title">🛠️ Content Creator Secret Code Generator</span>
-        <button class="modal-close" onclick="closeModal('modalCreatorGuide')">✕</button>
-      </div>
-      <div class="modal-content">
-        <p>Content creators and promoters can generate randomized 4-digit verification codes to place inside promotional videos or tutorials.</p>
-        <div class="creator-code-box">
-          <div style="font-size: 9px; color: var(--text-muted); text-transform: uppercase;">Generated Creator Code</div>
-          <div id="creatorGeneratedCode" class="creator-code-val">7382</div>
-          <button id="btnRegenCode" class="btn-action btn-lime" style="width: auto; margin: 6px auto 0 auto; padding: 4px 10px; font-size: 9px;">
-            🔄 Generate New Code
-          </button>
-        </div>
-        <p style="margin-top: 6px;"><strong>Active Social Task Codes for Users:</strong></p>
-        <ul style="padding-left: 16px; margin-top: 4px;">
-          <li>YouTube Task: Code <code>8421</code> (+200 Coins)</li>
-          <li>Instagram Task: Code <code>4123</code> (+150 Coins)</li>
-          <li>Facebook Task: Code <code>9988</code> (+150 Coins)</li>
-          <li>Binance Square: 7-10 Digit Numeric Pay ID (+300 Coins)</li>
-          <li>Bybit Signup: 7-10 Digit Numeric UID (+500 Coins)</li>
-        </ul>
+<div class="overlay" id="adOverlay">
+  <div class="adbox">
+    <div class="ad-screen">
+      <div class="adtag">SPONSORED</div>
+      <div>
+        <div class="adbig">Sponsored Content</div>
+        <div class="adcta">Ad opened in a new tab · reward unlocks after the timer</div>
       </div>
     </div>
+    <div class="bar"><i id="adBar"></i></div>
+    <div class="count-big" id="adCount">10s remaining</div>
+    <p class="tiny muted" style="margin:10px 0 0">Do not close — reward is credited automatically.</p>
   </div>
+</div>
 
-  <!-- MODAL: UID Help -->
-  <div id="modalUidHelp" class="modal-overlay">
-    <div class="modal-box">
-      <div class="modal-header">
-        <span class="modal-title">ℹ️ Where to find your UID & Pay ID</span>
-        <button class="modal-close" onclick="closeModal('modalUidHelp')">✕</button>
+<button class="fab" id="chatFab" aria-label="AI assistant">🤖<span class="fab-dot"></span></button>
+<div class="chat-overlay" id="chatOverlay">
+  <div class="chat">
+    <div class="chat-head">
+      <div class="ai-av">🤖</div>
+      <div>
+        <div class="ai-t">Earn Duo Assistant</div>
+        <div class="ai-s"><i></i><span id="aiStatus">Online · help guide</span></div>
       </div>
-      <div class="modal-content">
-        <div style="margin-bottom: 8px;">
-          <strong style="color: var(--accent-lime);">Bybit Numeric UID (7 to 10 digits):</strong>
-          <ol style="padding-left: 16px; margin-top: 3px;">
-            <li>Open the Bybit App or Website.</li>
-            <li>Tap on your Profile avatar in the top-left corner.</li>
-            <li>Look next to your username for "UID:" (e.g. <code>82910481</code>).</li>
-            <li>Copy and paste here for verification or 0% fee instant payouts.</li>
-          </ol>
-        </div>
-        <div>
-          <strong style="color: var(--accent-yellow);">Binance Pay ID (7 to 10 digits):</strong>
-          <ol style="padding-left: 16px; margin-top: 3px;">
-            <li>Open Binance App -> Tap the Pay icon (or Profile -> Pay).</li>
-            <li>You will see your "Pay ID: 12345678" prominently displayed.</li>
-            <li>Do not confuse Pay ID with referral ID. Payouts arrive instantly with zero fees.</li>
-          </ol>
-        </div>
-      </div>
+      <button class="icon-btn" id="aiSetBtn" title="AI settings">⚙</button>
+      <button class="icon-btn" id="chatClose" title="Close">✕</button>
     </div>
+    <div class="ai-set" id="aiSet">
+      <label style="font-size:11.5px;color:var(--muted);display:block;margin-bottom:6px">Optional: paste a Google Gemini API key for full AI answers</label>
+      <input id="aiKeyInput" type="password" placeholder="AIza... (saved only on this device)" autocomplete="off" />
+      <div class="row" style="margin-top:9px;gap:8px">
+        <button class="btn sm" id="aiKeySave">Save key</button>
+        <button class="btn sm ghost" id="aiKeyClear">Clear</button>
+      </div>
+      <p class="tiny muted" style="margin:9px 0 0">Bina key ke assistant apne built-in help guide se jawab deta hai.</p>
+    </div>
+    <div class="chat-body" id="chatBody"></div>
+    <div class="chips" id="chatChips"></div>
+    <div class="chat-input">
+      <input id="chatInput" type="text" placeholder="Kuch bhi poochiye…" autocomplete="off" />
+      <button id="chatSend">➤</button>
+    </div>
+    <div class="chat-note">Assistant demo ke liye hai · financial advice nahi.</div>
   </div>
+</div>
 
-  <!-- MODAL: Sponsor Ad for Spin Wheel (Monetag Ad Partner) -->
-  <div id="modalSpinAd" class="modal-overlay">
-    <div class="modal-box" style="text-align: center; border-color: var(--accent-cyan);">
-      <div style="font-size: 34px; margin-bottom: 2px;">🎬</div>
-      <div class="modal-title" style="color: var(--accent-cyan); font-size: 15px;">SPONSOR REWARDED AD (MONETAG)</div>
-      <div style="font-size: 11px; color: var(--text-muted); margin: 6px 0;">
-        Watch sponsor ad to activate Lucky Wheel spin & win up to <strong>500 Coins</strong>!
-      </div>
-      <div style="background: rgba(6, 182, 212, 0.1); border: 1px solid var(--accent-cyan); border-radius: var(--radius-sm); padding: 10px; margin: 8px 0; text-align: left;">
-        <div style="font-size: 8.5px; color: var(--accent-cyan); font-weight: 800;">OFFICIAL MONETAG AD NETWORK</div>
-        <div style="font-size: 12px; font-weight: 800; color: #fff; margin-top: 3px;">⚡ High-Paying CPM Sponsored Link</div>
-        <div style="font-size: 10px; color: #94a3b8; margin-top: 3px;">Sponsor link ko open karke 5-10 second tak page visit karein taaki Monetag dashboard par ad impression record ho sakey!</div>
-        <div id="spinAdTimerText" style="margin-top: 8px; font-weight: 800; color: var(--accent-lime); font-size: 12px;">⏳ Sponsor ad verifies in 3s...</div>
-      </div>
-      <div style="display: flex; gap: 6px; margin-top: 8px;">
-        <button id="btnOpenSpinMonetagLink" class="btn-action btn-ad2" style="flex: 1;">
-          <span>🌐 Open Monetag Ad (+10 Bonus)</span>
-        </button>
-        <button id="btnProceedSpin" class="btn-action btn-lime" style="flex: 1;">
-          <span>🎯 Spin Lucky Wheel Now</span>
-        </button>
-      </div>
-    </div>
-  </div>
+<div id="toasts"></div>
 
-  <!-- MODAL: Spin Win Celebration -->
-  <div id="modalSpinWin" class="modal-overlay">
-    <div class="modal-box" style="text-align: center;">
-      <div style="font-size: 38px; margin-bottom: 4px;">🎉</div>
-      <div class="modal-title" style="font-size: 16px; color: var(--accent-lime);" id="spinWinTitle">CONGRATULATIONS!</div>
-      <div style="font-size: 11px; color: #fff; margin: 6px 0;" id="spinWinMsg">You won 100 Coins on the Lucky Wheel!</div>
-      <div style="background: rgba(163, 230, 53, 0.1); border: 1px dashed var(--accent-lime); border-radius: var(--radius-sm); padding: 8px; margin: 8px 0; font-size: 10px; color: #d9f99d;">
-        ⚡ Complete 1 quick sponsor ad to confirm and claim your coins directly into your wallet.
-      </div>
-      <button id="btnClaimSpinAd" class="btn-action btn-lime" style="margin-top: 6px;">
-        <span>🎁 Watch Sponsor Ad & Claim Coins</span>
-      </button>
-    </div>
-  </div>
+<script>
+/* ============================================================
+   EARN DUO AI — app logic
+   All state persisted in localStorage (key: earnduoai_v1)
+   ============================================================ */
+(function(){
+"use strict";
 
-  <!-- ASSISTANT CHAT DRAWER -->
-  <div id="chatDrawer" class="chat-drawer">
-    <div class="chat-header">
-      <div style="font-size: 12px; font-weight: 800; color: var(--accent-cyan); display: flex; align-items: center; gap: 5px;">
-        <span>🤖 Earn Duo AI Assistant</span>
-      </div>
-      <button onclick="toggleChatDrawer(false)" style="background: none; border: none; color: var(--text-muted); font-size: 14px; cursor: pointer;">✕</button>
-    </div>
-    <div class="faq-chips-row">
-      <span class="faq-chip" onclick="handleFaqChip('payout')">💳 Payout Rules & Net-7</span>
-      <span class="faq-chip" onclick="handleFaqChip('secret')">🔑 Secret Codes</span>
-      <span class="faq-chip" onclick="handleFaqChip('uid')">🆔 How to find UID</span>
-      <span class="faq-chip" onclick="handleFaqChip('streak')">🔥 7-Day Streak</span>
-      <span class="faq-chip" onclick="handleFaqChip('hold')">⏳ 24h Hold</span>
-    </div>
-    <div id="chatMessages" class="chat-messages">
-      <div class="chat-msg bot">
-        Hello! I am your Earn Duo AI Assistant. How can I help you maximize your rewards today? Choose a topic above or ask below.
-      </div>
-    </div>
-    <div style="display: flex; gap: 5px;">
-      <input type="text" id="chatInput" class="input-field" placeholder="Ask AI assistant..." onkeydown="if(event.key==='Enter')sendChatMessage()">
-      <button onclick="sendChatMessage()" class="btn-action btn-ad1" style="width: auto; padding: 6px 12px;">Send</button>
-    </div>
-  </div>
+var STORE_KEY = "earnduoai_v1";
+var RUPEE_PER_1000 = 10;      // 1000 coins = Rs 10
+var SPIN_COOLDOWN = 60*60*1000; // 1 hour
+var AD_REWARD = 30;
+var AD_LENGTH = 10;           // seconds of ad
+var AD_COOLDOWN = 20*1000;    // global action lock after ad
+var AD_LINKS = [
+  "https://asiafilm.org/4/4ddf8d6f7d3bcab4249ea13d9d1d25ba", // Adsterra direct link
+  "https://uplcm.com/4/11969912"                               // Monetag direct link
+];
+var AD_LINK_ENABLED = true;   // set false to fall back to the built-in demo ad
+var adLinkIndex = 0;          // rotates through AD_LINKS on each ad view
+var TASK_WAIT = 30;           // seconds before UID verification unlocks
+var DAILY_MS = 24*60*60*1000;
 
-  <!-- FIREBASE CLOUD SDK COMPAT -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-  <script>
-    try {
-      const firebaseConfig = {
-        apiKey: "AIzaSyBkQwCvpxDh5C9BPMY7HXIpbALwu0hqRj0",
-        projectId: "gen-lang-client-0641314798",
-        storageBucket: "gen-lang-client-0641314798.firebasestorage.app",
-        appId: "1:1059897016205:android:7a909b52c2c01b67b747c4"
-      };
-      if (window.firebase && !firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-      }
-    } catch (e) {
-      console.warn("Firebase Init notice:", e);
+var TASKS = [
+  { id:"telegram",  icon:"✈️", title:"Join Telegram Channel",   reward:100, link:"https://t.me/earnduoai" },
+  { id:"instagram", icon:"📸", title:"Follow Instagram Page",    reward:80,  link:"https://instagram.com/earnduoai" },
+  { id:"youtube",   icon:"▶️", title:"Subscribe YouTube Channel",reward:70,  link:"https://youtube.com/@earnduoai" },
+  { id:"sponsor",   icon:"🌐", title:"Visit Sponsor Website",    reward:50,  link:"https://google.com" },
+  { id:"partner",   icon:"🤝", title:"View Partner App / Offer", reward:50,  link:"https://bing.com" }
+];
+
+var SLICES = [
+  { v:10,   c:"#38bdf8" },
+  { v:500,  c:"#6366f1" },
+  { v:25,   c:"#22d3ee" },
+  { v:1000, c:"#f59e0b" },
+  { v:50,   c:"#3b82f6" },
+  { v:200,  c:"#8b5cf6" },
+  { v:100,  c:"#06b6d4" },
+  { v:50,   c:"#a855f7" }
+];
+
+/* ---------------- state ---------------- */
+var S = null;
+function defaultState(){
+  return {
+    name:"Earn Duo User",
+    coins:0,
+    totalEarned:0,
+    totalSpins:0,
+    lastSpin:0,
+    lastWin:null,
+    adLockUntil:0,
+    lastDaily:0,
+    sound:true,
+    since:Date.now(),
+    tasks:{},        // id -> true
+    taskProgress:{}, // id -> {startedAt, unlockAt, status}
+    withdrawals:[]   // {id, upi, coins, rupees, status, at}
+  };
+}
+function load(){
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    S = raw ? Object.assign(defaultState(), JSON.parse(raw)) : defaultState();
+  }catch(e){ S = defaultState(); }
+  if(!S.tasks) S.tasks = {};
+  if(!S.taskProgress) S.taskProgress = {};
+  if(!S.withdrawals) S.withdrawals = [];
+}
+function save(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(S)); }catch(e){}
+}
+function addCoins(n){
+  S.coins += n;
+  S.totalEarned += n;
+  save(); renderAll(); flyCoins(n);
+}
+
+/* ---------------- helpers ---------------- */
+var $ = function(id){ return document.getElementById(id); };
+function fmt(n){ return (n||0).toLocaleString("en-IN"); }
+function rupees(coins){ return (coins/1000*RUPEE_PER_1000); }
+function inr(n){ return "₹" + (n||0).toFixed(2); }
+function pad(n){ return (n<10?"0":"")+n; }
+function fmtTime(ms){
+  var s = Math.max(0, Math.ceil(ms/1000));
+  var h = Math.floor(s/3600), m = Math.floor((s%3600)/60), ss = s%60;
+  return h>0 ? (h+"h "+pad(m)+"m") : (m>0 ? (m+"m "+pad(ss)+"s") : (ss+"s"));
+}
+function esc(str){
+  return String(str).replace(/[&<>"']/g,function(c){
+    return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]);
+  });
+}
+
+/* ---------------- toasts & effects ---------------- */
+function toast(msg, type){
+  var box = $("toasts");
+  var el = document.createElement("div");
+  el.className = "toast " + (type||"");
+  var ic = type==="ok" ? "✅" : type==="err" ? "⚠️" : "ℹ️";
+  el.innerHTML = '<span class="ti">'+ic+'</span><span>'+esc(msg)+'</span>';
+  box.appendChild(el);
+  setTimeout(function(){ el.classList.add("out"); setTimeout(function(){ el.remove(); },300); }, 2600);
+}
+function flyCoins(n){
+  var el = document.createElement("div");
+  el.className = "coinfly";
+  el.textContent = "+" + n;
+  el.style.left = "50%"; el.style.top = "38%";
+  document.body.appendChild(el);
+  setTimeout(function(){ el.remove(); }, 1000);
+}
+
+/* ---------------- sound (Web Audio, no files) ---------------- */
+var AC = null;
+function ac(){ if(!AC){ try{ AC = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ AC = null; } } return AC; }
+function beep(freq, dur, vol, type){
+  if(!S.sound) return;
+  var c = ac(); if(!c) return;
+  try{
+    var o = c.createOscillator(), g = c.createGain();
+    o.type = type||"square"; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol||0.05, c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + dur);
+    o.connect(g); g.connect(c.destination);
+    o.start(); o.stop(c.currentTime + dur);
+  }catch(e){}
+}
+function tick(){ beep(880, 0.03, 0.035); }
+function winSound(){ [523,659,784,1046].forEach(function(f,i){ setTimeout(function(){ beep(f,0.12,0.06,"triangle"); }, i*90); }); }
+
+/* ---------------- rendering ---------------- */
+function renderBalance(){
+  var c = fmt(S.coins);
+  $("topCoins").textContent = c;
+  $("heroCoins").textContent = c;
+  $("heroRupees").textContent = rupees(S.coins).toFixed(2);
+  $("walletCoins").textContent = c;
+  $("walletRupees").textContent = rupees(S.coins).toFixed(2);
+  $("pfBalance").textContent = c;
+}
+function renderStats(){
+  var done = Object.keys(S.tasks).filter(function(k){return S.tasks[k];}).length;
+  $("statTasks").textContent = done + "/" + TASKS.length;
+  $("statSpins").textContent = S.totalSpins;
+  $("statEarned").textContent = fmt(S.totalEarned);
+  $("pfEarned").textContent = fmt(S.totalEarned);
+  $("pfSpins").textContent = S.totalSpins;
+  $("pfTasks").textContent = done + "/" + TASKS.length;
+  var wd = S.withdrawals.reduce(function(a,w){ return a + w.coins; },0);
+  $("pfWithdrawn").textContent = fmt(wd);
+  $("taskCount").textContent = done + " of " + TASKS.length + " done";
+  $("taskDot").style.display = done >= TASKS.length ? "none" : "block";
+}
+function renderProfile(){
+  $("profileName").textContent = S.name;
+  $("avatarLetter").textContent = (S.name.trim()[0] || "U").toUpperCase();
+  $("nameInput").value = S.name;
+  var d = new Date(S.since);
+  $("profileSince").textContent = d.toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});
+  $("soundToggle").textContent = S.sound ? "On" : "Off";
+  $("spinLastWin").textContent = "Last: " + (S.lastWin ? fmt(S.lastWin)+" 🪙" : "—");
+}
+function renderTasks(){
+  var list = $("taskList");
+  var html = "";
+  TASKS.forEach(function(t){
+    var done = !!S.tasks[t.id];
+    var prog = S.taskProgress[t.id];
+    var waiting = prog && prog.status==="waiting";
+    html += '<div class="task'+(done?" done":"")+'" id="task-'+t.id+'">'
+          +   '<div class="ticon">'+t.icon+'</div>'
+          +   '<div><div class="tt">'+esc(t.title)+'</div>'
+          +   '<div class="tr">+'+t.reward+' Coins</div></div>'
+          +   (done
+                ? '<div class="badge-done">✔ Completed</div>'
+                : '<button class="btn sm go" data-task="'+t.id+'">'+(waiting?"Waiting…":"Start")+'</button>')
+          +   '<div class="progress-line" id="bar-'+t.id+'"></div>'
+          + '</div>';
+  });
+  list.innerHTML = html;
+}
+function renderHistory(){
+  var box = $("histList");
+  if(!S.withdrawals.length){ box.innerHTML = '<div class="empty">No withdrawals yet</div>'; return; }
+  var html = "";
+  S.withdrawals.slice().reverse().forEach(function(w){
+    var d = new Date(w.at);
+    html += '<div class="hist">'
+          +   '<div class="hi">📤</div>'
+          +   '<div style="flex:1"><div style="font-weight:700;font-size:13.5px">'+inr(w.rupees)+' · '+fmt(w.coins)+' coins</div>'
+          +   '<div class="tiny muted" style="margin-top:2px">'+esc(w.upi)+' · '+d.toLocaleDateString("en-IN")+'</div></div>'
+          +   '<span class="pill">'+w.status+'</span>'
+          + '</div>';
+  });
+  box.innerHTML = html;
+}
+function renderAll(){ renderBalance(); renderStats(); renderProfile(); renderHistory(); renderSpinUI(); }
+
+/* ---------------- navigation ---------------- */
+function go(tab){
+  document.querySelectorAll(".screen").forEach(function(s){ s.classList.remove("active"); });
+  var el = $("screen-"+tab);
+  if(el) el.classList.add("active");
+  document.querySelectorAll(".nav-btn").forEach(function(b){
+    b.classList.toggle("active", b.dataset.tab===tab);
+  });
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+$("nav").addEventListener("click", function(e){
+  var b = e.target.closest(".nav-btn"); if(!b) return;
+  go(b.dataset.tab);
+});
+$("homeAdCard").onclick = function(){ startAd(); };
+$("homeSpinCard").onclick = function(){ go("spin"); };
+$("homeTaskCard").onclick = function(){ go("tasks"); };
+
+/* ---------------- daily bonus ---------------- */
+$("dailyBtn").onclick = function(){
+  var now = Date.now();
+  if(now - S.lastDaily < DAILY_MS){
+    toast("Already claimed. Next in " + fmtTime(DAILY_MS - (now - S.lastDaily)), "err");
+    return;
+  }
+  S.lastDaily = now; save();
+  addCoins(50);
+  winSound();
+  toast("Daily bonus claimed! +50 coins", "ok");
+};
+
+/* ---------------- video ad ---------------- */
+var adBusy = false;
+function adLocked(){
+  return Date.now() < S.adLockUntil;
+}
+function startAd(){
+  if(adBusy) return;
+  if(adLocked()){
+    toast("Action locked. Wait " + fmtTime(S.adLockUntil - Date.now()), "err");
+    return;
+  }
+  adBusy = true;
+  // Open the sponsor / ad-network link (rotates Adsterra <-> Monetag)
+  if(AD_LINK_ENABLED && AD_LINKS.length){
+    var link = AD_LINKS[adLinkIndex % AD_LINKS.length];
+    adLinkIndex++;
+    try{ window.open(link, "_blank", "noopener,noreferrer"); }catch(e){}
+  }
+  var ov = $("adOverlay"), bar = $("adBar"), cnt = $("adCount");
+  ov.classList.add("show");
+  var left = AD_LENGTH;
+  bar.style.width = "0%"; cnt.textContent = left + "s remaining";
+  var start = Date.now();
+  var iv = setInterval(function(){
+    var el = (Date.now()-start)/1000;
+    var pct = Math.min(100, el/AD_LENGTH*100);
+    bar.style.width = pct + "%";
+    var rem = Math.max(0, Math.ceil(AD_LENGTH - el));
+    if(rem !== left){ left = rem; tick(); cnt.textContent = rem + "s remaining"; }
+    if(el >= AD_LENGTH){
+      clearInterval(iv);
+      ov.classList.remove("show");
+      adBusy = false;
+      S.adLockUntil = Date.now() + AD_COOLDOWN; save();
+      addCoins(AD_REWARD);
+      winSound();
+      toast("Ad completed! +"+AD_REWARD+" coins", "ok");
     }
-  </script>
+  }, 100);
+}
 
-  <!-- AUDIO ENGINE & APPLICATION JAVASCRIPT -->
-  <script>
-    /**
-     * EARN DUO AI - SMART REWARD HUB
-     * Master Single-File Implementation (Production-Grade & Bug-Free)
-     */
+/* ---------------- spin wheel ---------------- */
+var wheel = $("wheel");
+var ctx = wheel.getContext("2d");
+var rotation = 0, spinning = false;
 
-    // --- 1. CONFIGURATION & CREDENTIALS ---
-    const CONFIG = {
-      appName: 'Earn Duo AI - Smart Reward Hub',
-      adsterraLink: 'https://asiafilm.org/4/80fdcb51a793a03649e9debaa681c004',
-      monetagLink: 'https://uplcm.com/4/11969912',
-      bybitRefLink: 'https://www.bybit.com/invite?ref=WWXMBLX',
-      binanceRefLink: 'https://www.binance.com/register?ref=EARN2DUO1AI',
-      telegramBotToken: '8937678448:AAGuW8eeAcwcv7kUdyuO_bHvM25e76nQCnQ',
-      telegramChatId: '6098454675',
-      telegramBotUser: '@earnduo_alert_bot',
+function drawWheel(){
+  var n = SLICES.length, R = wheel.width/2, cx = R, cy = R;
+  var slice = (Math.PI*2)/n;
+  ctx.clearRect(0,0,wheel.width,wheel.height);
+  // outer rim
+  ctx.beginPath(); ctx.arc(cx,cy,R-2,0,Math.PI*2);
+  ctx.fillStyle = "#0b1220"; ctx.fill();
+  for(var i=0;i<n;i++){
+    var a0 = rotation + i*slice, a1 = rotation + (i+1)*slice;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,R-8,a0,a1); ctx.closePath();
+    var g = ctx.createRadialGradient(cx,cy,R*0.25,cx,cy,R);
+    g.addColorStop(0, SLICES[i].c);
+    g.addColorStop(1, shade(SLICES[i].c,-0.35));
+    ctx.fillStyle = g; ctx.fill();
+    ctx.strokeStyle = "rgba(255,255,255,.22)"; ctx.lineWidth = 2; ctx.stroke();
+    // label
+    ctx.save();
+    ctx.translate(cx,cy); ctx.rotate(a0 + slice/2);
+    ctx.fillStyle = "#ffffff"; ctx.font = "bold 34px Segoe UI, sans-serif";
+    ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    ctx.shadowColor = "rgba(0,0,0,.55)"; ctx.shadowBlur = 6;
+    ctx.fillText(SLICES[i].v, R-34, 0);
+    ctx.restore();
+  }
+  // inner hub ring
+  ctx.beginPath(); ctx.arc(cx,cy,52,0,Math.PI*2);
+  ctx.fillStyle = "#0b1220"; ctx.fill();
+  ctx.lineWidth = 4; ctx.strokeStyle = "rgba(255,255,255,.25)"; ctx.stroke();
+  // bulbs on rim
+  for(var k=0;k<n*2;k++){
+    var ang = rotation + k*Math.PI/n;
+    var bx = cx + Math.cos(ang)*(R-16), by = cy + Math.sin(ang)*(R-16);
+    ctx.beginPath(); ctx.arc(bx,by,5,0,Math.PI*2);
+    ctx.fillStyle = "rgba(255,235,180,.95)"; ctx.fill();
+  }
+}
+function shade(hex, amt){
+  var c = hex.replace("#","");
+  var r = parseInt(c.substr(0,2),16), g = parseInt(c.substr(2,2),16), b = parseInt(c.substr(4,2),16);
+  function m(x){ var v = Math.round(x + x*amt); return Math.max(0,Math.min(255,v)); }
+  return "rgb("+m(r)+","+m(g)+","+m(b)+")";
+}
+function renderSpinUI(){
+  var now = Date.now();
+  var left = SPIN_COOLDOWN - (now - S.lastSpin);
+  var btn = $("spinBtn");
+  if(left > 0 && !spinning){
+    btn.disabled = true;
+    btn.textContent = "⏳ Next spin in " + fmtTime(left);
+    $("spinTimer").textContent = "Cooldown " + fmtTime(left);
+  } else if(!spinning){
+    btn.disabled = false;
+    btn.textContent = "🎡 SPIN NOW";
+    $("spinTimer").textContent = "Ready to spin";
+  }
+  $("spinLeft").textContent = S.totalSpins + " spins";
+}
+function spin(){
+  if(spinning) return;
+  var now = Date.now();
+  if(now - S.lastSpin < SPIN_COOLDOWN){
+    toast("Spin available in " + fmtTime(SPIN_COOLDOWN - (now - S.lastSpin)), "err");
+    return;
+  }
+  spinning = true;
+  $("spinBtn").disabled = true;
+  $("spinBtn").textContent = "Spinning…";
+  $("spinTimer").textContent = "Good luck!";
+  S.lastSpin = now; save();
 
-      // Currency Rates
-      coinToInr: 0.01,          // 1,000 Coins = ₹10 INR
-      coinsPerUsdt: 9000,       // 9,000 Coins = 1 USDT
-
-      // 7-Day Streak Rewards
-      streakRewards: [100, 150, 200, 250, 300, 350, 500],
-
-      // Spin Wheel Segments
-      wheelSegments: [20, 30, 40, 50, 100, 150, 200, 500],
-
-      // Social Tasks
-      tasks: {
-        youtube: { name: 'YouTube', timer: 30, code: '8421', reward: 200, url: 'https://www.youtube.com' },
-        instagram: { name: 'Instagram', timer: 30, code: '4123', reward: 150, url: 'https://www.instagram.com' },
-        facebook: { name: 'Facebook', timer: 30, code: '9988', reward: 150, url: 'https://www.facebook.com' },
-        binance: { name: 'Binance Square', timer: 30, isUid: true, reward: 300, url: 'https://www.binance.com/register?ref=EARN2DUO1AI' },
-        bybit: { name: 'Bybit Signup', timer: 30, isUid: true, reward: 500, url: 'https://www.bybit.com/invite?ref=WWXMBLX' }
-      },
-
-      // Withdrawal Limits, Formats, Placeholders & Hints
-      withdrawMethods: {
-        bybit: {
-          name: 'Bybit UID',
-          min: 9000,
-          fee: 0,
-          currency: 'USDT',
-          isNumeric: true,
-          inputLabel: 'Recipient Bybit UID (Numeric 7-10 digits):',
-          placeholder: 'Enter recipient Bybit UID (e.g. 84920194)',
-          hint: '🟠 Bybit Instant Transfer: Enter your 7-10 digit Bybit UID. 0% Fee.'
-        },
-        binance: {
-          name: 'Binance Pay ID',
-          min: 9000,
-          fee: 0,
-          currency: 'USDT',
-          isNumeric: true,
-          inputLabel: 'Recipient Binance Pay ID (Numeric 7-10 digits):',
-          placeholder: 'Enter Binance Pay ID (e.g. 19284729)',
-          hint: '🟡 Binance Pay Instant: Enter your 7-10 digit Binance Pay ID. 0% Fee.'
-        },
-        upi: {
-          name: 'UPI ID',
-          min: 5000,
-          fee: 0,
-          currency: 'INR',
-          isNumeric: false,
-          inputLabel: '🇮🇳 Enter Your UPI ID (Virtual Payment Address):',
-          placeholder: 'Enter your UPI ID (e.g. name@okhdfcbank or 9876543210@paytm)',
-          hint: '🇮🇳 Direct UPI Bank Transfer: Enter valid UPI ID (e.g. name@oksbi, user@paytm). Min 5,000 Coins = ₹50 INR.'
-        },
-        celo: {
-          name: 'CELO Network',
-          min: 27000,
-          fee: 0,
-          currency: 'USDT',
-          isNumeric: false,
-          inputLabel: 'Recipient CELO USDT Wallet Address (0x...):',
-          placeholder: 'Enter CELO USDT Address (0x...)',
-          hint: '🟢 CELO Network USDT: Min 27,000 Coins = 3 USDT. 0% Fee.'
-        },
-        bep20: {
-          name: 'BNB Smart Chain (BEP20)',
-          min: 45000,
-          fee: 0,
-          currency: 'USDT',
-          isNumeric: false,
-          inputLabel: 'Recipient BEP20 USDT Address (0x...):',
-          placeholder: 'Enter BEP20 USDT Address (0x...)',
-          hint: '⛓️ BNB Smart Chain (BEP20): Min 45,000 Coins = 5 USDT. 0% Fee.'
-        }
-      }
-    };
-
-    // --- HTML ESCAPE HELPER FOR TELEGRAM BOT API ---
-    function escapeHtml(str) {
-      if (!str) return '';
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
+  var n = SLICES.length, slice = (Math.PI*2)/n;
+  var idx = Math.floor(Math.random()*n);
+  var P = -Math.PI/2; // pointer at top
+  // land pointer on centre of slice idx
+  var target = P - (idx + 0.5)*slice;
+  // normalise so we always add several full turns forward
+  var turns = 6 + Math.floor(Math.random()*3);
+  var cur = rotation % (Math.PI*2);
+  var end = target - Math.PI*2*turns;
+  while(end > cur) end -= Math.PI*2;
+  var start = cur, dur = 4600, t0 = performance.now();
+  var lastTickSlice = null;
+  function frame(t){
+    var p = Math.min(1, (t-t0)/dur);
+    var e = 1 - Math.pow(1-p, 3); // easeOutCubic
+    rotation = start + (end-start)*e;
+    drawWheel();
+    // tick sound each slice boundary crossing
+    var sIdx = Math.floor(((-rotation + P) / slice));
+    if(sIdx !== lastTickSlice){ lastTickSlice = sIdx; if(p<0.985) tick(); }
+    if(p < 1){ requestAnimationFrame(frame); }
+    else{
+      rotation = end;
+      drawWheel();
+      spinning = false;
+      var won = SLICES[idx].v;
+      S.lastWin = won;
+      S.totalSpins += 1;
+      save();
+      addCoins(won);
+      winSound();
+      toast("🎉 You won " + won + " coins!", "ok");
+      renderAll();
     }
+  }
+  requestAnimationFrame(frame);
+}
+$("spinBtn").onclick = spin;
+// tap the centre pin also spins
+document.querySelector(".pin").onclick = spin;
 
-    // --- 2. AUDIO SYNTHESIZER ENGINE (Web Audio API) ---
-    class SoundEngine {
-      constructor() {
-        this.ctx = null;
-        this.enabled = localStorage.getItem('earnduo_sound') !== 'false';
-      }
-
-      init() {
-        if (!this.ctx) {
-          const AudioContext = window.AudioContext || window.webkitAudioContext;
-          if (AudioContext) {
-            this.ctx = new AudioContext();
-          }
-        }
-        if (this.ctx && this.ctx.state === 'suspended') {
-          this.ctx.resume().catch(() => {});
-        }
-      }
-
-      toggle() {
-        this.enabled = !this.enabled;
-        localStorage.setItem('earnduo_sound', this.enabled);
-        return this.enabled;
-      }
-
-      playTone(freq, type, duration, delay = 0, gainLevel = 0.15) {
-        if (!this.enabled) return;
-        try {
-          this.init();
-          if (!this.ctx) return;
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          const start = this.ctx.currentTime + delay;
-
-          osc.type = type;
-          osc.frequency.setValueAtTime(freq, start);
-
-          gain.gain.setValueAtTime(gainLevel, start);
-          gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-
-          osc.start(start);
-          osc.stop(start + duration);
-        } catch (e) {
-          // Ignore audio errors silently
-        }
-      }
-
-      click() {
-        this.playTone(800, 'sine', 0.04, 0, 0.1);
-      }
-
-      tick() {
-        this.playTone(450, 'triangle', 0.03, 0, 0.12);
-      }
-
-      win() {
-        this.playTone(523.25, 'triangle', 0.12, 0, 0.2); // C5
-        this.playTone(659.25, 'triangle', 0.12, 0.1, 0.2); // E5
-        this.playTone(783.99, 'triangle', 0.2, 0.2, 0.25); // G5
-        this.playTone(1046.50, 'triangle', 0.35, 0.32, 0.3); // C6
-      }
-
-      coin() {
-        this.playTone(987.77, 'sine', 0.08, 0, 0.2); // B5
-        this.playTone(1318.51, 'sine', 0.2, 0.08, 0.25); // E6
-      }
-
-      error() {
-        this.playTone(220, 'sawtooth', 0.2, 0, 0.2);
-        this.playTone(180, 'sawtooth', 0.3, 0.15, 0.2);
-      }
+/* ---------------- tasks ---------------- */
+$("taskList").addEventListener("click", function(e){
+  var b = e.target.closest("button[data-task]"); if(!b) return;
+  startTask(b.dataset.task);
+});
+function startTask(id){
+  var t = TASKS.filter(function(x){ return x.id===id; })[0]; if(!t) return;
+  if(S.tasks[id]) return;
+  var prog = S.taskProgress[id];
+  if(prog && prog.status==="waiting"){
+    // still counting down — re-open link
+    window.open(t.link, "_blank", "noopener");
+    return;
+  }
+  // open link + begin 30s countdown
+  window.open(t.link, "_blank", "noopener");
+  S.taskProgress[id] = { status:"waiting", unlockAt: Date.now() + TASK_WAIT*1000 };
+  save();
+  toast("Task started — wait " + TASK_WAIT + "s, then verify", "");
+  renderTasks();
+  runTaskCountdown(id, t);
+}
+function runTaskCountdown(id, t){
+  var bar = $("bar-"+id);
+  var btn = document.querySelector('#task-'+id+' button[data-task]');
+  var start = Date.now();
+  var iv = setInterval(function(){
+    var el = (Date.now()-start)/1000;
+    var pct = Math.min(100, el/TASK_WAIT*100);
+    if(bar) bar.style.width = pct + "%";
+    var rem = Math.max(0, Math.ceil(TASK_WAIT - el));
+    if(btn) btn.textContent = rem > 0 ? ("Wait " + rem + "s") : "Verify";
+    if(el >= TASK_WAIT){
+      clearInterval(iv);
+      if(bar) bar.style.width = "100%";
+      openUidModal(id, t);
     }
+  }, 250);
+}
+var pendingTask = null;
+function openUidModal(id, t){
+  pendingTask = { id:id, task:t };
+  $("uidIcon").textContent = t.icon;
+  $("uidTitle").textContent = "Verify: " + t.title;
+  $("uidDesc").textContent = "Enter the username / UID you used on " + t.link.replace(/^https?:\/\//,"") + " to claim +" + t.reward + " coins.";
+  $("uidInput").value = "";
+  $("uidOverlay").classList.add("show");
+  setTimeout(function(){ $("uidInput").focus(); }, 120);
+}
+$("uidCancel").onclick = function(){
+  $("uidOverlay").classList.remove("show");
+  toast("Verification cancelled. You can try again.", "err");
+  if(pendingTask){ S.taskProgress[pendingTask.id].status = "idle"; save(); }
+  pendingTask = null;
+  renderTasks();
+};
+$("uidSubmit").onclick = function(){
+  if(!pendingTask) return;
+  var val = $("uidInput").value.trim();
+  if(val.length < 3){
+    toast("Please enter a valid UID (min 3 characters)", "err");
+    return;
+  }
+  var t = pendingTask.task;
+  S.tasks[t.id] = true;
+  S.taskProgress[t.id] = { status:"done" };
+  save();
+  $("uidOverlay").classList.remove("show");
+  pendingTask = null;
+  addCoins(t.reward);
+  winSound();
+  toast("Task verified! +" + t.reward + " coins", "ok");
+  renderTasks(); renderStats();
+};
 
-    const sound = new SoundEngine();
+/* ---------------- wallet / withdrawal ---------------- */
+$("coinInput").addEventListener("input", function(){
+  var c = parseInt(this.value,10) || 0;
+  $("withdrawPreview").textContent = rupees(c).toFixed(2);
+});
+$("withdrawBtn").onclick = function(){
+  var upi = $("upiInput").value.trim();
+  var coins = parseInt($("coinInput").value,10) || 0;
+  if(!/^[\w.\-]{2,}@[a-zA-Z]{2,}$/.test(upi)){
+    toast("Enter a valid UPI ID (e.g. name@upi)", "err"); return;
+  }
+  if(coins < 1000){
+    toast("Minimum withdrawal is 1,000 coins (₹10)", "err"); return;
+  }
+  if(coins > S.coins){
+    toast("Insufficient balance. You have " + fmt(S.coins) + " coins", "err"); return;
+  }
+  S.coins -= coins;
+  S.withdrawals.push({
+    id: "w" + Date.now(),
+    upi: upi,
+    coins: coins,
+    rupees: rupees(coins),
+    status: "Pending (24h)",
+    at: Date.now()
+  });
+  save();
+  $("upiInput").value = ""; $("coinInput").value = ""; $("withdrawPreview").textContent = "0.00";
+  renderAll();
+  toast("Withdrawal requested! ₹" + rupees(coins).toFixed(2) + " to " + upi, "ok");
+};
 
-    // --- 3. TIME HELPER: INDIAN MIDNIGHT (12:00 AM IST) RESET ---
-    function getLocalToday() {
-      try {
-        return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
-      } catch (e) {
-        const now = new Date();
-        const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
-        const istTime = new Date(utcTime + (5.5 * 3600000));
-        return `${istTime.getFullYear()}-${String(istTime.getMonth() + 1).padStart(2, '0')}-${String(istTime.getDate()).padStart(2, '0')}`;
-      }
+/* ---------------- profile ---------------- */
+$("nameInput").addEventListener("input", function(){
+  S.name = this.value.trim() || "Earn Duo User";
+  save(); renderProfile();
+});
+$("soundToggle").onclick = function(){
+  S.sound = !S.sound; save(); renderProfile();
+  toast("Sound " + (S.sound?"enabled":"disabled"), "");
+};
+$("resetBtn").onclick = function(){
+  if(confirm("Reset all data? Coins, tasks and history will be cleared. This cannot be undone.")){
+    localStorage.removeItem(STORE_KEY);
+    load(); renderAll(); renderTasks();
+    toast("All data reset", "ok");
+    go("home");
+  }
+};
+
+/* ---------------- official links ---------------- */
+var LINKS = [
+  { icon:"✈️", t:"Telegram Channel",       u:"https://t.me/earnduoai" },
+  { icon:"📸", t:"Instagram Profile",       u:"https://instagram.com/earnduoai" },
+  { icon:"▶️", t:"YouTube Channel",         u:"https://youtube.com/@earnduoai" },
+  { icon:"🌐", t:"Sponsor Website",         u:"https://google.com" },
+  { icon:"🤝", t:"Partner Offer",           u:"https://bing.com" },
+  { icon:"🐙", t:"GitHub Repository",       u:"https://github.com/surajbig75-maker/EARN-DUO-AI-" },
+  { icon:"🚀", t:"Live App (GitHub Pages)", u:"https://surajbig75-maker.github.io/EARN-DUO-AI-/" }
+];
+function renderLinks(){
+  var box = $("linksList"); if(!box) return;
+  box.innerHTML = LINKS.map(function(l){
+    return '<a class="link-row" href="'+l.u+'" target="_blank" rel="noopener">'
+      + '<div class="li">'+l.icon+'</div>'
+      + '<div style="min-width:0"><div class="lt">'+esc(l.t)+'</div><div class="lu">'+esc(l.u)+'</div></div>'
+      + '<div class="lx">›</div></a>';
+  }).join("");
+}
+
+/* ---------------- AI assistant ---------------- */
+var AI_KEY_STORE = "earnduoai_aikey";
+var KB = [
+  { k:["hi","hello","hey","hii","namaste","namaskar","good morning","good evening"],
+    a:"Namaste! 🙏 Main Earn Duo Assistant hoon.\nCoins kaise kamaye, spin, tasks, withdrawal ya app ke baare me kuch bhi poochiye." },
+  { k:["earn","paise","paisa","money","kamai","kaise kamaye","coins kaise","coin kaise","kamana"],
+    a:"Coins kamane ke 4 tareeke:\n1) 📺 Watch Ad — +30 coins (10 sec, phir 20 sec lock)\n2) 🎡 Lucky Spin — 10 se 1000 coins (1 ghante me 1 baar)\n3) ✅ Social Tasks — +50 se +100 coins\n4) 🎁 Daily Check-in — +50 coins (har 24 ghante)\nShuruaat: Home pe 'Watch Ad & Earn' dabaiye." },
+  { k:["withdraw","upi","paisa nikal","nikalna","cash out","payout","bank","transfer","withdrawal"],
+    a:"Withdrawal (Wallet tab):\n• Minimum 1,000 coins = ₹10\n• UPI ID daaliye (Paytm/PhonePe/GPay)\n• Coins likhkar 'Withdraw Now' dabaiye\nStatus 'Pending (24h)' aata hai. Note: demo hai, real paisa transfer nahi hota." },
+  { k:["spin","wheel","chakra","ghuma","lucky"],
+    a:"Lucky Spin (Spin tab): 'SPIN NOW' dabaiye.\nRewards: 10, 25, 50, 100, 200, 500 ya 1000 coins.\nCooldown: har spin ke baad 1 ghanta. Wheel tick sound ke saath rukta hai aur coins turant add ho jaate hain." },
+  { k:["task","telegram","instagram","youtube","verify","uid","subscribe","follow","join"],
+    a:"Social Tasks (Tasks tab):\n'Start' → link khulega → 30 second wait → UID verification modal → username/UID daaliye → coins mil jayenge.\nRewards: Telegram +100, Instagram +80, YouTube +70, Sponsor +50, Partner +50." },
+  { k:["ad","video","advertisement","watch ad","vigyapan"],
+    a:"Watch Ad: Home pe 'Watch Ad & Earn' dabaiye. 10 second video ke baad +30 coins. Uske baad 20 second ka anti-spam lock lagta hai." },
+  { k:["daily","bonus","check in","checkin","roz"],
+    a:"Daily Check-in: Home ke card se har 24 ghante me ek baar +50 coins free milte hain." },
+  { k:["balance","wallet","kitne coin","how many coins","mera balance","mere coin"],
+    a:"Aapka balance Home aur Wallet tab me upar dikhta hai. Har 1,000 coins = ₹10. Balance refresh ke baad bhi save rehta hai." },
+  { k:["reset","delete","clear","data delete","sab delete"],
+    a:"Reset: Profile tab → Settings → 'Reset all data'. Coins, tasks aur history sab clear ho jaayenge (wapas nahi aayenge)." },
+  { k:["cooldown","kitni der","wait","timer"],
+    a:"Cooldowns: Spin = 1 ghanta, Ad = 20 second, Task verification = 30 second, Daily bonus = 24 ghante." },
+  { k:["link","github","website","page","repo","social"],
+    a:"Official links Profile tab ke 'Official Links' section me hain — Telegram, Instagram, YouTube, GitHub repository aur live app page." },
+  { k:["contact","support","help","madad","problem","issue","error","kaam nahi"],
+    a:"Problem ho to app refresh kijiye ya Profile → Reset all data try kijiye. Support ke liye Telegram channel (@earnduoai) par message kijiye." },
+  { k:["who are you","kya ho","app kya","what is this","earn duo","about","tum kaun"],
+    a:"Main Earn Duo Assistant hoon 🤖 — 'Earn Duo AI' app ka andaruni madadgar. Coins, spin, tasks, withdrawal ya kisi bhi feature ke baare me pooch sakte hain." },
+  { k:["thank","shukriya","dhanyavad","thanks"],
+    a:"Aapka swagat hai! 😊 Kuch aur jaanna ho to bataiye." }
+];
+function localAnswer(q){
+  var t = (q||"").toLowerCase();
+  for(var i=0;i<KB.length;i++){
+    for(var j=0;j<KB[i].k.length;j++){
+      if(t.indexOf(KB[i].k[j]) !== -1) return KB[i].a;
     }
-
-    function getYesterdayLocal(todayStr) {
-      try {
-        const [y, m, d] = todayStr.split('-').map(Number);
-        const date = new Date(Date.UTC(y, m - 1, d - 1));
-        return new Intl.DateTimeFormat('en-CA', { timeZone: 'UTC' }).format(date);
-      } catch (e) {
-        const parts = todayStr.split('-').map(Number);
-        const d = new Date(parts[0], parts[1] - 1, parts[2] - 1);
-        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-      }
-    }
-
-    // --- 4. STATE STORE & PERSISTENCE ---
-    class AppState {
-      constructor() {
-        this.data = {
-          walletBalance: 250,
-          pendingCoins: [], // Array of { id, coins, unlockTime, reason }
-          streakCurrentDay: 1, // 1 to 7
-          streakLastClaimDate: '',
-          spinsLeftToday: 10,
-          spinsDate: '',
-          adCountToday: 0,
-          adDate: '',
-          savedPayoutDetails: {},
-          completedTasks: {},
-          shadowbanUntil: 0,
-          failedTaskAttempts: 0
-        };
-        this.isGlobalActionLocked = false;
-        this.load();
-      }
-
-      load() {
-        try {
-          const raw = localStorage.getItem('earnduo_state');
-          if (raw) {
-            const parsed = JSON.parse(raw);
-            this.data = { ...this.data, ...parsed };
-          }
-        } catch (e) {
-          console.error('LocalStorage load failed', e);
-        }
-
-        const today = getLocalToday();
-
-        // 1. Daily Spins Reset at Indian Midnight
-        if (this.data.spinsDate !== today) {
-          this.data.spinsDate = today;
-          this.data.spinsLeftToday = 10;
-        }
-
-        // 2. Daily Ads Count Reset
-        if (this.data.adDate !== today) {
-          this.data.adDate = today;
-          this.data.adCountToday = 0;
-        }
-
-        // 3. Streak Evaluation
-        const yesterday = getYesterdayLocal(today);
-        if (this.data.streakLastClaimDate) {
-          if (this.data.streakLastClaimDate === today) {
-            // Already claimed today
-          } else if (this.data.streakLastClaimDate === yesterday) {
-            // Consecutive Day
-          } else {
-            // Missed consecutive day -> Reset to Day 1
-            this.data.streakCurrentDay = 1;
-          }
-        }
-
-        this.checkPendingCoins(false);
-        this.save();
-      }
-
-      save() {
-        try {
-          localStorage.setItem('earnduo_state', JSON.stringify(this.data));
-          this.syncFirebase();
-        } catch (e) {
-          console.error('LocalStorage save failed', e);
-        }
-      }
-
-      getUserId() {
-        let uid = localStorage.getItem('earnduo_uid');
-        if (!uid) {
-          uid = 'EDU_' + Math.floor(100000 + Math.random() * 900000);
-          localStorage.setItem('earnduo_uid', uid);
-        }
-        return uid;
-      }
-
-      syncFirebase() {
-        if (window.firebase && window.firebase.firestore) {
-          try {
-            const db = window.firebase.firestore();
-            const uid = this.getUserId();
-            db.collection('user_balances').doc(uid).set({
-              ...this.data,
-              updatedAt: new Date().toISOString()
-            }, { merge: true }).catch(() => {});
-          } catch (e) {}
-        }
-      }
-
-      async loadFromFirebase() {
-        if (window.firebase && window.firebase.firestore) {
-          try {
-            const db = window.firebase.firestore();
-            const uid = this.getUserId();
-            const doc = await db.collection('user_balances').doc(uid).get();
-            if (doc.exists) {
-              const cloudData = doc.data();
-              this.data = { ...this.data, ...cloudData };
-              this.save();
-              renderMetrics();
-            }
-          } catch (e) {}
-        }
-      }
-
-      // Check and release 24-hour pending hold coins
-      checkPendingCoins(notify = true) {
-        const now = Date.now();
-        let unlockedTotal = 0;
-        const stillPending = [];
-
-        for (const item of this.data.pendingCoins) {
-          if (now >= item.unlockTime) {
-            unlockedTotal += item.coins;
-          } else {
-            stillPending.push(item);
-          }
-        }
-
-        if (unlockedTotal > 0) {
-          this.data.walletBalance += unlockedTotal;
-          this.data.pendingCoins = stillPending;
-          this.save();
-          if (notify) {
-            showToast(`⚡ ${unlockedTotal} coins unlocked from 24h Security Hold!`, '💰');
-          }
-        }
-      }
-
-      getTotalPending() {
-        return this.data.pendingCoins.reduce((sum, item) => sum + item.coins, 0);
-      }
-
-      isShadowbanned() {
-        return Date.now() < (this.data.shadowbanUntil || 0);
-      }
-
-      recordFailedAttempt() {
-        this.data.failedTaskAttempts = (this.data.failedTaskAttempts || 0) + 1;
-        if (this.data.failedTaskAttempts >= 3) {
-          this.data.shadowbanUntil = Date.now() + (24 * 3600 * 1000); // 24 hours lock
-          this.data.failedTaskAttempts = 0;
-          this.save();
-          return true;
-        }
-        this.save();
-        return false;
-      }
-
-      resetFailedAttempts() {
-        this.data.failedTaskAttempts = 0;
-        this.save();
-      }
-    }
-
-    const state = new AppState();
-
-    // --- 5. UI TOAST & SAFE UTILITIES ---
-    function showToast(msg, icon = '⚡', duration = 3000) {
-      const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toastMsg');
-      const toastIcon = document.getElementById('toastIcon');
-      if (!toast || !toastMsg || !toastIcon) return;
-
-      toastMsg.textContent = msg;
-      toastIcon.textContent = icon;
-      toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, duration);
-    }
-
-    // Anti-Spam Global Action Lock
-    function withActionLock(fn, duration = 1200) {
-      if (state.isGlobalActionLocked) {
-        showToast('Please wait a moment...', '⏳');
-        return;
-      }
-      state.isGlobalActionLocked = true;
-      try {
-        fn();
-      } finally {
-        setTimeout(() => {
-          state.isGlobalActionLocked = false;
-        }, duration);
-      }
-    }
-
-    // Robust External Link Opener (AndroidBridge Native Intent + Guaranteed Browser Fallback)
-    function openExternalLink(url) {
-      sound.click();
-
-      // 1. Android native WebView bridge (Bypasses all mobile popup blockers!)
-      if (window.AndroidBridge && typeof window.AndroidBridge.openExternalUrl === 'function') {
-        try {
-          const success = window.AndroidBridge.openExternalUrl(url);
-          if (success) return true;
-        } catch (e) {
-          console.warn("AndroidBridge failed, attempting browser navigation", e);
-        }
-      }
-
-      // 2. Web browser fallback with automated anchor dispatch
-      let win = null;
-      try {
-        win = window.open(url, '_blank');
-      } catch (e) {
-        win = null;
-      }
-
-      // 3. Guaranteed link navigation if window.open was intercepted
-      if (!win || win.closed || typeof win.closed === 'undefined') {
-        try {
-          const a = document.createElement('a');
-          a.href = url;
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          return true;
-        } catch (err) {
-          // Direct fallback to ensure Monetag impression is never lost
-          window.location.href = url;
-          return true;
-        }
-      }
-      return true;
-    }
-
-    // Modal helpers
-    function openModal(id) {
-      sound.click();
-      const el = document.getElementById(id);
-      if (el) el.style.display = 'flex';
-    }
-
-    function closeModal(id) {
-      sound.click();
-      const el = document.getElementById(id);
-      if (el) el.style.display = 'none';
-    }
-
-    // --- 6. RENDER DASHBOARD METRICS ---
-    function renderMetrics() {
-      state.checkPendingCoins(false);
-
-      // 1. Balance & Fiats
-      const bal = state.data.walletBalance;
-      document.getElementById('metricBalance').textContent = bal.toLocaleString();
-      const inrVal = (bal * CONFIG.coinToInr).toFixed(2);
-      const usdtVal = (bal / CONFIG.coinsPerUsdt).toFixed(2);
-      document.getElementById('metricFiat').textContent = `₹${inrVal} | $${usdtVal}`;
-
-      // 2. Pending 24h Hold
-      const pendingTotal = state.getTotalPending();
-      document.getElementById('metricPending').textContent = pendingTotal.toLocaleString();
-
-      // 3. Streak
-      const today = getLocalToday();
-      const claimedToday = state.data.streakLastClaimDate === today;
-      const currentDay = state.data.streakCurrentDay;
-      document.getElementById('metricStreak').textContent = `Day ${currentDay}`;
-      const bonusAmount = CONFIG.streakRewards[currentDay - 1] || 100;
-      document.getElementById('metricStreakBonus').textContent = claimedToday ? 'Claimed Today' : `+${bonusAmount} Today`;
-
-      // 4. Daily Spins
-      document.getElementById('metricSpins').textContent = `${state.data.spinsLeftToday}/10`;
-      document.getElementById('wheelBadge').textContent = `${state.data.spinsLeftToday} Left`;
-
-      // Streak Button state
-      const btnStreak = document.getElementById('btnClaimStreak');
-      const streakDayNum = document.getElementById('streakDayNum');
-      streakDayNum.textContent = currentDay;
-      if (claimedToday) {
-        btnStreak.classList.add('btn-disabled');
-        btnStreak.disabled = true;
-        btnStreak.innerHTML = `<span>✅ Day ${currentDay} Claimed</span>`;
-      } else {
-        btnStreak.classList.remove('btn-disabled');
-        btnStreak.disabled = false;
-        btnStreak.innerHTML = `<span>⚡ Claim Day ${currentDay} (+${bonusAmount})</span>`;
-      }
-
-      // Spin Wheel Button state
-      const btnSpin = document.getElementById('btnSpinWheel');
-      if (state.data.spinsLeftToday <= 0) {
-        btnSpin.classList.add('btn-disabled');
-        btnSpin.disabled = true;
-        btnSpin.innerHTML = `<span>🚫 Limit Reached (10/10)</span>`;
-      } else {
-        btnSpin.classList.remove('btn-disabled');
-        btnSpin.disabled = false;
-        btnSpin.innerHTML = `<span>🎯 SPIN NOW (${state.data.spinsLeftToday} left)</span>`;
-      }
-
-      // Render Streak track
-      renderStreakTrack();
-
-      // Render Completed Tasks badges
-      renderCompletedTasks();
-
-      // Shadowban UI check
-      checkShadowbanUI();
-    }
-
-    function renderStreakTrack() {
-      const container = document.getElementById('streakTrack');
-      container.innerHTML = '';
-      const currentDay = state.data.streakCurrentDay;
-      const today = getLocalToday();
-      const claimedToday = state.data.streakLastClaimDate === today;
-
-      for (let i = 1; i <= 7; i++) {
-        const node = document.createElement('div');
-        node.className = 'streak-day-node';
-        const reward = CONFIG.streakRewards[i - 1];
-
-        if (i < currentDay || (i === currentDay && claimedToday)) {
-          node.classList.add('completed');
-          node.innerHTML = `<span>D${i}</span><span class="streak-coins">✓</span>`;
-        } else if (i === currentDay) {
-          node.classList.add('active');
-          node.innerHTML = `<span>D${i}</span><span class="streak-coins">+${reward}</span>`;
-        } else {
-          node.innerHTML = `<span>D${i}</span><span class="streak-coins">+${reward}</span>`;
-        }
-        container.appendChild(node);
-      }
-    }
-
-    function renderCompletedTasks() {
-      for (const key of Object.keys(CONFIG.tasks)) {
-        const tile = document.querySelector(`.task-tile[data-task="${key}"]`);
-        if (tile) {
-          if (state.data.completedTasks[key]) {
-            tile.classList.add('completed');
-          } else {
-            tile.classList.remove('completed');
-          }
-        }
-      }
-    }
-
-    function checkShadowbanUI() {
-      const banner = document.getElementById('shadowbanBanner');
-      const timerSpan = document.getElementById('shadowbanTimer');
-      if (state.isShadowbanned()) {
-        banner.style.display = 'block';
-        const diffMs = state.data.shadowbanUntil - Date.now();
-        const hrs = Math.floor(diffMs / 3600000);
-        const mins = Math.floor((diffMs % 3600000) / 60000);
-        const secs = Math.floor((diffMs % 60000) / 1000);
-        timerSpan.textContent = `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
-      } else {
-        banner.style.display = 'none';
-      }
-    }
-
-    setInterval(checkShadowbanUI, 1000);
-    // Auto-unlock pending hold coins every 10 seconds
-    setInterval(() => {
-      state.checkPendingCoins(true);
-      renderMetrics();
-    }, 10000);
-
-    // Auto-check Indian midnight rollover every 60 seconds
-    setInterval(() => {
-      const today = getLocalToday();
-      if (state.data.spinsDate !== today || state.data.adDate !== today) {
-        state.load();
-        renderMetrics();
-      }
-    }, 60000);
-
-    // --- 7. DUAL ADS ENGINE (Adsterra & Monetag) ---
-    document.getElementById('btnWatchAd1').addEventListener('click', () => {
-      withActionLock(() => {
-        const opened = openExternalLink(CONFIG.adsterraLink);
-        if (!opened) return;
-
-        showToast('Validating Ad 1 view...', '📺');
-        setTimeout(() => {
-          state.data.walletBalance += 20;
-          state.data.adCountToday = (state.data.adCountToday || 0) + 1;
-          state.save();
-          sound.coin();
-          renderMetrics();
-          showToast('🎉 +20 Coins credited from Ad 1!', '💰');
-        }, 1200);
-      });
+  }
+  return "Yeh mujhe exactly nahi pata. 🙏 Aap in ke baare me pooch sakte hain:\n• Coins kaise kamaye\n• Withdrawal / UPI\n• Spin kaise chalta hai\n• Tasks verify kaise kare\n• Daily bonus";
+}
+function askGemini(text){
+  var key = localStorage.getItem(AI_KEY_STORE);
+  if(!key) return Promise.resolve(null);
+  var sys = "You are 'Earn Duo Assistant', a friendly helper inside the 'Earn Duo AI' rewards app. Reply briefly (2-4 lines) in the user's own language (Hindi, Hinglish or English). App facts: earn coins via Watch Ad (+30, 10s, then 20s lock), Lucky Spin (10-1000 coins, 1h cooldown), 5 Social Tasks (30s wait + UID verify, +50 to +100), Daily check-in (+50). Withdrawal: min 1000 coins = Rs 10 to UPI, status Pending 24h. Rewards and withdrawals are simulated for demo. Never give financial advice.";
+  var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + encodeURIComponent(key);
+  return fetch(url, {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({ contents:[{ parts:[{ text: sys + "\n\nUser: " + text }] }] })
+  }).then(function(r){ return r.json(); }).then(function(data){
+    var c = data && data.candidates && data.candidates[0];
+    var p = c && c.content && c.content.parts && c.content.parts[0];
+    return (p && p.text) ? p.text.trim() : null;
+  });
+}
+var chatStarted = false;
+function chatMsg(role, text){
+  var body = $("chatBody");
+  var el = document.createElement("div");
+  el.className = "msg " + role;
+  el.textContent = text;
+  body.appendChild(el);
+  body.scrollTop = body.scrollHeight;
+  return el;
+}
+function chatTyping(){
+  var body = $("chatBody");
+  var el = document.createElement("div");
+  el.className = "msg bot typing";
+  el.innerHTML = "<i></i><i></i><i></i>";
+  body.appendChild(el);
+  body.scrollTop = body.scrollHeight;
+  return el;
+}
+function setAiStatus(txt, ok){
+  var s = $("aiStatus"); if(s) s.textContent = txt;
+  var h = document.querySelector(".ai-s");
+  if(h) h.style.color = ok ? "var(--green)" : "var(--muted)";
+}
+function refreshAiMode(){
+  var hasKey = !!localStorage.getItem(AI_KEY_STORE);
+  setAiStatus(hasKey ? "Online · AI mode" : "Online · help guide", hasKey);
+  $("aiKeyInput").value = hasKey ? "••••••••••••" : "";
+}
+function sendChat(text){
+  text = (text||"").trim();
+  if(!text) return;
+  chatMsg("user", text);
+  $("chatInput").value = "";
+  var typing = chatTyping();
+  var hasKey = !!localStorage.getItem(AI_KEY_STORE);
+  if(hasKey){
+    askGemini(text).then(function(ans){
+      typing.remove();
+      chatMsg("bot", ans || localAnswer(text));
+      if(!ans) setAiStatus("AI error · help guide", false);
+    }).catch(function(){
+      typing.remove();
+      chatMsg("bot", localAnswer(text));
+      setAiStatus("Offline · help guide", false);
     });
-
-    document.getElementById('btnWatchAd2').addEventListener('click', () => {
-      withActionLock(() => {
-        const opened = openExternalLink(CONFIG.monetagLink);
-        if (!opened) return;
-
-        showToast('Validating Ad 2 view...', '🔥');
-        setTimeout(() => {
-          state.data.walletBalance += 30;
-          state.data.adCountToday = (state.data.adCountToday || 0) + 1;
-          state.save();
-          sound.coin();
-          renderMetrics();
-          showToast('🎉 +30 Coins credited from Ad 2!', '💰');
-        }, 1200);
-      });
-    });
-
-    // --- 8. 7-DAY LOGIN STREAK ENGINE ---
-    document.getElementById('btnClaimStreak').addEventListener('click', () => {
-      withActionLock(() => {
-        const today = getLocalToday();
-        if (state.data.streakLastClaimDate === today) {
-          showToast('Streak already claimed for today! Resets at midnight IST.', 'ℹ️');
-          return;
-        }
-
-        // Ad-Gate: Must open sponsor ad before crediting streak coins
-        const opened = openExternalLink(CONFIG.adsterraLink);
-        if (!opened) return;
-
-        showToast('Ad verified! Crediting login streak...', '🔥');
-        const day = state.data.streakCurrentDay;
-        const reward = CONFIG.streakRewards[day - 1] || 100;
-
-        setTimeout(() => {
-          state.data.walletBalance += reward;
-          state.data.streakLastClaimDate = today;
-          if (state.data.streakCurrentDay < 7) {
-            state.data.streakCurrentDay += 1;
-          } else {
-            state.data.streakCurrentDay = 1;
-          }
-          state.save();
-          sound.win();
-          renderMetrics();
-          showToast(`🎉 Day ${day} Streak Claimed: +${reward} Coins!`, '🔥');
-        }, 1200);
-      });
-    });
-
-    // --- 9. LUCKY SPIN WHEEL (Anti-Gacha Exploit Protection) ---
-    const canvas = document.getElementById('wheelCanvas');
-    const ctx = canvas.getContext('2d');
-    let currentWheelAngle = 0;
-    let isSpinning = false;
-    let pendingSpinReward = 0;
-
-    const segmentColors = [
-      '#1e293b', '#0f172a', '#1e293b', '#0f172a',
-      '#1e293b', '#0f172a', '#1e293b', '#0f172a'
-    ];
-    const segmentAccents = [
-      '#a3e635', '#06b6d4', '#facc15', '#f43f5e',
-      '#a3e635', '#06b6d4', '#facc15', '#a855f7'
-    ];
-
-    function drawWheel(angle) {
-      const numSegments = CONFIG.wheelSegments.length;
-      const arc = (2 * Math.PI) / numSegments;
-      const radius = canvas.width / 2;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.save();
-      ctx.translate(radius, radius);
-      ctx.rotate(angle);
-
-      for (let i = 0; i < numSegments; i++) {
-        const segAngle = i * arc;
-        ctx.beginPath();
-        ctx.fillStyle = segmentColors[i];
-        ctx.moveTo(0, 0);
-        ctx.arc(0, 0, radius - 4, segAngle, segAngle + arc);
-        ctx.lineTo(0, 0);
-        ctx.fill();
-
-        // Rim highlight
-        ctx.beginPath();
-        ctx.strokeStyle = segmentAccents[i];
-        ctx.lineWidth = 3;
-        ctx.arc(0, 0, radius - 6, segAngle, segAngle + arc);
-        ctx.stroke();
-
-        // Text
-        ctx.save();
-        ctx.rotate(segAngle + arc / 2);
-        ctx.textAlign = 'right';
-        ctx.textBaseline = 'middle';
-        ctx.fillStyle = segmentAccents[i];
-        ctx.font = 'bold 15px sans-serif';
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-        ctx.shadowBlur = 4;
-        ctx.fillText(`+${CONFIG.wheelSegments[i]}`, radius - 18, 0);
-        ctx.restore();
-      }
-
-      ctx.restore();
+  } else {
+    setTimeout(function(){ typing.remove(); chatMsg("bot", localAnswer(text)); }, 520);
+  }
+}
+var SUGGESTIONS = ["Coins kaise kamaye?","Withdrawal kaise kare?","Spin kaise chalta hai?","Task verify kaise kare?"];
+function initChat(){
+  var fab = $("chatFab"), ov = $("chatOverlay"), chips = $("chatChips");
+  chips.innerHTML = SUGGESTIONS.map(function(s){ return '<button data-q="'+esc(s)+'">'+esc(s)+'</button>'; }).join("");
+  chips.addEventListener("click", function(e){
+    var b = e.target.closest("button[data-q]"); if(!b) return;
+    sendChat(b.getAttribute("data-q"));
+  });
+  fab.addEventListener("click", function(){
+    ov.classList.add("show");
+    refreshAiMode();
+    if(!chatStarted){
+      chatStarted = true;
+      chatMsg("bot", "Namaste! 🙏 Main Earn Duo Assistant hoon.\nCoins, spin, tasks ya withdrawal ke baare me kuch bhi poochiye — main turant jawab dunga.");
     }
-
-    drawWheel(currentWheelAngle);
-
-    // Spin Wheel Trigger with Monetag Sponsor Ad Overlay
-    let spinAdCountdownInterval = null;
-
-    function triggerSpinWithAd() {
-      if (isSpinning) return;
-      if (state.data.spinsLeftToday <= 0) {
-        sound.error();
-        showToast('Daily spin limit reached! Resets 12:00 AM IST.', '🚫');
-        return;
-      }
-
-      // Automatically show Sponsor Ad Modal upon touch
-      openModal('modalSpinAd');
-      let countdown = 3;
-      const timerText = document.getElementById('spinAdTimerText');
-      timerText.textContent = `⏳ Sponsor ad verifies in ${countdown}s...`;
-
-      if (spinAdCountdownInterval) clearInterval(spinAdCountdownInterval);
-      spinAdCountdownInterval = setInterval(() => {
-        countdown--;
-        if (countdown > 0) {
-          timerText.textContent = `⏳ Sponsor ad verifies in ${countdown}s...`;
-        } else {
-          clearInterval(spinAdCountdownInterval);
-          timerText.textContent = `✅ Sponsor verified! Tap 'Spin Lucky Wheel' below:`;
-        }
-      }, 1000);
-    }
-
-    document.getElementById('btnSpinWheel').addEventListener('click', triggerSpinWithAd);
-    canvas.addEventListener('click', triggerSpinWithAd);
-
-    // Open Monetag link from spin sponsor ad
-    document.getElementById('btnOpenSpinMonetagLink').addEventListener('click', () => {
-      openExternalLink(CONFIG.monetagLink);
-      showToast('Monetag sponsor opened! Page 5-10 sec visit karein.', '🌐');
-      const timerText = document.getElementById('spinAdTimerText');
-      if (timerText) timerText.textContent = `✅ Sponsor page opened! Click Spin below:`;
-    });
-
-    // Proceed to spin wheel after sponsor ad
-    document.getElementById('btnProceedSpin').addEventListener('click', () => {
-      if (spinAdCountdownInterval) clearInterval(spinAdCountdownInterval);
-      closeModal('modalSpinAd');
-      startActualWheelSpin();
-    });
-
-    function startActualWheelSpin() {
-      if (isSpinning) return;
-      if (state.data.spinsLeftToday <= 0) {
-        sound.error();
-        showToast('Daily spin limit reached! Resets 12:00 AM IST.', '🚫');
-        return;
-      }
-
-      // Anti-Gacha Exploit: Deduct 1 spin BEFORE wheel rotates
-      state.data.spinsLeftToday -= 1;
-      state.save();
-      renderMetrics();
-
-      isSpinning = true;
-      sound.tick();
-
-      const numSegments = CONFIG.wheelSegments.length;
-      const targetIndex = Math.floor(Math.random() * numSegments);
-      pendingSpinReward = CONFIG.wheelSegments[targetIndex];
-
-      const arc = (2 * Math.PI) / numSegments;
-      const targetSegmentCenter = (targetIndex * arc) + (arc / 2);
-      const rotations = 6 + Math.floor(Math.random() * 3);
-      const pointerOffset = (3 * Math.PI) / 2;
-
-      const finalAngle = (rotations * 2 * Math.PI) + (pointerOffset - targetSegmentCenter);
-      const duration = 3800;
-      const startTime = performance.now();
-      const startAngle = currentWheelAngle % (2 * Math.PI);
-
-      let lastTickAngle = 0;
-
-      function animateSpin(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-        currentWheelAngle = startAngle + (finalAngle - startAngle) * easeOut;
-        drawWheel(currentWheelAngle);
-
-        if (Math.abs(currentWheelAngle - lastTickAngle) > (arc / 2)) {
-          sound.tick();
-          lastTickAngle = currentWheelAngle;
-        }
-
-        if (progress < 1) {
-          requestAnimationFrame(animateSpin);
-        } else {
-          isSpinning = false;
-          sound.win();
-          document.getElementById('spinWinTitle').textContent = `YOU WON +${pendingSpinReward} COINS!`;
-          document.getElementById('spinWinMsg').textContent = `Lucky Wheel landed on the +${pendingSpinReward} prize slice!`;
-          openModal('modalSpinWin');
-        }
-      }
-
-      requestAnimationFrame(animateSpin);
-    }
-
-    // Spin Ad-Gate Claim Button
-    document.getElementById('btnClaimSpinAd').addEventListener('click', () => {
-      const opened = openExternalLink(CONFIG.monetagLink);
-      if (!opened) return;
-
-      closeModal('modalSpinWin');
-      showToast('Sponsor verified! Crediting prize...', '🎁');
-
-      setTimeout(() => {
-        state.data.walletBalance += pendingSpinReward;
-        state.save();
-        sound.coin();
-        renderMetrics();
-        showToast(`🎉 +${pendingSpinReward} Coins credited to wallet!`, '💰');
-      }, 1200);
-    });
-
-    // --- 10. SOCIAL MEDIA TASK HUB ENGINE ---
-    let activeTaskKey = null;
-    let taskTimerInterval = null;
-    let taskTimerSeconds = 0;
-    let taskLinkHasOpened = false;
-
-    const taskTiles = document.querySelectorAll('.task-tile');
-    taskTiles.forEach(tile => {
-      tile.addEventListener('click', () => {
-        const key = tile.dataset.task;
-        selectTask(key);
-      });
-    });
-
-    function selectTask(key) {
-      if (state.isShadowbanned()) {
-        sound.error();
-        alert('⚠️ TASK HUB IS TEMPORARILY LOCKED!\nYou entered incorrect codes 3 times. Please wait for the 24-hour security shadowban lockout to expire.');
-        return;
-      }
-
-      if (state.data.completedTasks[key]) {
-        sound.click();
-        showToast('This task is already completed and in pending hold!', '✅');
-        return;
-      }
-
-      sound.click();
-      activeTaskKey = key;
-      const task = CONFIG.tasks[key];
-
-      taskTiles.forEach(t => {
-        if (t.dataset.task === key) t.classList.add('selected');
-        else t.classList.remove('selected');
-      });
-
-      const card = document.getElementById('taskExecCard');
-      card.style.display = 'block';
-
-      document.getElementById('taskExecName').textContent = `${task.name} (+${task.reward} Coins)`;
-      const input = document.getElementById('taskInputVal');
-      const btnSubmit = document.getElementById('btnSubmitTask');
-      input.value = '';
-      input.disabled = true;
-      btnSubmit.disabled = true;
-      btnSubmit.classList.add('btn-disabled');
-
-      if (task.isUid) {
-        input.placeholder = `Enter 7-10 Digit Numeric UID / Pay ID`;
-        input.inputMode = 'numeric';
-        input.pattern = '[0-9]*';
-      } else {
-        input.placeholder = `Enter 4-Digit Secret Code (Timer required)`;
-        input.inputMode = 'numeric';
-        input.pattern = '[0-9]*';
-      }
-
-      if (taskTimerInterval) clearInterval(taskTimerInterval);
-      taskLinkHasOpened = false;
-      taskTimerSeconds = task.timer;
-      const timerBadge = document.getElementById('taskExecTimer');
-      timerBadge.textContent = `⏳ ${taskTimerSeconds}s Locked`;
-      timerBadge.style.color = 'var(--accent-cyan)';
-
-      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
-    // Link Protection: 30s timer starts ONLY after task link opens
-    document.getElementById('btnOpenTaskLink').addEventListener('click', () => {
-      if (!activeTaskKey) return;
-      if (state.isShadowbanned()) return;
-
-      const task = CONFIG.tasks[activeTaskKey];
-      const opened = openExternalLink(task.url);
-      if (!opened) return;
-
-      taskLinkHasOpened = true;
-      showToast('Task link opened! 30s verification timer started.', '⏳');
-
-      const timerBadge = document.getElementById('taskExecTimer');
-      const input = document.getElementById('taskInputVal');
-      const btnSubmit = document.getElementById('btnSubmitTask');
-
-      if (taskTimerInterval) clearInterval(taskTimerInterval);
-
-      taskTimerInterval = setInterval(() => {
-        taskTimerSeconds -= 1;
-        if (taskTimerSeconds > 0) {
-          timerBadge.textContent = `⏳ ${taskTimerSeconds}s Remaining`;
-        } else {
-          clearInterval(taskTimerInterval);
-          timerBadge.textContent = `✅ Timer Complete! Enter Code`;
-          timerBadge.style.color = 'var(--accent-lime)';
-          input.disabled = false;
-          input.focus();
-          btnSubmit.disabled = false;
-          btnSubmit.classList.remove('btn-disabled');
-          sound.tick();
-        }
-      }, 1000);
-    });
-
-    // Verify and Submit Task
-    document.getElementById('btnSubmitTask').addEventListener('click', () => {
-      if (!activeTaskKey || !taskLinkHasOpened) return;
-      if (state.isShadowbanned()) return;
-
-      const task = CONFIG.tasks[activeTaskKey];
-      const input = document.getElementById('taskInputVal');
-      const val = input.value.trim();
-
-      let isValid = false;
-      if (task.isUid) {
-        const uidRegex = /^\d{7,10}$/;
-        isValid = uidRegex.test(val);
-      } else {
-        isValid = (val === task.code);
-      }
-
-      if (!isValid) {
-        sound.error();
-        const newlyBanned = state.recordFailedAttempt();
-        if (newlyBanned) {
-          alert('🚨 SHADOWBAN TRIGGERED!\n3 consecutive incorrect inputs entered. The Task Hub is now locked for 24 hours to prevent bot spam.');
-          document.getElementById('taskExecCard').style.display = 'none';
-          renderMetrics();
-          return;
-        } else {
-          const attemptsLeft = 3 - (state.data.failedTaskAttempts || 0);
-          alert(`❌ Verification Failed!\nIncorrect code or UID format.\n⚠️ Warning: ${attemptsLeft} attempts remaining before a 24-hour security shadowban!`);
-          input.focus();
-          return;
-        }
-      }
-
-      state.resetFailedAttempts();
-      sound.win();
-
-      // 24-Hour Security Hold Rule
-      const holdDuration = 24 * 3600 * 1000;
-      const unlockTimestamp = Date.now() + holdDuration;
-
-      state.data.pendingCoins.push({
-        id: 'task_' + Date.now(),
-        coins: task.reward,
-        unlockTime: unlockTimestamp,
-        reason: `${task.name} Verification`
-      });
-
-      state.data.completedTasks[activeTaskKey] = true;
-      state.save();
-
-      showToast(`🎉 Verified! +${task.reward} Coins locked in 24h Security Hold!`, '⏳', 4000);
-      document.getElementById('taskExecCard').style.display = 'none';
-      renderMetrics();
-    });
-
-    // Creator Guide Modal
-    document.getElementById('btnOpenCreatorGuide').addEventListener('click', () => {
-      generateCreatorCode();
-      openModal('modalCreatorGuide');
-    });
-
-    document.getElementById('btnRegenCode').addEventListener('click', () => {
-      generateCreatorCode();
-    });
-
-    function generateCreatorCode() {
-      sound.click();
-      const randomCode = Math.floor(1000 + Math.random() * 9000);
-      document.getElementById('creatorGeneratedCode').textContent = randomCode;
-    }
-
-    // UID Help Modal
-    document.getElementById('btnUidHelp').addEventListener('click', () => {
-      openModal('modalUidHelp');
-    });
-
-    // --- 11. WITHDRAWAL SYSTEM ENGINE ---
-    let selectedWithdrawMethod = 'bybit';
-
-    const withdrawBadges = document.querySelectorAll('.withdraw-badge');
-    withdrawBadges.forEach(badge => {
-      badge.addEventListener('click', () => {
-        sound.click();
-        selectedWithdrawMethod = badge.dataset.method;
-        withdrawBadges.forEach(b => {
-          if (b.dataset.method === selectedWithdrawMethod) b.classList.add('selected');
-          else b.classList.remove('selected');
-        });
-        updateWithdrawFormUI();
-      });
-    });
-
-    function updateWithdrawFormUI() {
-      const config = CONFIG.withdrawMethods[selectedWithdrawMethod];
-      const labelEl = document.getElementById('withdrawInputLabel');
-      const inputDest = document.getElementById('withdrawDestination');
-      const hintEl = document.getElementById('withdrawMethodHint');
-
-      if (selectedWithdrawMethod === 'upi') {
-        labelEl.innerHTML = '🇮🇳 <strong>Enter Your UPI ID:</strong> <span style="color:var(--accent-lime); font-size:9.5px;">(Virtual Payment Address)</span>';
-      } else {
-        labelEl.textContent = config.inputLabel;
-      }
-
-      inputDest.placeholder = config.placeholder || 'Enter recipient details';
-      document.getElementById('withdrawCoinsAmount').placeholder = `Min: ${config.min.toLocaleString()} Coins`;
-
-      if (hintEl) {
-        hintEl.textContent = config.hint || '';
-      }
-
-      if (config.isNumeric) {
-        inputDest.inputMode = 'numeric';
-        inputDest.pattern = '[0-9]*';
-      } else {
-        inputDest.inputMode = 'text';
-        inputDest.removeAttribute('pattern');
-      }
-
-      const saved = state.data.savedPayoutDetails[selectedWithdrawMethod];
-      const pill = document.getElementById('savedDetailsPill');
-
-      if (saved) {
-        pill.style.display = 'flex';
-        document.getElementById('savedAccountText').textContent = saved;
-        inputDest.value = saved;
-      } else {
-        pill.style.display = 'none';
-        inputDest.value = '';
-      }
-
-      updateWithdrawEquivalent();
-    }
-
-    document.getElementById('withdrawCoinsAmount').addEventListener('input', updateWithdrawEquivalent);
-
-    function updateWithdrawEquivalent() {
-      const coins = parseInt(document.getElementById('withdrawCoinsAmount').value.replace(/\D/g, '') || 0, 10);
-      const config = CONFIG.withdrawMethods[selectedWithdrawMethod];
-      const equivEl = document.getElementById('withdrawEquivalent');
-
-      if (config.currency === 'INR') {
-        const inr = (coins * CONFIG.coinToInr).toFixed(2);
-        equivEl.textContent = `₹${inr} INR`;
-      } else {
-        const usdt = (coins / CONFIG.coinsPerUsdt).toFixed(2);
-        equivEl.textContent = `${usdt} USDT`;
-      }
-    }
-
-    document.getElementById('btnEditSavedAccount').addEventListener('click', () => {
-      const inputDest = document.getElementById('withdrawDestination');
-      inputDest.focus();
-      showToast('Edit your recipient address or UID.', '✏️');
-    });
-
-    document.getElementById('btnClearSavedAccount').addEventListener('click', () => {
-      delete state.data.savedPayoutDetails[selectedWithdrawMethod];
-      state.save();
-      updateWithdrawFormUI();
-      showToast('Saved recipient details removed.', '🗑️');
-    });
-
-    // Submit Withdrawal Request (with Telegram HTML API & Network Fail Safety)
-    document.getElementById('btnSubmitWithdrawal').addEventListener('click', async () => {
-      if (state.isGlobalActionLocked) return;
-
-      const config = CONFIG.withdrawMethods[selectedWithdrawMethod];
-      const inputDest = document.getElementById('withdrawDestination');
-      const inputCoins = document.getElementById('withdrawCoinsAmount');
-      const destination = inputDest.value.trim();
-      const coins = parseInt(inputCoins.value.replace(/\D/g, '') || 0, 10);
-
-      // Validation
-      if (!destination) {
-        sound.error();
-        alert('Please enter your recipient Address, Bybit UID, or UPI ID.');
-        inputDest.focus();
-        return;
-      }
-
-      if (config.isNumeric && !/^\d{7,10}$/.test(destination)) {
-        sound.error();
-        alert(`Please enter a valid 7 to 10 digit numeric UID for ${config.name}.`);
-        inputDest.focus();
-        return;
-      }
-
-      if (isNaN(coins) || coins < config.min) {
-        sound.error();
-        alert(`Minimum withdrawal limit for ${config.name} is ${config.min.toLocaleString()} Coins!`);
-        inputCoins.focus();
-        return;
-      }
-
-      if (coins > state.data.walletBalance) {
-        sound.error();
-        alert(`Insufficient balance! Your wallet has ${state.data.walletBalance.toLocaleString()} Coins.`);
-        return;
-      }
-
-      const inrEquiv = (coins * CONFIG.coinToInr).toFixed(2);
-      const usdtEquiv = (coins / CONFIG.coinsPerUsdt).toFixed(2);
-      const payoutVal = (config.currency === 'INR') ? `₹${inrEquiv} INR` : `${usdtEquiv} USDT`;
-
-      const confirmMsg = `Confirm Withdrawal Request?\n\nMethod: ${config.name}\nRecipient: ${destination}\nAmount: ${coins.toLocaleString()} Coins (${payoutVal})\n\n⚠️ NOTE: All withdrawals undergo a mandatory 3 to 7 working days (Net-7) fraud & anti-cheat audit before disbursement.`;
-      if (!confirm(confirmMsg)) return;
-
-      const btn = document.getElementById('btnSubmitWithdrawal');
-      btn.disabled = true;
-      btn.innerHTML = `<span>⏳ Submitting to Telegram API...</span>`;
-
-      const timeStr = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-      const userId = state.getUserId();
-      const balanceLeft = state.data.walletBalance - coins;
-
-      // Exact user-specified Telegram Withdrawal Alert Format
-      const tgText = `🔔 <b>NEW WITHDRAWAL REQUEST</b>\n\n` +
-        `👤 <b>User ID:</b> <code>${escapeHtml(userId)}</code>\n` +
-        `💳 <b>Method:</b> ${escapeHtml(config.name)}\n` +
-        `🎯 <b>Account / Address:</b> <code>${escapeHtml(destination)}</code>\n` +
-        `🪙 <b>Amount Coins:</b> ${coins.toLocaleString()}\n` +
-        `💵 <b>Equivalent Value:</b> ${escapeHtml(payoutVal)}\n` +
-        `💰 <b>Balance Left:</b> ${balanceLeft.toLocaleString()} Coins\n` +
-        `📅 <b>Timestamp:</b> ${escapeHtml(timeStr)}\n` +
-        `🛡️ <b>Notice:</b> Net-7 Fraud & Anti-Cheat Audit (3-7 Working Days)\n` +
-        `📱 <b>Platform:</b> ${escapeHtml(CONFIG.appName)}`;
-
-      // Network Fail Safety: Deduct coins ONLY if Telegram API returns success
-      try {
-        let isSuccess = false;
-
-        // 1. Try Android Native Bridge if available (avoids any WebView CORS or network throttling)
-        if (window.AndroidBridge && typeof window.AndroidBridge.dispatchTelegramApi === 'function') {
-          try {
-            const bridgeRes = window.AndroidBridge.dispatchTelegramApi(
-              CONFIG.telegramBotToken,
-              CONFIG.telegramChatId,
-              tgText,
-              'HTML'
-            );
-            if (bridgeRes === 'OK') {
-              isSuccess = true;
-            } else {
-              console.warn('Native Bridge TG response:', bridgeRes);
-            }
-          } catch (bridgeErr) {
-            console.warn('Native Bridge error:', bridgeErr);
-          }
-        }
-
-        // 2. Browser standard Fetch fallback
-        if (!isSuccess) {
-          const tgUrl = `https://api.telegram.org/bot${CONFIG.telegramBotToken}/sendMessage`;
-          const res = await fetch(tgUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              chat_id: CONFIG.telegramChatId,
-              text: tgText,
-              parse_mode: 'HTML'
-            })
-          });
-
-          if (res.ok) {
-            isSuccess = true;
-          } else {
-            const errData = await res.json().catch(() => ({}));
-            console.error('Telegram API error:', errData);
-          }
-        }
-
-        if (isSuccess) {
-          state.data.walletBalance -= coins;
-
-          if (document.getElementById('checkSaveDetails').checked) {
-            state.data.savedPayoutDetails[selectedWithdrawMethod] = destination;
-          }
-
-          state.save();
-          sound.win();
-          renderMetrics();
-          updateWithdrawFormUI();
-
-          alert(`✅ Withdrawal Submitted Successfully!\n\nYour request has been dispatched to the administrative queue.\nStatus: Net-7 Fraud & Anti-Cheat Audit (3-7 working days) before payment release.`);
-          showToast('Withdrawal request dispatched to Telegram!', '🚀', 5000);
-        } else {
-          sound.error();
-          alert('❌ Network Failure: Telegram Bot dispatch could not be confirmed. No coins were deducted. Please check your connection and try again.');
-        }
-      } catch (err) {
-        sound.error();
-        console.error('Fetch exception:', err);
-        alert('❌ Network Error: Could not connect to Telegram API. No coins were deducted from your wallet.');
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = `<span>🚀 Submit Withdrawal Request</span>`;
-      }
-    });
-
-    // --- 12. TELEGRAM CUSTOMER SUPPORT TICKET ENGINE ---
-    document.getElementById('btnSendSupportTicket').addEventListener('click', async () => {
-      const category = document.getElementById('supportCategory').value;
-      const messageInput = document.getElementById('supportMessage');
-      const fileInput = document.getElementById('supportImageFile');
-      let msg = messageInput.value.trim();
-
-      if (!msg) {
-        sound.error();
-        alert('Please enter your support message or query description.');
-        messageInput.focus();
-        return;
-      }
-
-      let imageFile = null;
-      if (fileInput.files && fileInput.files[0]) {
-        const file = fileInput.files[0];
-        if (!file.type.startsWith('image/')) {
-          sound.error();
-          alert('❌ Invalid File Type! Only image files (JPEG, PNG, WEBP) are allowed. PDFs, videos, and executables are rejected.');
-          fileInput.value = '';
-          return;
-        }
-        if (file.size > 10 * 1024 * 1024) {
-          sound.error();
-          alert('❌ Image file too large! Maximum allowed size is 10MB.');
-          return;
-        }
-        imageFile = file;
-      }
-
-      // Caption Auto-trim to 950 chars
-      if (msg.length > 950) {
-        msg = msg.substring(0, 950) + '... (trimmed)';
-      }
-
-      const btn = document.getElementById('btnSendSupportTicket');
-      btn.disabled = true;
-      btn.innerHTML = `<span>⏳ Sending to Telegram Support...</span>`;
-
-      const timeStr = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-      const userId = state.getUserId();
-      const captionText = `📩 <b>NEW SUPPORT TICKET</b> 📩\n\n` +
-        `👤 <b>User ID:</b> <code>${escapeHtml(userId)}</code>\n` +
-        `📂 <b>Category:</b> ${escapeHtml(category)}\n` +
-        `💬 <b>Message:</b> ${escapeHtml(msg)}\n` +
-        `💰 <b>Wallet Coins:</b> ${state.data.walletBalance.toLocaleString()}\n` +
-        `📅 <b>Timestamp (IST):</b> ${escapeHtml(timeStr)}`;
-
-      try {
-        let res;
-        if (imageFile) {
-          const formData = new FormData();
-          formData.append('chat_id', CONFIG.telegramChatId);
-          formData.append('caption', captionText);
-          formData.append('parse_mode', 'HTML');
-          formData.append('photo', imageFile);
-
-          res = await fetch(`https://api.telegram.org/bot${CONFIG.telegramBotToken}/sendPhoto`, {
-            method: 'POST',
-            body: formData
-          });
-        } else {
-          res = await fetch(`https://api.telegram.org/bot${CONFIG.telegramBotToken}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              chat_id: CONFIG.telegramChatId,
-              text: captionText,
-              parse_mode: 'HTML'
-            })
-          });
-        }
-
-        if (res.ok) {
-          sound.win();
-          alert('✅ Support ticket sent to Telegram! Our support team (@earnduo_alert_bot) will review your ticket.');
-          messageInput.value = '';
-          fileInput.value = '';
-          showToast('Support ticket delivered successfully!', '📨');
-        } else {
-          sound.error();
-          alert('Failed to send support ticket. Please check your internet connection.');
-        }
-      } catch (e) {
-        sound.error();
-        console.error('Support ticket send error', e);
-        alert('Network connection error while contacting Telegram support bot.');
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = `<span>📨 Send Support Ticket to Telegram Bot</span>`;
-      }
-    });
-
-    // --- 13. ASSISTANT CHATBOT & FAQ CHIPS ---
-    function openAiHub() {
-      sound.click();
-      const el = document.getElementById('sectionAiHub');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        setTimeout(() => {
-          const input = document.getElementById('mainAiInput');
-          if (input) input.focus();
-        }, 400);
-      } else {
-        toggleChatDrawer(true);
-      }
-    }
-
-    function toggleChatDrawer(open) {
-      sound.click();
-      const drawer = document.getElementById('chatDrawer');
-      if (open) drawer.classList.add('open');
-      else drawer.classList.remove('open');
-    }
-
-    document.getElementById('btnOpenChat').addEventListener('click', () => {
-      openAiHub();
-    });
-
-    function addMainAiMessage(htmlOrText, isUser = false) {
-      const box = document.getElementById('mainAiChatBox');
-      if (!box) return;
-      const div = document.createElement('div');
-      div.className = `chat-msg ${isUser ? 'user' : 'bot'}`;
-      if (isUser) {
-        div.textContent = htmlOrText;
-      } else {
-        div.innerHTML = htmlOrText;
-      }
-      box.appendChild(div);
-      box.scrollTop = box.scrollHeight;
-
-      // Sync with chat drawer messages as well
-      const drawerBox = document.getElementById('chatMessages');
-      if (drawerBox) {
-        const dDiv = document.createElement('div');
-        dDiv.className = `chat-msg ${isUser ? 'user' : 'bot'}`;
-        if (isUser) dDiv.textContent = htmlOrText;
-        else dDiv.innerHTML = htmlOrText;
-        drawerBox.appendChild(dDiv);
-        drawerBox.scrollTop = drawerBox.scrollHeight;
-      }
-    }
-
-    function sendMainAiMessage() {
-      const input = document.getElementById('mainAiInput');
-      const q = input.value.trim();
-      if (!q) return;
-      input.value = '';
-      addMainAiMessage(q, true);
-      sound.click();
-
-      setTimeout(() => {
-        respondAiQuery(q.toLowerCase());
-      }, 400);
-    }
-
-    function handleAiPrompt(type) {
-      sound.click();
-      if (type === 'upi') {
-        addMainAiMessage('UPI ID kaise dalein aur payout rules kya hain?', true);
-        setTimeout(() => respondAiQuery('upi'), 300);
-      } else if (type === 'monetag') {
-        addMainAiMessage('Monetag ads ki kamai zero kyu aa rahi hai?', true);
-        setTimeout(() => respondAiQuery('monetag'), 300);
-      } else if (type === 'spin') {
-        addMainAiMessage('Spin wheel touch karne par ads kaise aate hain?', true);
-        setTimeout(() => respondAiQuery('spin'), 300);
-      } else if (type === 'secret') {
-        addMainAiMessage('Tasks ke secret codes kahan milenge?', true);
-        setTimeout(() => respondAiQuery('secret'), 300);
-      } else if (type === 'hold') {
-        addMainAiMessage('24h Hold aur Net-7 Audit kya hota hai?', true);
-        setTimeout(() => respondAiQuery('hold'), 300);
-      }
-    }
-
-    function respondAiQuery(q) {
-      if (q.includes('monetag') || q.includes('uplcm') || q.includes('zero') || q.includes('kamai') || q.includes('earning zero')) {
-        addMainAiMessage(`📺 <b>Monetag Ads Earning Guide:</b><br>
-1. <b>Direct Link Model:</b> Monetag (<code>https://uplcm.com/4/11969912</code>) par kamai tab record hoti hai jab user sponsor link ko open karke 5 se 10 second tak page browse kare.<br>
-2. <b>Pehle Zero Kyu Tha:</b> Pehle browser popup blocker ad ko open hone se rok raha tha jisse Monetag dashboard par impression nahi pahunch raha tha.<br>
-3. <b>Abhi Fix Ho Gaya:</b> Ab humne Android Native Intent aur Guaranteed Fallback jod diya hai. Har baar <b>Spin Wheel</b> touch karne par aur <b>Watch Ad 2</b> dabane par Monetag sponsor ad real browser me khulega aur aapki dollar ($) kamai Monetag me credit hogi!`);
-      } else if (q.includes('upi') || q.includes('paisa') || q.includes('bank') || q.includes('withdraw') || q.includes('payout')) {
-        addMainAiMessage(`🇮🇳 <b>UPI Payout & Withdrawal Guide:</b><br>
-1. <b>Method Select Karein:</b> Withdrawal Hub me <b>'UPI'</b> badge par tap karein.<br>
-2. <b>UPI ID Format:</b> Input box me apna sahi Virtual Payment Address enter karein (jaise: <code>9876543210@paytm</code>, <code>name@okhdfcbank</code>, ya <code>user@oksbi</code>).<br>
-3. <b>Minimum Coins:</b> 5,000 Coins = <b>₹50 INR</b> (1,000 Coins = ₹10 INR).<br>
-4. <b>Fee:</b> 0% Zero Fee!<br>
-5. <b>Disbursement:</b> Net-7 (3 se 7 working days) security compliance review ke baad funds seedhe aapke bank/UPI app me credit ho jate hain.`);
-      } else if (q.includes('spin') || q.includes('wheel') || q.includes('ad nahi')) {
-        addMainAiMessage(`🎡 <b>Lucky Spin Wheel & Ads System:</b><br>
-1. <b>Daily 10 Spins:</b> Har user ko rozana 10 free spins milte hain (midnight 12:00 AM IST reset).<br>
-2. <b>Ad Experience:</b> Jaise hi aap 'SPIN NOW' ya wheel canvas par touch karenge, Monetag Sponsor Ad turant activate hoga.<br>
-3. <b>Sponsor Page:</b> 'Open Monetag Ad' par tap karke 5-10 sec sponsor offer dekhein.<br>
-4. <b>Claim Rewards:</b> Wheel ghumne ke baad land huye coins (20 se 500) aapke wallet me add honge!`);
-      } else if (q.includes('code') || q.includes('secret') || q.includes('task') || q.includes('youtube') || q.includes('instagram')) {
-        addMainAiMessage(`🔑 <b>Social Tasks Secret Verification Codes:</b><br>
-• <b>YouTube Task:</b> Secret Code <code>8421</code> (+200 Coins)<br>
-• <b>Instagram Task:</b> Secret Code <code>4123</code> (+150 Coins)<br>
-• <b>Facebook Task:</b> Secret Code <code>9988</code> (+150 Coins)<br>
-• <b>Binance Square:</b> 7-10 Digit Numeric Pay ID (+300 Coins)<br>
-• <b>Bybit Signup:</b> 7-10 Digit Numeric UID (+500 Coins)<br>
-<i>Rules:</i> Pehle 'Open Task Link' dabayein, 30s timer pura hone dein, fir code enter karein!`);
-      } else if (q.includes('hold') || q.includes('net-7') || q.includes('audit') || q.includes('security')) {
-        addMainAiMessage(`🛡️ <b>24h Security Hold & Net-7 Audit:</b><br>
-• <b>24h Hold:</b> Fake accounts aur automation bot fraud rokne ke liye social task coins 24 ghante hold me rehte hain, fir automatically wallet me credit hote hain.<br>
-• <b>Net-7 Audit:</b> Har withdrawal request par 3-7 din ka compliance check hota hai taaki genuine users ko bina kisi dikkat ke payout mile.`);
-      } else if (q.includes('html') || q.includes('apk') || q.includes('convert') || q.includes('github')) {
-        addMainAiMessage(`📱 <b>Native Android APK Info:</b><br>
-Aapko kisi 3rd-party 'HTML to APK' app ki bilkul zaroorat nahi hai! Yeh project already 100% complete Native Android Studio Kotlin app hai. GitHub Actions ya AI Studio export se seedhe <code>app-debug.apk</code> download karke apne phone me install kar sakte hain!`);
-      } else {
-        addMainAiMessage(`🤖 Mai aapka <b>Earn Duo AI Assistant</b> hu. Aap mujhse UPI ID dalne, Monetag sponsor ads se kamai badhane, Spin wheel ke rules, ya social tasks ke secret codes ke bare me kuch bhi pooch sakte hain!`);
-      }
-    }
-
-    function addChatMessage(text, isUser = false) {
-      addMainAiMessage(text, isUser);
-    }
-
-    function sendChatMessage() {
-      const input = document.getElementById('chatInput');
-      const q = input.value.trim();
-      if (!q) return;
-      input.value = '';
-      addMainAiMessage(q, true);
-      sound.click();
-
-      setTimeout(() => {
-        respondAiQuery(q.toLowerCase());
-      }, 400);
-    }
-
-    function handleFaqChip(type) {
-      handleAiPrompt(type);
-    }
-
-    // --- 14. SOUND TOGGLE BUTTON ---
-    const btnSoundToggle = document.getElementById('btnSoundToggle');
-    const soundIcon = document.getElementById('soundIcon');
-
-    function updateSoundBtnUI() {
-      if (sound.enabled) {
-        soundIcon.textContent = '🔊';
-        btnSoundToggle.title = 'Sound Enabled';
-      } else {
-        soundIcon.textContent = '🔇';
-        btnSoundToggle.title = 'Sound Muted';
-      }
-    }
-
-    btnSoundToggle.addEventListener('click', () => {
-      const active = sound.toggle();
-      updateSoundBtnUI();
-      showToast(active ? 'Sound Enabled 🔊' : 'Sound Muted 🔇');
-    });
-
-    // --- 15. INITIALIZATION ON PAGE LOAD ---
-    window.addEventListener('DOMContentLoaded', () => {
-      updateSoundBtnUI();
-      renderMetrics();
-      updateWithdrawFormUI();
-      state.loadFromFirebase();
-    });
-
-    // Enable audio on first user tap anywhere
-    window.addEventListener('click', () => {
-      sound.init();
-    }, { once: true });
-  </script>
+    setTimeout(function(){ $("chatInput").focus(); }, 200);
+  });
+  $("chatClose").addEventListener("click", function(){ ov.classList.remove("show"); });
+  ov.addEventListener("click", function(e){ if(e.target === ov) ov.classList.remove("show"); });
+  $("chatSend").addEventListener("click", function(){ sendChat($("chatInput").value); });
+  $("chatInput").addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); sendChat(this.value); } });
+  $("aiSetBtn").addEventListener("click", function(){ $("aiSet").classList.toggle("show"); });
+  $("aiKeySave").addEventListener("click", function(){
+    var v = $("aiKeyInput").value.trim();
+    if(v.length < 10 || v.indexOf("•") !== -1){ toast("Paste a valid Gemini API key", "err"); return; }
+    localStorage.setItem(AI_KEY_STORE, v);
+    refreshAiMode();
+    toast("AI key saved — full AI mode enabled", "ok");
+  });
+  $("aiKeyClear").addEventListener("click", function(){
+    localStorage.removeItem(AI_KEY_STORE);
+    refreshAiMode();
+    toast("AI key removed — back to help guide", "");
+  });
+}
+
+/* ---------------- boot ---------------- */
+function boot(){
+  load();
+  drawWheel();
+  renderAll();
+  renderTasks();
+  renderHistory();
+  renderLinks();
+  initChat();
+  // live cooldown ticker
+  setInterval(function(){ if($("screen-spin").classList.contains("active") || !spinning) renderSpinUI(); }, 1000);
+}
+boot();
+
+})();
+</script>
 </body>
 </html>
