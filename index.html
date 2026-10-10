@@ -1067,6 +1067,174 @@
       margin-top: 2px;
     }
 
+    /* DUAL-TIER PAYMENT LINES (INDIAN & GLOBAL DEDICATED ROWS) */
+    .payment-line-container {
+      background: rgba(18, 24, 34, 0.65);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .payment-line-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+    }
+
+    .payment-line-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .payment-line-rate {
+      font-size: 8.5px;
+      font-weight: 800;
+      color: var(--accent-lime);
+      background: rgba(163, 230, 53, 0.12);
+      border: 1px solid rgba(163, 230, 53, 0.3);
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .grid-payment-line {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+      gap: 6px;
+    }
+
+    /* LANGUAGE SELECTOR MODAL & HEADER */
+    .btn-lang-header {
+      color: var(--accent-cyan);
+      border: 1px solid rgba(6, 182, 212, 0.4);
+      background: rgba(6, 182, 212, 0.08);
+      font-weight: 800;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .lang-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin: 12px 0 6px 0;
+      max-height: 360px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .lang-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 10px 8px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .lang-card:active {
+      transform: scale(0.96);
+    }
+
+    .lang-card.selected {
+      border-color: var(--accent-lime);
+      background: rgba(163, 230, 53, 0.14);
+      box-shadow: 0 0 10px var(--accent-lime-glow);
+    }
+
+    .lang-flag {
+      font-size: 20px;
+    }
+
+    .lang-name-native {
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .lang-name-en {
+      font-size: 9px;
+      color: var(--text-muted);
+    }
+
+    /* CREATOR HERO BAR IN TASKS */
+    .creator-hero-card {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(99, 102, 241, 0.2) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 4px 14px rgba(168, 85, 247, 0.15);
+    }
+
+    .btn-post-task-hero {
+      background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: none;
+      box-shadow: 0 2px 10px rgba(168, 85, 247, 0.4);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-post-task-hero:active {
+      transform: scale(0.95);
+    }
+
+    /* CLEAN SPIN BUTTON */
+    .btn-spin-clean {
+      width: 100%;
+      max-width: 240px;
+      margin: 0 auto;
+      padding: 12px 28px;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #a3e635 0%, #22c55e 100%);
+      color: #052e16;
+      border: none;
+      border-radius: 30px;
+      box-shadow: 0 4px 18px rgba(163, 230, 53, 0.45);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-spin-clean:active {
+      transform: scale(0.94);
+      box-shadow: 0 2px 8px rgba(163, 230, 53, 0.3);
+    }
+
     /* Withdrawal Form & Notice */
     .withdraw-form-card {
       background: var(--bg-surface);
@@ -1101,6 +1269,134 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 6px;
+    }
+
+    /* PAYOUT HISTORY VIEW */
+    .payout-history-container {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      margin-top: 14px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .payout-item-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .payout-item-card:hover {
+      border-color: rgba(163, 230, 53, 0.4);
+    }
+
+    .payout-item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .payout-method-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .payout-status-badge {
+      font-size: 8.5px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .status-pending {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .status-paid {
+      background: rgba(163, 230, 53, 0.15);
+      color: var(--accent-lime);
+      border: 1px solid rgba(163, 230, 53, 0.35);
+    }
+
+    .status-review {
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(6, 182, 212, 0.35);
+    }
+
+    .status-processing {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+    }
+
+    .payout-item-body {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+    }
+
+    .payout-val-display {
+      font-weight: 800;
+      font-size: 13px;
+      color: var(--accent-lime);
+    }
+
+    .payout-coins-sub {
+      font-size: 9px;
+      color: var(--text-muted);
+    }
+
+    .payout-dest-display {
+      font-size: 9.5px;
+      color: var(--text-dim);
+      font-family: monospace;
+      max-width: 170px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .payout-item-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 8.5px;
+      color: var(--text-muted);
+      border-top: 1px dashed rgba(255, 255, 255, 0.06);
+      padding-top: 5px;
+      margin-top: 2px;
+    }
+
+    .payout-empty-state {
+      text-align: center;
+      padding: 24px 12px;
+      color: var(--text-muted);
+    }
+
+    .payout-empty-icon {
+      font-size: 32px;
+      margin-bottom: 6px;
+      opacity: 0.6;
     }
 
     /* Support Form Card */
@@ -1169,25 +1465,29 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.88);
       backdrop-filter: blur(4px);
       display: none;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       z-index: 9999;
-      padding: 14px;
+      padding: 14px 8px 120px 8px;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
     }
 
     .modal-box {
       background: var(--bg-surface);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      max-width: 440px;
+      max-width: 480px;
       width: 100%;
-      padding: 12px;
+      padding: 16px 14px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-      max-height: 85vh;
-      overflow-y: auto;
+      max-height: none !important;
+      overflow: visible !important;
+      margin: 8px auto 40px auto;
     }
 
     .modal-header {
@@ -1593,6 +1893,230 @@
       transition: width 0.3s ease;
     }
 
+    /* Creator Target URL Display Box */
+    .creator-url-container {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    .creator-url-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .creator-url-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-copy-url {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #7dd3fc;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2.5px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-copy-url:active { transform: scale(0.95); }
+    .creator-url-display-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #0b111b;
+      border: 1px dashed rgba(56, 189, 248, 0.4);
+      border-radius: 6px;
+      padding: 8px 10px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      word-break: break-all;
+    }
+    .creator-url-display-box:active {
+      transform: scale(0.98);
+      background: rgba(56, 189, 248, 0.12);
+      border-color: #38bdf8;
+    }
+    .url-protocol-icon { font-size: 15px; flex-shrink: 0; }
+    .url-text-display {
+      font-size: 10.5px;
+      color: #f1f5f9;
+      font-family: monospace;
+      flex: 1;
+      text-decoration: underline;
+      text-decoration-color: rgba(56, 189, 248, 0.6);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .url-badge-action {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #fff;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);
+    }
+
+    /* Multi-Requirements Grid */
+    .req-selection-box {
+      background: rgba(18, 24, 34, 0.7);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      margin-bottom: 8px;
+    }
+    .req-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .req-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+    .req-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-size: 9.5px;
+      color: var(--text-main);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s ease;
+    }
+    .req-checkbox-label:active { transform: scale(0.97); }
+    .req-checkbox-label.checked {
+      border-color: var(--accent-lime);
+      background: rgba(163, 230, 53, 0.14);
+      color: #fff;
+    }
+    .req-checkbox-label input[type="checkbox"] {
+      accent-color: var(--accent-lime);
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Task Execution Checklist */
+    .task-requirements-box {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      margin-bottom: 8px;
+    }
+    .reqs-title {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--accent-lime);
+      margin-bottom: 4px;
+    }
+    .reqs-checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .req-check-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: #e2e8f0;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    .req-check-item .badge-dot {
+      color: var(--accent-lime);
+      font-weight: 900;
+    }
+
+    /* Ad Watch Countdown Box */
+    .ad-timer-countdown-box {
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px dashed var(--accent-cyan);
+      border-radius: var(--radius-md);
+      padding: 14px 10px;
+      margin: 8px auto;
+      max-width: 220px;
+    }
+    .ad-countdown-val {
+      font-size: 38px;
+      font-weight: 900;
+      color: var(--accent-cyan);
+      letter-spacing: 1px;
+      line-height: 1.1;
+    }
+    .btn-launch-task {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);
+    }
+    .btn-launch-task:active { transform: scale(0.97); }
+
+    /* Task Card Link Preview & Direct Touch Launcher */
+    .task-card-link-preview {
+      background: rgba(14, 165, 233, 0.08);
+      border: 1px dashed rgba(14, 165, 233, 0.35);
+      border-radius: 4px;
+      padding: 4px 6px;
+      margin: 4px 0 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 8.5px;
+      cursor: pointer;
+    }
+    .task-card-link-preview:active {
+      background: rgba(14, 165, 233, 0.2);
+    }
+    .task-card-url-truncate {
+      color: #7dd3fc;
+      font-family: monospace;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+      text-decoration: underline;
+    }
+    .link-open-chip {
+      background: #0284c7;
+      color: #fff;
+      font-size: 8px;
+      font-weight: 800;
+      padding: 1.5px 6px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .btn-card-start {
+      width: 100%;
+      border: none;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .btn-card-start:active {
+      transform: scale(0.97);
+    }
+
     /* Tab Panes */
     .tab-pane {
       display: none;
@@ -1989,6 +2513,11 @@
           <span class="brand-badge">PRO AI</span>
         </div>
         <div class="header-actions">
+          <button id="btnLanguageSelector" class="btn-lang-header" onclick="openLanguageModal()" title="Change App Language">
+            <span id="headerLangFlag">🌐</span>
+            <span id="headerLangText">EN</span>
+            <span style="font-size: 8px;">▾</span>
+          </button>
           <button id="btnHeaderAi" class="icon-btn" onclick="switchTab('tabAi')" title="Open AI Bot" style="color: var(--accent-lime); border-color: rgba(163, 230, 53, 0.4);">
             <span>🤖 AI Bot</span>
           </button>
@@ -2091,7 +2620,7 @@
             </div>
             <div class="sponsor-card-body">
               <div class="sponsor-name">Watch Ad 1</div>
-              <div class="sponsor-desc">⚡ Monetag Fast Booster</div>
+              <div class="sponsor-desc">⚡ Adsterra Fast Booster</div>
             </div>
             <div class="sponsor-card-cta cta-cyan">
               <span>▶ Watch Now</span>
@@ -2107,7 +2636,7 @@
             </div>
             <div class="sponsor-card-body">
               <div class="sponsor-name">Watch Ad 2</div>
-              <div class="sponsor-desc">🔥 High-Yield Booster</div>
+              <div class="sponsor-desc">🔥 Monetag Booster Ad</div>
             </div>
             <div class="sponsor-card-cta cta-amber">
               <span>▶ Watch Now</span>
@@ -2177,10 +2706,12 @@
     <div id="tabTasks" class="tab-pane">
       <div class="section-header">
         <div class="section-title">
-          <span>🌐 Social Media & Crypto Tasks Hub</span>
+          <span id="txtTasksHubTitle">🌐 Social Media & Crypto Tasks Hub</span>
         </div>
-        <div style="display: flex; gap: 8px; align-items: center;">
-          <span class="guide-link" id="btnOpenCreatorGuide" onclick="openModal('modalCreatorGuide')">Creator Guide</span>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <button type="button" class="btn-action btn-creator-create" onclick="openCreateTaskModal('youtube')" style="padding: 5px 12px; font-size: 10px; width: auto;">
+            <span id="txtHeaderPostTask">➕ Post Task</span>
+          </button>
           <span class="guide-link" style="color: var(--accent-lime); font-weight: 800;" onclick="openMyCampaignsModal()">📊 My Tasks</span>
         </div>
       </div>
@@ -2188,24 +2719,35 @@
       <!-- CONTENT CREATOR STUDIO PROMOTIONAL BANNER -->
       <section class="creator-studio-banner">
         <div class="creator-banner-left">
-          <div class="creator-badge">🚀 CONTENT CREATOR STUDIO</div>
-          <div class="creator-banner-title">Content Creators: Apna Task Yahan Lagayein!</div>
-          <div class="creator-banner-desc">YouTube Video Views/Subscribe, Instagram Followers/Reels, Facebook ya Telegram task lagayein aur real audience se guaranteed engagement payein!</div>
+          <div class="creator-badge" id="txtCreatorBadge">🚀 CONTENT CREATOR STUDIO</div>
+          <div class="creator-banner-title" id="txtCreatorTitle">Content Creators: Post Your Task Here! / अपना टास्क यहाँ लगाएं!</div>
+          <div class="creator-banner-desc" id="txtCreatorDesc">YouTube Video Views/Subscribe, Instagram Followers/Reels, Facebook or Telegram task lagayein aur real audience se guaranteed engagement payein!</div>
         </div>
         <div class="creator-banner-actions">
           <button class="btn-action btn-creator-create" onclick="openCreateTaskModal('youtube')" style="flex: 1.2;">
-            <span>➕ Naya Task Lagayein</span>
+            <span id="txtBtnCreateTask">➕ Post New Task / नया टास्क लगाएं</span>
           </button>
           <button class="btn-action btn-ad1" onclick="openMyCampaignsModal()" style="flex: 1;">
-            <span>📂 Mere Campaigns (<span id="creatorCampaignsCountBadge">0</span>)</span>
+            <span>📂 My Campaigns (<span id="creatorCampaignsCountBadge">0</span>)</span>
           </button>
         </div>
       </section>
 
+      <!-- Direct Creator Action Highlight Card -->
+      <div class="creator-hero-card">
+        <div>
+          <div style="font-size: 11.5px; font-weight: 800; color: #fff;" id="txtCreatorHeroTitle">📢 Content Creators & Channel Owners</div>
+          <div style="font-size: 9.5px; color: #cbd5e1; margin-top: 2px;" id="txtCreatorHeroSub">Post your YouTube video or social media link here for real views & subscribers!</div>
+        </div>
+        <button type="button" class="btn-post-task-hero" onclick="openCreateTaskModal('youtube')">
+          <span>➕ Post Task Here</span>
+        </button>
+      </div>
+
       <!-- Anti-Cheat Security Notice Card -->
       <div class="anti-cheat-card">
         <span style="font-size: 16px;">🛡️</span>
-        <div>
+        <div id="txtAntiCheatNotice">
           <strong style="color: #f87171;">STRICT ANTI-CHEAT SECURITY ACTIVE:</strong><br>
           • <b>Mandatory Countdown:</b> Task link open karne par anti-cheat timer chalu hota hai. Timer complete hone ke baad hi verification code input unlock hoga.<br>
           • <b>Secret Verification Codes:</b> Video/post me diya gaya genuine 4-digit code ya UID hi enter karein. <b>3 wrong attempts = 24-Hour Lockout!</b><br>
@@ -2251,27 +2793,47 @@
       </section>
 
       <!-- Active Task Execution Card -->
-      <div id="taskExecCard" class="task-exec-card">
+      <div id="taskExecCard" class="task-exec-card" style="display: none;">
         <div class="task-exec-title">
           <span id="taskExecName">Task Verification</span>
           <span id="taskExecTimer" class="timer-badge">⏳ 30s Timer</span>
         </div>
-        <div class="task-steps" id="taskExecInstructions">
-          <ol>
-            <li>Click 'Open Task Link' below. The 30s timer begins immediately.</li>
-            <li>Complete the required activity and obtain the 4-digit verification code or numeric UID.</li>
-            <li>Enter code/UID after countdown finishes to credit coins to 24h Security Hold.</li>
-          </ol>
+
+        <!-- Creator's Target Destination URL Box (Prominent & Direct Touchable) -->
+        <div class="creator-url-container">
+          <div class="creator-url-header">
+            <span class="creator-url-label">🎯 Creator's Target Task Link:</span>
+            <button type="button" class="btn-copy-url" id="btnCopyTaskUrl" onclick="copyTaskUrl()">📋 Copy Link</button>
+          </div>
+          <div class="creator-url-display-box" id="taskExecUrlDisplay" onclick="openActiveTaskLink()" title="Tap to open target link">
+            <span class="url-protocol-icon">🔗</span>
+            <span class="url-text-display" id="taskExecUrlText">https://www.youtube.com/...</span>
+            <span class="url-badge-action">↗ Touch to Open</span>
+          </div>
         </div>
-        <div style="display: flex; gap: 5px; margin-bottom: 6px;">
-          <button id="btnOpenTaskLink" class="btn-action btn-ad1" style="flex: 1;">
-            <span>🔗 Open Task Link</span>
+
+        <!-- Creator Selected Requirements Checklist -->
+        <div class="task-requirements-box" id="taskExecRequirementsBox">
+          <div class="reqs-title">📋 Complete These Requirements:</div>
+          <div class="reqs-checklist" id="taskExecChecklist">
+            <!-- Dynamic checklist items injected by JS -->
+          </div>
+        </div>
+
+        <div class="task-steps" id="taskExecInstructions" style="margin-bottom: 8px;">
+          <!-- Instructions injected by JS -->
+        </div>
+
+        <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+          <button type="button" id="btnOpenTaskLink" class="btn-action btn-launch-task" onclick="openActiveTaskLink()" style="flex: 1; padding: 10px; font-size: 11.5px;">
+            <span>🚀 Open Link & Start Verification</span>
           </button>
         </div>
+
         <div class="input-group">
-          <input type="text" id="taskInputVal" class="input-field" placeholder="Enter Secret Code or Numeric UID" disabled>
-          <button id="btnSubmitTask" class="btn-action btn-lime btn-disabled" style="width: auto; padding: 6px 14px;" disabled>
-            <span>Verify</span>
+          <input type="text" id="taskInputVal" class="input-field" placeholder="Enter Secret Code (Timer required)" disabled onkeydown="if(event.key==='Enter'){event.preventDefault();verifyActiveTask();}">
+          <button type="button" id="btnSubmitTask" onclick="verifyActiveTask()" class="btn-action btn-lime btn-disabled" style="width: auto; padding: 8px 16px; font-size: 11px;" disabled>
+            <span>Verify & Claim</span>
           </button>
         </div>
       </div>
@@ -2308,17 +2870,17 @@
           </div>
         </div>
 
-        <button id="btnSpinWheel" class="btn-action btn-lime" style="max-width: 320px; margin: 0 auto; padding: 10px 18px; font-size: 13px;">
-          <span>🎯 Spin & Win Coins</span>
+        <button id="btnSpinWheel" class="btn-spin-clean">
+          <span id="spinBtnText">SPIN</span>
         </button>
 
         <div style="margin-top: 14px; background: rgba(18, 24, 34, 0.6); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 8px 12px; text-align: left; font-size: 10px; color: var(--text-muted);">
           <div style="font-weight: 700; color: #fff; margin-bottom: 4px; display: flex; align-items: center; gap: 4px;">
-            <span>ℹ️ Spin Rules & Rewards</span>
+            <span id="txtSpinRulesTitle">ℹ️ Spin Rules & Rewards</span>
           </div>
-          <div>• Har spin me aapko 20 se 500 coins tak ka random reward milta hai.</div>
-          <div>• Rozana 10 free spins available hote hain (Midnight 12:00 AM IST reset).</div>
-          <div>• Spin claim karte waqt sponsor ad verify hone par coins sidhe aapke balance me credit ho jate hain!</div>
+          <div id="txtSpinRule1">• Har spin me aapko 20 se 500 coins tak ka random reward milta hai.</div>
+          <div id="txtSpinRule2">• Rozana 10 free spins available hote hain (Midnight 12:00 AM IST reset).</div>
+          <div id="txtSpinRule3">• Spin par touch karte hi ad aayega, wheel spin hoga aur reward automatically claim ho jayega!</div>
         </div>
       </div>
     </div>
@@ -2327,39 +2889,89 @@
     <div id="tabWallet" class="tab-pane">
       <div class="section-header">
         <div class="section-title">
-          <span>💳 Instant Withdrawal Hub</span>
+          <span id="txtWalletTitle">💳 Instant Withdrawal Hub</span>
         </div>
-        <span style="font-size: 9px; color: var(--accent-lime); font-weight: 700;">1000 = ₹10 | 9000 = 1$</span>
+        <span style="font-size: 9px; color: var(--accent-lime); font-weight: 700;" id="txtWalletRateHeader">1000 = ₹10 | 9000 = 1$</span>
       </div>
 
-      <!-- 5-Column Selector Grid -->
-      <section class="grid-5-col" id="withdrawMethodsGrid">
-        <div class="withdraw-badge selected" data-method="bybit">
-          <div class="withdraw-badge-icon">🟠</div>
-          <div class="withdraw-badge-name">Bybit</div>
-          <div class="withdraw-badge-min">Min 9k (1$)</div>
+      <!-- LINE 1: INDIAN USERS PAYMENT SYSTEM -->
+      <div class="payment-line-container">
+        <div class="payment-line-header">
+          <div class="payment-line-title">
+            <span id="txtIndianPaymentTitle">🇮🇳 Indian Payment System (UPI & Wallets)</span>
+          </div>
+          <span class="payment-line-rate">1,000 Coins = ₹10 INR</span>
         </div>
-        <div class="withdraw-badge" data-method="binance">
-          <div class="withdraw-badge-icon">🟡</div>
-          <div class="withdraw-badge-name">Binance</div>
-          <div class="withdraw-badge-min">Min 9k (1$)</div>
+        <div class="grid-payment-line" id="withdrawIndianGrid">
+          <div class="withdraw-badge" data-method="upi">
+            <div class="withdraw-badge-icon">🇮🇳</div>
+            <div class="withdraw-badge-name">UPI</div>
+            <div class="withdraw-badge-min">Min 5k (₹50)</div>
+          </div>
+          <div class="withdraw-badge" data-method="paytm">
+            <div class="withdraw-badge-icon">🔵</div>
+            <div class="withdraw-badge-name">Paytm</div>
+            <div class="withdraw-badge-min">Min 5k (₹50)</div>
+          </div>
+          <div class="withdraw-badge" data-method="phonepe">
+            <div class="withdraw-badge-icon">🟣</div>
+            <div class="withdraw-badge-name">PhonePe</div>
+            <div class="withdraw-badge-min">Min 5k (₹50)</div>
+          </div>
+          <div class="withdraw-badge" data-method="gpay">
+            <div class="withdraw-badge-icon">🟢</div>
+            <div class="withdraw-badge-name">GPay</div>
+            <div class="withdraw-badge-min">Min 5k (₹50)</div>
+          </div>
+          <div class="withdraw-badge" data-method="bank">
+            <div class="withdraw-badge-icon">🏛️</div>
+            <div class="withdraw-badge-name">Bank A/C</div>
+            <div class="withdraw-badge-min">Min 10k (₹100)</div>
+          </div>
         </div>
-        <div class="withdraw-badge" data-method="upi">
-          <div class="withdraw-badge-icon">🇮🇳</div>
-          <div class="withdraw-badge-name">UPI</div>
-          <div class="withdraw-badge-min">Min 5k (₹50)</div>
+      </div>
+
+      <!-- LINE 2: GLOBAL USERS PAYMENT SYSTEM -->
+      <div class="payment-line-container">
+        <div class="payment-line-header">
+          <div class="payment-line-title">
+            <span id="txtGlobalPaymentTitle">🌍 Global Payment System (Crypto & International)</span>
+          </div>
+          <span class="payment-line-rate">9,000 Coins = $1.00 USD</span>
         </div>
-        <div class="withdraw-badge" data-method="celo">
-          <div class="withdraw-badge-icon">🟢</div>
-          <div class="withdraw-badge-name">CELO</div>
-          <div class="withdraw-badge-min">Min 27k (3$)</div>
+        <div class="grid-payment-line" id="withdrawGlobalGrid">
+          <div class="withdraw-badge selected" data-method="bybit">
+            <div class="withdraw-badge-icon">🟠</div>
+            <div class="withdraw-badge-name">Bybit</div>
+            <div class="withdraw-badge-min">Min 9k ($1)</div>
+          </div>
+          <div class="withdraw-badge" data-method="binance">
+            <div class="withdraw-badge-icon">🟡</div>
+            <div class="withdraw-badge-name">Binance</div>
+            <div class="withdraw-badge-min">Min 9k ($1)</div>
+          </div>
+          <div class="withdraw-badge" data-method="paypal">
+            <div class="withdraw-badge-icon">🅿️</div>
+            <div class="withdraw-badge-name">PayPal</div>
+            <div class="withdraw-badge-min">Min 18k ($2)</div>
+          </div>
+          <div class="withdraw-badge" data-method="bep20">
+            <div class="withdraw-badge-icon">⛓️</div>
+            <div class="withdraw-badge-name">USDT (BEP20)</div>
+            <div class="withdraw-badge-min">Min 45k ($5)</div>
+          </div>
+          <div class="withdraw-badge" data-method="celo">
+            <div class="withdraw-badge-icon">🟢</div>
+            <div class="withdraw-badge-name">CELO</div>
+            <div class="withdraw-badge-min">Min 27k ($3)</div>
+          </div>
+          <div class="withdraw-badge" data-method="playcard">
+            <div class="withdraw-badge-icon">🎁</div>
+            <div class="withdraw-badge-name">Play Card</div>
+            <div class="withdraw-badge-min">Min 9k ($1)</div>
+          </div>
         </div>
-        <div class="withdraw-badge" data-method="bep20">
-          <div class="withdraw-badge-icon">⛓️</div>
-          <div class="withdraw-badge-name">BEP20</div>
-          <div class="withdraw-badge-min">Min 45k (5$)</div>
-        </div>
-      </section>
+      </div>
 
       <!-- Withdrawal Form Card -->
       <div class="withdraw-form-card" style="margin-top: 10px;">
@@ -2412,6 +3024,20 @@
         <button id="btnSubmitWithdrawal" class="btn-action btn-lime">
           <span>🚀 Submit Withdrawal Request</span>
         </button>
+      </div>
+
+      <!-- PAYOUT HISTORY VIEW -->
+      <div class="card-box" style="margin-top: 12px;" id="payoutHistoryContainer">
+        <div class="card-title" style="justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span>📜</span>
+            <span id="txtPayoutHistoryTitle">Payout History</span>
+          </div>
+          <span class="card-badge" id="payoutHistoryCountBadge" style="background: rgba(163, 230, 53, 0.15); color: var(--accent-lime); font-size: 9px; font-weight: 700;">0 Requests</span>
+        </div>
+        <div id="payoutHistoryList" style="margin-top: 8px; display: flex; flex-direction: column; gap: 8px;">
+          <!-- Dynamically populated by renderPayoutHistory() -->
+        </div>
       </div>
     </div>
 
@@ -2588,10 +3214,10 @@
             <div style="font-size: 8.5px; color: var(--text-muted);">Apna YouTube, Instagram, Facebook ya Social Link Promote Karein</div>
           </div>
         </div>
-        <button class="modal-close" onclick="closeModal('modalCreateTask')">✕</button>
+        <button type="button" class="modal-close" onclick="closeModal('modalCreateTask')">✕</button>
       </div>
       <div class="modal-content">
-        <form id="formCreateTask" onsubmit="handleCreateTaskSubmit(event)">
+        <div id="formCreateTask">
           <!-- 1. Platform Choice -->
           <div class="form-group">
             <label class="form-label">
@@ -2626,17 +3252,22 @@
             <input type="hidden" id="createTaskPlatformVal" value="youtube">
           </div>
 
-          <!-- 2. Task Title -->
+          <!-- 2. Multi-Requirement Selector (Single or Combined Together) -->
           <div class="form-group">
-            <label class="form-label" for="createTaskTitle">
-              <span>2. Task Title (Kaam ka Naam):</span>
-            </label>
-            <input type="text" id="createTaskTitle" class="input-field" style="width: 100%;" placeholder="e.g. YouTube Video Watch Karein & Secret Code Dhoondhein" required>
-            <div style="display: flex; gap: 4px; margin-top: 4px; overflow-x: auto; padding-bottom: 2px;">
-              <span class="choice-pill" style="font-size: 8.5px; padding: 2px 6px;" onclick="applyTitleSuggestion('Watch Video & Find Code')">▶️ Watch & Code</span>
-              <span class="choice-pill" style="font-size: 8.5px; padding: 2px 6px;" onclick="applyTitleSuggestion('Subscribe Channel & Like')">🔔 Subscribe</span>
-              <span class="choice-pill" style="font-size: 8.5px; padding: 2px 6px;" onclick="applyTitleSuggestion('Follow Instagram & Like Reel')">📸 Follow & Reel</span>
-              <span class="choice-pill" style="font-size: 8.5px; padding: 2px 6px;" onclick="applyTitleSuggestion('Join Telegram Channel')">✈️ Telegram Join</span>
+            <div class="req-selection-box">
+              <div class="req-header-row">
+                <span style="font-size: 10px; font-weight: 800; color: #fff;">2. Requirements Chunein (Ek ya Ek Saath Sabhi):</span>
+                <div style="display: flex; gap: 4px;">
+                  <button type="button" class="choice-pill" style="padding: 1px 6px; font-size: 8px;" onclick="toggleAllRequirements(true)">✓ Sabhi (All)</button>
+                  <button type="button" class="choice-pill" style="padding: 1px 6px; font-size: 8px;" onclick="toggleAllRequirements(false)">✕ Clear</button>
+                </div>
+              </div>
+              <div class="req-grid" id="platformRequirementsGrid">
+                <!-- Dynamically populated checkboxes based on platform -->
+              </div>
+              <div class="form-hint" style="margin-top: 5px; color: var(--accent-lime);" id="selectedRequirementsSummary">
+                ✓ Selected: Watch Video, Like Video, Subscribe Channel
+              </div>
             </div>
           </div>
 
@@ -2645,14 +3276,33 @@
             <label class="form-label" for="createTaskUrl">
               <span>3. Target Link / URL (YouTube Video / Profile Link):</span>
             </label>
-            <input type="url" id="createTaskUrl" class="input-field" style="width: 100%;" placeholder="https://www.youtube.com/watch?v=..." required>
-            <div class="form-hint">Yahan apna genuine video ya profile link dalein. Users 'Open Task Link' dabane par issi page par jayenge.</div>
+            <div style="display: flex; gap: 6px;">
+              <input type="text" inputmode="url" id="createTaskUrl" class="input-field" style="flex: 1; font-size: 11px;" placeholder="https://www.youtube.com/watch?v=..." required onkeydown="if(event.key==='Enter'){event.preventDefault();return false;}" onpaste="event.stopPropagation(); setTimeout(calculateTaskBudget, 50);">
+              <button type="button" class="btn-action" onclick="pasteTaskUrlFromClipboard()" style="width: auto; padding: 4px 10px; font-size: 9.5px; background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.35); flex-shrink: 0;">
+                📋 Paste
+              </button>
+            </div>
+            <div class="form-hint">Yahan apna genuine video ya profile link dalein. Users 'Open Task Link' dabane par direct issi page par jayenge.</div>
           </div>
 
-          <!-- 4. Verification Method -->
+          <!-- 4. Task Title -->
+          <div class="form-group">
+            <label class="form-label" for="createTaskTitle">
+              <span>4. Task Title (Kaam ka Naam):</span>
+            </label>
+            <input type="text" id="createTaskTitle" class="input-field" style="width: 100%;" placeholder="e.g. YouTube Video Watch Karein & Secret Code Dhoondhein" required onkeydown="if(event.key==='Enter'){event.preventDefault();return false;}">
+            <div style="display: flex; gap: 4px; margin-top: 4px; overflow-x: auto; padding-bottom: 2px;">
+              <span class="choice-pill" style="font-size: 8.5px; padding: 2px 6px;" onclick="applyTitleSuggestion('Watch Video & Find Code')">▶️ Watch & Code</span>
+              <span class="choice-pill" style="font-size: 8.5px; padding: 2px 6px;" onclick="applyTitleSuggestion('Watch + Like + Subscribe')">🔔 Watch+Like+Sub</span>
+              <span class="choice-pill" style="font-size: 8.5px; padding: 2px 6px;" onclick="applyTitleSuggestion('Follow Instagram & Like Reel')">📸 Follow & Reel</span>
+              <span class="choice-pill" style="font-size: 8.5px; padding: 2px 6px;" onclick="applyTitleSuggestion('Join Telegram Channel')">✈️ Telegram Join</span>
+            </div>
+          </div>
+
+          <!-- 5. Verification Method -->
           <div class="form-group">
             <label class="form-label">
-              <span>4. User Verification Method:</span>
+              <span>5. User Verification Method:</span>
             </label>
             <div style="display: flex; gap: 6px; margin-bottom: 6px;">
               <div class="choice-pill active" id="pillVerifyCode" onclick="selectVerifyMethod('code')" style="flex: 1; text-align: center;">
@@ -2672,7 +3322,7 @@
                   🎲 Random Code
                 </button>
               </div>
-              <input type="text" id="createTaskCode" class="input-field" style="width: 100%; font-size: 14px; letter-spacing: 2px; font-weight: 800; text-align: center; color: var(--accent-lime);" maxlength="4" placeholder="e.g. 7482" value="8421">
+              <input type="text" id="createTaskCode" class="input-field" style="width: 100%; font-size: 14px; letter-spacing: 2px; font-weight: 800; text-align: center; color: var(--accent-lime);" maxlength="4" placeholder="e.g. 7482" value="8421" onkeydown="if(event.key==='Enter'){event.preventDefault();return false;}">
               <div class="form-hint" style="color: #bef264;">ℹ️ Yeh code aap apne video ke beech me ya description me mention karein taaki real viewers hi claim kar sakein!</div>
             </div>
 
@@ -2683,7 +3333,7 @@
             </div>
           </div>
 
-          <!-- 5. Watch Timer & Reward -->
+          <!-- 6. Watch Timer & Reward -->
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
             <div class="form-group">
               <label class="form-label" for="createTaskTimer">
@@ -2711,7 +3361,7 @@
             </div>
           </div>
 
-          <!-- 6. Target Users -->
+          <!-- 7. Target Users -->
           <div class="form-group">
             <label class="form-label">
               <span>👥 Target Completions (Kitne Users Chahiye):</span>
@@ -2725,7 +3375,7 @@
             <input type="hidden" id="createTaskTargetUsersVal" value="10">
           </div>
 
-          <!-- 7. Budget Calculation & Payment Method -->
+          <!-- 8. Budget Calculation & Payment Method -->
           <div class="budget-calc-box">
             <div class="budget-calc-row">
               <span>Campaign Cost Calculation:</span>
@@ -2752,10 +3402,42 @@
           </div>
 
           <!-- Submit Button -->
-          <button type="submit" class="btn-action btn-creator-create" style="padding: 10px; font-size: 12px; margin-top: 6px;">
+          <button type="button" onclick="handleCreateTaskSubmit(event)" class="btn-action btn-creator-create" style="padding: 10px; font-size: 12px; margin-top: 6px;">
             <span>🚀 Task Live Karein (Publish Campaign)</span>
           </button>
-        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Watch Ad Verification Dialog (Adsterra & Monetag) -->
+  <div id="modalWatchAdVerification" class="modal-overlay">
+    <div class="modal-box" style="text-align: center; border-color: var(--accent-cyan); max-width: 400px;">
+      <div class="modal-header">
+        <span class="modal-title" id="adWatchModalTitle">📺 Sponsor Ad Verification</span>
+        <button type="button" class="modal-close" onclick="closeModal('modalWatchAdVerification')">✕</button>
+      </div>
+      <div class="modal-content" style="padding: 10px 4px;">
+        <div style="font-size: 32px; margin-bottom: 4px;" id="adWatchIcon">⚡</div>
+        <div style="font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 4px;" id="adWatchNetworkName">Sponsor Ad</div>
+        <div style="font-size: 10px; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;">
+          Sponsor ad aapke browser me khol diya gaya hai. Valid view confirm karne ke liye <b>10 seconds</b> wait karein!
+        </div>
+        
+        <!-- Timer countdown box -->
+        <div class="ad-timer-countdown-box">
+          <div class="ad-countdown-val" id="adCountdownSeconds">10</div>
+          <div style="font-size: 9.5px; color: var(--accent-cyan); font-weight: 700; margin-top: 2px;">Seconds Remaining</div>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-top: 12px;">
+          <button type="button" id="btnReopenAdUrl" class="btn-action" style="flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); font-size: 10.5px;">
+            <span>🔗 Re-open Ad</span>
+          </button>
+          <button type="button" id="btnClaimAdReward" class="btn-action btn-lime btn-disabled" style="flex: 1.3; font-size: 11px;" disabled>
+            <span>⏳ Watching Ad...</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -2817,48 +3499,113 @@
     </div>
   </div>
 
-  <!-- MODAL: Sponsor Ad for Spin Wheel -->
+  <!-- MODAL: Sponsor Ad for Spin Wheel (Auto-transitions to spin) -->
   <div id="modalSpinAd" class="modal-overlay">
-    <div class="modal-box" style="text-align: center; border-color: var(--accent-cyan); position: relative;">
+    <div class="modal-box" style="text-align: center; border-color: var(--accent-cyan); position: relative; max-width: 320px;">
       <button class="modal-close" onclick="closeModal('modalSpinAd')" style="position: absolute; right: 10px; top: 10px;">✕</button>
       <div style="font-size: 34px; margin-bottom: 2px;">🎬</div>
-      <div class="modal-title" style="color: var(--accent-cyan); font-size: 15px;">SPONSOR REWARDED AD</div>
-      <div style="font-size: 11px; color: var(--text-muted); margin: 6px 0;">
-        Watch sponsor ad to activate Lucky Wheel spin & win up to <strong>500 Coins</strong>!
+      <div class="modal-title" style="color: var(--accent-cyan); font-size: 14px;" id="txtSpinAdModalTitle">SPONSOR AD VERIFICATION</div>
+      <div style="font-size: 10.5px; color: var(--text-muted); margin: 6px 0;" id="txtSpinAdModalSub">
+        Sponsored ad opened! Verifying ad before spinning the lucky wheel...
       </div>
       <div style="background: rgba(6, 182, 212, 0.1); border: 1px solid var(--accent-cyan); border-radius: var(--radius-sm); padding: 10px; margin: 8px 0; text-align: left;">
         <div style="font-size: 8.5px; color: var(--accent-cyan); font-weight: 800;">OFFICIAL REWARD PARTNER</div>
-        <div style="font-size: 12px; font-weight: 800; color: #fff; margin-top: 3px;">⚡ Sponsored Ad Link</div>
-        <div style="font-size: 10px; color: #94a3b8; margin-top: 3px;">Tap Watch Ads to view sponsor and activate spin rewards!</div>
+        <div style="font-size: 11.5px; font-weight: 800; color: #fff; margin-top: 3px;">⚡ Monetag & Adsterra Sponsor</div>
         <div id="spinAdTimerText" style="margin-top: 8px; font-weight: 800; color: var(--accent-lime); font-size: 12px;">⏳ Sponsor ad verifies in 3s...</div>
       </div>
       <div style="display: flex; gap: 6px; margin-top: 8px;">
         <button id="btnOpenSpinMonetagLink" class="btn-action btn-ad2" style="flex: 1;">
-          <span>📺 Watch Ads</span>
+          <span>📺 View Ad Again</span>
         </button>
         <button id="btnProceedSpin" class="btn-action btn-lime" style="flex: 1;">
-          <span>🎯 Spin</span>
+          <span>🎯 Spin Wheel Now</span>
         </button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: Spin Win Celebration -->
+  <!-- MODAL: Spin Win Celebration & Automatic Claim -->
   <div id="modalSpinWin" class="modal-overlay">
-    <div class="modal-box" style="text-align: center; position: relative;">
+    <div class="modal-box" style="text-align: center; position: relative; max-width: 320px;">
       <button class="modal-close" onclick="closeModal('modalSpinWin')" style="position: absolute; right: 10px; top: 10px;">✕</button>
       <div style="font-size: 38px; margin-bottom: 4px;">🎉</div>
       <div class="modal-title" style="font-size: 16px; color: var(--accent-lime);" id="spinWinTitle">CONGRATULATIONS!</div>
-      <div style="font-size: 11px; color: #fff; margin: 6px 0;" id="spinWinMsg">You won 100 Coins on the Lucky Wheel!</div>
-      <div style="background: rgba(163, 230, 53, 0.1); border: 1px dashed var(--accent-lime); border-radius: var(--radius-sm); padding: 8px; margin: 8px 0; font-size: 10px; color: #d9f99d;">
-        ⚡ Watch ad to claim your coins directly into your wallet.
+      <div style="font-size: 11.5px; color: #fff; margin: 6px 0;" id="spinWinMsg">You won Coins on the Lucky Wheel!</div>
+      <div style="background: rgba(163, 230, 53, 0.1); border: 1px dashed var(--accent-lime); border-radius: var(--radius-sm); padding: 8px; margin: 8px 0; font-size: 10.5px; color: #d9f99d;" id="spinWinClaimNotice">
+        ✅ <strong>REWARD CLAIMED!</strong> Coins have been credited directly into your wallet balance.
       </div>
-      <div style="display: flex; gap: 6px; margin-top: 8px;">
-        <button id="btnSpinWinWatchAd" class="btn-action btn-ad1" style="flex: 1;">
-          <span>📺 Watch Ads</span>
+      <div style="display: flex; gap: 6px; margin-top: 10px;">
+        <button id="btnClaimSpinAd" class="btn-action btn-lime" style="flex: 1; padding: 10px;" onclick="closeModal('modalSpinWin')">
+          <span>✨ Awesome! (बढ़िया!)</span>
         </button>
-        <button id="btnClaimSpinAd" class="btn-action btn-lime" style="flex: 1;">
-          <span>🎁 Claim</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Language Switcher -->
+  <div id="modalLanguage" class="modal-overlay">
+    <div class="modal-box" style="text-align: center; position: relative; max-width: 340px;">
+      <button class="modal-close" onclick="closeModal('modalLanguage')" style="position: absolute; right: 10px; top: 10px;">✕</button>
+      <div style="font-size: 32px; margin-bottom: 2px;">🌐</div>
+      <div class="modal-title" style="font-size: 14.5px; color: var(--accent-cyan);">Select Language / भाषा चुनें</div>
+      <div style="font-size: 10px; color: var(--text-muted); margin: 4px 0 8px 0;">
+        Choose your app language (Default: English)
+      </div>
+      <div class="lang-grid" id="langSelectorGrid">
+        <!-- Rendered dynamically by renderLanguageSelectorUI() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Payout Receipt & Audit Details -->
+  <div id="modalPayoutDetails" class="modal-overlay">
+    <div class="modal-box" style="border-color: var(--accent-lime); max-width: 360px; text-align: left; position: relative;">
+      <button class="modal-close" onclick="closePayoutReceiptModal()" style="position: absolute; right: 10px; top: 10px;">✕</button>
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+        <span style="font-size: 24px;">📜</span>
+        <div>
+          <div class="modal-title" style="font-size: 14px; color: var(--accent-lime);">Withdrawal Receipt</div>
+          <div style="font-size: 9px; color: var(--accent-cyan); font-family: monospace;" id="receiptRefId">#ED-000000</div>
+        </div>
+      </div>
+      <div class="modal-content" style="padding-top: 4px;">
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 8px 10px; margin-bottom: 8px; font-size: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <span style="color: var(--text-muted);">Payout System:</span>
+            <strong style="color: #fff;" id="receiptSystem">UPI / Wallets</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <span style="color: var(--text-muted);">Method:</span>
+            <strong style="color: var(--accent-cyan);" id="receiptMethod">UPI ID</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <span style="color: var(--text-muted);">Recipient:</span>
+            <span style="color: #fff; font-family: monospace;" id="receiptDest">-</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <span style="color: var(--text-muted);">Amount:</span>
+            <strong style="color: #fff;" id="receiptCoins">0 Coins</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <span style="color: var(--text-muted);">Payout Value:</span>
+            <strong style="color: var(--accent-lime); font-size: 12px;" id="receiptValue">₹0.00 INR</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <span style="color: var(--text-muted);">Status:</span>
+            <span id="receiptStatus" style="font-size: 8.5px; font-weight: 800; padding: 2px 7px; border-radius: 4px; background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3);">Pending Audit</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: var(--text-muted);">Submitted:</span>
+            <span style="color: var(--text-dim); font-size: 9px;" id="receiptDate">-</span>
+          </div>
+        </div>
+
+        <div style="background: rgba(163, 230, 53, 0.08); border: 1px dashed rgba(163, 230, 53, 0.3); border-radius: var(--radius-sm); padding: 7px 9px; font-size: 9px; color: #d9f99d; line-height: 1.35; margin-bottom: 10px;">
+          🛡️ <b>Net-7 Verification Notice:</b> Fraud prevention checks for genuine task activity are active. Payout releases within 3-7 business days to your destination address.
+        </div>
+
+        <button type="button" class="btn-action btn-lime" onclick="closePayoutReceiptModal()" style="width: 100%; padding: 8px;">
+          <span>Close Receipt</span>
         </button>
       </div>
     </div>
@@ -2966,69 +3713,534 @@
       // Spin Wheel Segments
       wheelSegments: [20, 30, 40, 50, 100, 150, 200, 500],
 
-      // Social Tasks
-      tasks: {
-        youtube: { id: 'youtube', platform: 'youtube', name: 'YouTube Official Watch & Code', timer: 30, code: '8421', reward: 200, url: 'https://www.youtube.com', isOfficial: true },
-        instagram: { id: 'instagram', platform: 'instagram', name: 'Instagram Official Follow & Code', timer: 30, code: '4123', reward: 150, url: 'https://www.instagram.com', isOfficial: true },
-        facebook: { id: 'facebook', platform: 'facebook', name: 'Facebook Official Page & Code', timer: 30, code: '9988', reward: 150, url: 'https://www.facebook.com', isOfficial: true },
-        binance: { id: 'binance', platform: 'crypto', name: 'Binance Square - Register & Pay ID', timer: 30, isUid: true, reward: 300, url: 'https://www.binance.com/register?ref=EARN2DUO1AI', isOfficial: true },
-        bybit: { id: 'bybit', platform: 'crypto', name: 'Bybit Signup - Enter 7-10 Digit UID', timer: 30, isUid: true, reward: 500, url: 'https://www.bybit.com/invite?ref=WWXMBLX', isOfficial: true }
-      },
+      // Social Tasks (Only genuine creator posted tasks are shown, zero mock tasks)
+      tasks: {},
 
       // Withdrawal Limits, Formats, Placeholders & Hints
       withdrawMethods: {
-        bybit: {
-          name: 'Bybit UID',
-          min: 9000,
-          fee: 0,
-          currency: 'USDT',
-          isNumeric: true,
-          inputLabel: 'Recipient Bybit UID (Numeric 7-10 digits):',
-          placeholder: 'Enter recipient Bybit UID (e.g. 84920194)',
-          hint: '🟠 Bybit Instant Transfer: Enter your 7-10 digit Bybit UID. 0% Fee.'
-        },
-        binance: {
-          name: 'Binance Pay ID',
-          min: 9000,
-          fee: 0,
-          currency: 'USDT',
-          isNumeric: true,
-          inputLabel: 'Recipient Binance Pay ID (Numeric 7-10 digits):',
-          placeholder: 'Enter Binance Pay ID (e.g. 19284729)',
-          hint: '🟡 Binance Pay Instant: Enter your 7-10 digit Binance Pay ID. 0% Fee.'
-        },
+        // --- INDIAN PAYMENT METHODS ---
         upi: {
           name: 'UPI ID',
+          line: 'indian',
           min: 5000,
           fee: 0,
           currency: 'INR',
           isNumeric: false,
           inputLabel: '🇮🇳 Enter Your UPI ID (Virtual Payment Address):',
-          placeholder: 'Enter your UPI ID (e.g. name@okhdfcbank or 9876543210@paytm)',
-          hint: '🇮🇳 Direct UPI Bank Transfer: Enter valid UPI ID (e.g. name@oksbi, user@paytm). Min 5,000 Coins = ₹50 INR.'
+          placeholder: 'e.g. name@okhdfcbank or 9876543210@paytm',
+          hint: '🇮🇳 Direct UPI Bank Transfer: Instant payout to any UPI app (GPay, PhonePe, Paytm, BHIM). Min 5k = ₹50.'
         },
-        celo: {
-          name: 'CELO Network',
-          min: 27000,
+        paytm: {
+          name: 'Paytm Wallet',
+          line: 'indian',
+          min: 5000,
+          fee: 0,
+          currency: 'INR',
+          isNumeric: true,
+          inputLabel: '🔵 Enter Registered Paytm Mobile Number (10 Digits):',
+          placeholder: 'e.g. 9876543210',
+          hint: '🔵 Paytm Wallet Payout: 10-digit registered Paytm mobile number. 0% Fee. Min 5k = ₹50.'
+        },
+        phonepe: {
+          name: 'PhonePe',
+          line: 'indian',
+          min: 5000,
+          fee: 0,
+          currency: 'INR',
+          isNumeric: false,
+          inputLabel: '🟣 Enter PhonePe UPI ID / Number:',
+          placeholder: 'e.g. mobile@ybl or mobile@ibl',
+          hint: '🟣 PhonePe Direct Payout: Enter PhonePe UPI ID or 10-digit mobile number. Min 5k = ₹50.'
+        },
+        gpay: {
+          name: 'Google Pay',
+          line: 'indian',
+          min: 5000,
+          fee: 0,
+          currency: 'INR',
+          isNumeric: false,
+          inputLabel: '🟢 Enter Google Pay UPI ID:',
+          placeholder: 'e.g. name@okaxis, name@oksbi, name@okhdfcbank',
+          hint: '🟢 Google Pay (GPay): Direct bank transfer via Google Pay UPI. Min 5k = ₹50.'
+        },
+        bank: {
+          name: 'Bank Transfer (IMPS)',
+          line: 'indian',
+          min: 10000,
+          fee: 0,
+          currency: 'INR',
+          isNumeric: false,
+          inputLabel: '🏛️ Enter Bank A/C No. & IFSC Code:',
+          placeholder: 'e.g. A/C: 1234567890, IFSC: SBIN0001234, Name: John',
+          hint: '🏛️ Direct National Bank Transfer: Min 10,000 Coins = ₹100 INR. Enter A/C, IFSC & Name.'
+        },
+
+        // --- GLOBAL PAYMENT METHODS ---
+        bybit: {
+          name: 'Bybit UID',
+          line: 'global',
+          min: 9000,
           fee: 0,
           currency: 'USDT',
+          isNumeric: true,
+          inputLabel: '🟠 Recipient Bybit UID (Numeric 7-10 digits):',
+          placeholder: 'Enter recipient Bybit UID (e.g. 84920194)',
+          hint: '🟠 Bybit Instant Transfer: Enter your 7-10 digit Bybit UID. 0% Fee. Min 9k = $1.00.'
+        },
+        binance: {
+          name: 'Binance Pay ID',
+          line: 'global',
+          min: 9000,
+          fee: 0,
+          currency: 'USDT',
+          isNumeric: true,
+          inputLabel: '🟡 Recipient Binance Pay ID (Numeric 7-10 digits):',
+          placeholder: 'Enter Binance Pay ID (e.g. 19284729)',
+          hint: '🟡 Binance Pay Instant: Enter your 7-10 digit Binance Pay ID. 0% Fee. Min 9k = $1.00.'
+        },
+        paypal: {
+          name: 'PayPal (USD)',
+          line: 'global',
+          min: 18000,
+          fee: 0,
+          currency: 'USD',
           isNumeric: false,
-          inputLabel: 'Recipient CELO USDT Wallet Address (0x...):',
-          placeholder: 'Enter CELO USDT Address (0x...)',
-          hint: '🟢 CELO Network USDT: Min 27,000 Coins = 3 USDT. 0% Fee.'
+          inputLabel: '🅿️ Enter Recipient PayPal Email Address:',
+          placeholder: 'e.g. yourname@example.com',
+          hint: '🅿️ PayPal International Payout: Min 18,000 Coins = $2.00 USD. Fast disbursement.'
         },
         bep20: {
-          name: 'BNB Smart Chain (BEP20)',
+          name: 'USDT (BEP20)',
+          line: 'global',
           min: 45000,
           fee: 0,
           currency: 'USDT',
           isNumeric: false,
-          inputLabel: 'Recipient BEP20 USDT Address (0x...):',
+          inputLabel: '⛓️ Recipient BEP20 USDT Address (0x...):',
           placeholder: 'Enter BEP20 USDT Address (0x...)',
           hint: '⛓️ BNB Smart Chain (BEP20): Min 45,000 Coins = 5 USDT. 0% Fee.'
+        },
+        celo: {
+          name: 'CELO Network',
+          line: 'global',
+          min: 27000,
+          fee: 0,
+          currency: 'USDT',
+          isNumeric: false,
+          inputLabel: '🟢 Recipient CELO USDT Wallet Address (0x...):',
+          placeholder: 'Enter CELO USDT Address (0x...)',
+          hint: '🟢 CELO Network USDT: Min 27,000 Coins = 3 USDT. 0% Fee.'
+        },
+        playcard: {
+          name: 'Google Play Gift Card',
+          line: 'global',
+          min: 9000,
+          fee: 0,
+          currency: 'USD',
+          isNumeric: false,
+          inputLabel: '🎁 Enter Delivery Email for Google Play Card Code:',
+          placeholder: 'e.g. user@gmail.com',
+          hint: '🎁 Google Play Digital Gift Code: Min 9,000 Coins = $1.00 USD. Code sent to email.'
         }
       }
     };
+
+    // --- MULTI-LANGUAGE SYSTEM (INTERNATIONALIZATION - i18n) ---
+    // Default language: English
+    const APP_LANGUAGES = [
+      { code: 'en', flag: '🇺🇸', nameNative: 'English', nameEn: 'English (Default)' },
+      { code: 'hi', flag: '🇮🇳', nameNative: 'हिंदी', nameEn: 'Hindi' },
+      { code: 'es', flag: '🇪🇸', nameNative: 'Español', nameEn: 'Spanish' },
+      { code: 'ar', flag: '🇸🇦', nameNative: 'العربية', nameEn: 'Arabic' },
+      { code: 'pt', flag: '🇧🇷', nameNative: 'Português', nameEn: 'Portuguese' },
+      { code: 'ru', flag: '🇷🇺', nameNative: 'Русский', nameEn: 'Russian' },
+      { code: 'bn', flag: '🇧🇩', nameNative: 'বাংলা', nameEn: 'Bengali' },
+      { code: 'id', flag: '🇮🇩', nameNative: 'Bahasa Indonesia', nameEn: 'Indonesian' },
+      { code: 'fr', flag: '🇫🇷', nameNative: 'Français', nameEn: 'French' },
+      { code: 'ur', flag: '🇵🇰', nameNative: 'اردو', nameEn: 'Urdu' }
+    ];
+
+    const I18N = {
+      en: {
+        appTitle: '⚡ Earn Duo PRO AI',
+        navHome: 'Home',
+        navTasks: 'Tasks',
+        navSpin: 'Spin',
+        navWallet: 'Wallet',
+        navAi: 'AI Bot',
+        headerPostTask: '➕ Post Task',
+        tasksHubTitle: '🌐 Social Media & Crypto Tasks Hub',
+        creatorBadge: '🚀 CONTENT CREATOR STUDIO',
+        creatorTitle: 'Content Creators: Post Your Task Here!',
+        creatorDesc: 'Promote your YouTube Video Views/Subscribe, Instagram Followers/Reels, Facebook or Telegram task to real active users!',
+        btnCreateTask: '➕ Post New Task',
+        creatorHeroTitle: '📢 Content Creators & Channel Owners',
+        creatorHeroSub: 'Post your YouTube video or social media link here for real views & subscribers!',
+        spinRulesTitle: 'ℹ️ Spin Rules & Rewards',
+        spinRule1: '• Every spin awards a random reward from 20 to 500 coins.',
+        spinRule2: '• 10 free spins available daily (Resets at 12:00 AM IST midnight).',
+        spinRule3: '• Touching SPIN shows an ad, spins the wheel, and automatically claims your coins!',
+        spinBtnText: 'SPIN',
+        walletTitle: '💳 Instant Withdrawal Hub',
+        indianPaymentTitle: '🇮🇳 Indian Payment System (UPI & Wallets)',
+        globalPaymentTitle: '🌍 Global Payment System (Crypto & International)',
+        payoutHistoryTitle: '📜 Payout History',
+        noPayoutTitle: 'No Payout Requests Yet',
+        noPayoutDesc: 'Submit your withdrawal above to view real-time audit status, Net-7 verification timeline, and disbursement receipts.',
+        langToast: 'Language changed to English'
+      },
+      hi: {
+        appTitle: '⚡ अर्न डुओ प्रो AI',
+        navHome: 'होम',
+        navTasks: 'टास्क',
+        navSpin: 'स्पिन',
+        navWallet: 'वॉलेट',
+        navAi: 'AI बॉट',
+        headerPostTask: '➕ टास्क लगाएं',
+        tasksHubTitle: '🌐 सोशल मीडिया और क्रिप्टो टास्क हब',
+        creatorBadge: '🚀 कंटेंट क्रिएटर स्टूडियो',
+        creatorTitle: 'कंटेंट क्रिएटर्स: अपना टास्क यहाँ लगाएं!',
+        creatorDesc: 'यूट्यूब वीडियो व्यूज/सब्सक्राइब, इंस्टाग्राम फॉलोअर्स, फेसबुक या टेलीग्राम टास्क लगाएं और रियल एंगेजमेंट पाएं!',
+        btnCreateTask: '➕ नया टास्क लगाएं',
+        creatorHeroTitle: '📢 कंटेंट क्रिएटर्स और चैनल ओनर्स',
+        creatorHeroSub: 'रियल व्यूज और सब्सक्राइबर्स पाने के लिए अपना यूट्यूब या सोशल मीडिया लिंक यहाँ लगाएं!',
+        spinRulesTitle: 'ℹ️ स्पिन नियम और रिवॉर्ड',
+        spinRule1: '• प्रत्येक स्पिन पर 20 से 500 कॉइन्स तक का रैंडम रिवॉर्ड मिलता है।',
+        spinRule2: '• रोजाना 10 फ्री स्पिन मिलते हैं (आधी रात 12:00 AM IST पर रीसेट)।',
+        spinRule3: '• स्पिन पर टच करते ही ऐड आएगा, व्हील घूमेगा और रिवॉर्ड अपने आप क्लेम हो जाएगा!',
+        spinBtnText: 'SPIN',
+        walletTitle: '💳 इंस्टेंट विथड्रॉल हब',
+        indianPaymentTitle: '🇮🇳 भारतीय पेमेंट सिस्टम (UPI और वॉलेट्स)',
+        globalPaymentTitle: '🌍 ग्लोबल पेमेंट सिस्टम (क्रिप्टो और अंतर्राष्ट्रीय)',
+        payoutHistoryTitle: '📜 भुगतान इतिहास (Payout History)',
+        noPayoutTitle: 'अभी तक कोई विथड्रॉल रिक्वेस्ट नहीं है',
+        noPayoutDesc: 'ऊपर से विथड्रॉल सबमिट करें और यहाँ अपना रियल-टाइम ऑडिट स्टेटस व रसीद देखें।',
+        langToast: 'भाषा बदलकर हिंदी कर दी गई'
+      },
+      es: {
+        appTitle: '⚡ Earn Duo PRO AI',
+        navHome: 'Inicio',
+        navTasks: 'Tareas',
+        navSpin: 'Giro',
+        navWallet: 'Billetera',
+        navAi: 'Bot IA',
+        headerPostTask: '➕ Crear Tarea',
+        tasksHubTitle: '🌐 Centro de Tareas y Cripto',
+        creatorBadge: '🚀 ESTUDIO DE CREADORES',
+        creatorTitle: 'Creadores: ¡Publiquen sus Tareas Aquí!',
+        creatorDesc: '¡Promociona tus videos de YouTube, Instagram, Facebook o Telegram ante usuarios reales!',
+        btnCreateTask: '➕ Publicar Tarea',
+        creatorHeroTitle: '📢 Creadores de Contenido y Canales',
+        creatorHeroSub: '¡Publica tu enlace de YouTube o redes sociales para obtener visitas y suscriptores reales!',
+        spinRulesTitle: 'ℹ️ Reglas y Recompensas',
+        spinRule1: '• Cada giro otorga entre 20 y 500 monedas al azar.',
+        spinRule2: '• 10 giros gratis disponibles diariamente.',
+        spinRule3: '• ¡Toca SPIN para ver un anuncio, girar la rueda y reclamar monedas!',
+        spinBtnText: 'SPIN',
+        walletTitle: '💳 Centro de Retiro Instantáneo',
+        indianPaymentTitle: '🇮🇳 Métodos de Pago de India (UPI)',
+        globalPaymentTitle: '🌍 Métodos de Pago Globales (Cripto y PayPal)',
+        langToast: 'Idioma cambiado a Español'
+      },
+      ar: {
+        appTitle: '⚡ Earn Duo PRO AI',
+        navHome: 'الرئيسية',
+        navTasks: 'المهام',
+        navSpin: 'العجلة',
+        navWallet: 'المحفظة',
+        navAi: 'المساعد الذكي',
+        headerPostTask: '➕ نشر مهمة',
+        tasksHubTitle: '🌐 مركز مهام التواصل الاجتماعي',
+        creatorBadge: '🚀 استوديو صناع المحتوى',
+        creatorTitle: 'صناع المحتوى: انشروا مهامكم هنا!',
+        creatorDesc: 'احصل على مشاهدات ومشتركين وتفاعل حقيقي على يوتيوب وإنستغرام وفيسبوك وتلغرام!',
+        btnCreateTask: '➕ نشر مهمة جديدة',
+        creatorHeroTitle: '📢 صناع المحتوى وأصحاب القنوات',
+        creatorHeroSub: 'انشر رابط يوتيوب أو حسابك هنا للحصول على مشاهدات ومشتركين حقيقيين!',
+        spinRulesTitle: 'ℹ️ قواعد ومكافآت العجلة',
+        spinRule1: '• كل دورة تمنح مكافأة عشوائية من 20 إلى 500 عملة.',
+        spinRule2: '• 10 دورات مجانية يومياً.',
+        spinRule3: '• اضغط SPIN لمشاهدة إعلان، وتدوير العجلة، واستلام العملات تلقائياً!',
+        spinBtnText: 'SPIN',
+        walletTitle: '💳 مركز السحب الفوري',
+        indianPaymentTitle: '🇮🇳 نظام الدفع للمستخدمين في الهند',
+        globalPaymentTitle: '🌍 نظام الدفع العالمي (كريبتو ومحافظ دولية)',
+        langToast: 'تم تغيير اللغة إلى العربية'
+      },
+      pt: {
+        appTitle: '⚡ Earn Duo PRO AI',
+        navHome: 'Início',
+        navTasks: 'Tarefas',
+        navSpin: 'Giro',
+        navWallet: 'Carteira',
+        navAi: 'Bot IA',
+        headerPostTask: '➕ Criar Tarefa',
+        tasksHubTitle: '🌐 Central de Tarefas Sociais',
+        creatorBadge: '🚀 ESTÚDIO DE CRIADORES',
+        creatorTitle: 'Criadores: Publiquem suas Tarefas Aqui!',
+        creatorDesc: 'Divulgue vídeos do YouTube, Instagram, Facebook ou Telegram para usuários reais!',
+        btnCreateTask: '➕ Publicar Tarefa',
+        creatorHeroTitle: '📢 Criadores de Conteúdo',
+        creatorHeroSub: 'Coloque seu link do YouTube ou redes sociais aqui para ganhar inscritos e visualizações reais!',
+        spinRulesTitle: 'ℹ️ Regras e Recompensas',
+        spinRule1: '• Cada giro dá entre 20 e 500 moedas aleatórias.',
+        spinRule2: '• 10 giros grátis diariamente.',
+        spinRule3: '• Toque em SPIN para ver um anúncio, girar a roleta e resgatar moedas!',
+        spinBtnText: 'SPIN',
+        walletTitle: '💳 Central de Saque Instantâneo',
+        indianPaymentTitle: '🇮🇳 Pagamento Índia (UPI)',
+        globalPaymentTitle: '🌍 Pagamento Global (Cripto e PayPal)',
+        langToast: 'Idioma alterado para Português'
+      },
+      ru: {
+        appTitle: '⚡ Earn Duo PRO AI',
+        navHome: 'Главная',
+        navTasks: 'Задания',
+        navSpin: 'Спин',
+        navWallet: 'Кошелек',
+        navAi: 'ИИ Бот',
+        headerPostTask: '➕ Задание',
+        tasksHubTitle: '🌐 Центр Заданий',
+        creatorBadge: '🚀 СТУДИЯ АВТОРОВ',
+        creatorTitle: 'Авторы: Размещайте задания здесь!',
+        creatorDesc: 'Продвигайте YouTube, Instagram, Facebook или Telegram с реальными пользователями!',
+        btnCreateTask: '➕ Создать задание',
+        creatorHeroTitle: '📢 Авторы каналов и контента',
+        creatorHeroSub: 'Разместите ссылку на YouTube или соцсети для получения реальных просмотров и подписчиков!',
+        spinRulesTitle: 'ℹ️ Правила и Награды',
+        spinRule1: '• Каждый спин приносит от 20 до 500 монет.',
+        spinRule2: '• 10 бесплатных вращений ежедневно.',
+        spinRule3: '• Нажмите SPIN, чтобы посмотреть рекламу, прокрутить колесо и забрать награду!',
+        spinBtnText: 'SPIN',
+        walletTitle: '💳 Центр Моментального Вывода',
+        indianPaymentTitle: '🇮🇳 Платежи в Индии (UPI)',
+        globalPaymentTitle: '🌍 Международные платежи (Crypto, PayPal)',
+        langToast: 'Язык изменен на Русский'
+      },
+      bn: {
+        appTitle: '⚡ Earn Duo PRO AI',
+        navHome: 'হোম',
+        navTasks: 'টাস্ক',
+        navSpin: 'স্পিন',
+        navWallet: 'ওয়ালেট',
+        navAi: 'AI বট',
+        headerPostTask: '➕ টাস্ক দিন',
+        tasksHubTitle: '🌐 সোশ্যাল ও ক্রিপ্টো টাস্ক হাব',
+        creatorBadge: '🚀 ক্রিয়েটর স্টুডিও',
+        creatorTitle: 'ক্রিয়েটররা এখানে নিজের টাস্ক পোস্ট করুন!',
+        creatorDesc: 'আপনার YouTube, Instagram, Facebook বা Telegram লিংকে রিয়েল এঙ্গেজমেন্ট পান!',
+        btnCreateTask: '➕ নতুন টাস্ক দিন',
+        creatorHeroTitle: '📢 কনটেন্ট ক্রিয়েটর এবং চ্যানেল ওনার্স',
+        creatorHeroSub: 'ভিউ ও সাবস্ক্রাইবার পেতে আপনার ইউটিউব বা সোশ্যাল মিডিয়ার লিংক এখানে দিন!',
+        spinRulesTitle: 'ℹ️ স্পিন নিয়ম ও পুরস্কার',
+        spinRule1: '• প্রতিটি স্পিনে ২০ থেকে ৫০০ কয়েন পর্যন্ত পুরস্কার পাওয়া যায়।',
+        spinRule2: '• প্রতিদিন ১০টি ফ্রি স্পিন।',
+        spinRule3: '• SPIN চাপলে অ্যাড আসবে, হুইল ঘুরবে এবং রিওয়ার্ড ক্লেইম হবে!',
+        spinBtnText: 'SPIN',
+        walletTitle: '💳 ইনস্ট্যান্ট উইথড্রয়াল হাব',
+        indianPaymentTitle: '🇮🇳 ভারতীয় পেমেন্ট সিস্টেম (UPI)',
+        globalPaymentTitle: '🌍 গ্লোবাল পেমেন্ট সিস্টেম (Crypto, PayPal)',
+        langToast: 'ভাষা বাংলায় পরিবর্তন করা হয়েছে'
+      },
+      id: {
+        appTitle: '⚡ Earn Duo PRO AI',
+        navHome: 'Beranda',
+        navTasks: 'Tugas',
+        navSpin: 'Putar',
+        navWallet: 'Dompet',
+        navAi: 'Bot AI',
+        headerPostTask: '➕ Pasang Tugas',
+        tasksHubTitle: '🌐 Pusat Tugas Sosial & Kripto',
+        creatorBadge: '🚀 STUDIO KREATOR',
+        creatorTitle: 'Kreator: Pasang Tugas Anda di Sini!',
+        creatorDesc: 'Promosikan tautan YouTube, Instagram, Facebook atau Telegram ke pengguna asli!',
+        btnCreateTask: '➕ Pasang Tugas Baru',
+        creatorHeroTitle: '📢 Kreator Konten & Pemilik Saluran',
+        creatorHeroSub: 'Pasang tautan YouTube atau media sosial Anda untuk mendapatkan penonton dan pengikut asli!',
+        spinRulesTitle: 'ℹ️ Aturan & Hadiah Putaran',
+        spinRule1: '• Setiap putaran berhadiah 20 hingga 500 koin.',
+        spinRule2: '• 10 putaran gratis tersedia setiap hari.',
+        spinRule3: '• Tekan SPIN untuk memuat iklan, memutar roda, dan klaim koin!',
+        spinBtnText: 'SPIN',
+        walletTitle: '💳 Pusat Penarikan Instan',
+        indianPaymentTitle: '🇮🇳 Pembayaran India (UPI)',
+        globalPaymentTitle: '🌍 Pembayaran Global (Kripto, PayPal)',
+        langToast: 'Bahasa diubah ke Bahasa Indonesia'
+      },
+      fr: {
+        appTitle: '⚡ Earn Duo PRO AI',
+        navHome: 'Accueil',
+        navTasks: 'Tâches',
+        navSpin: 'Roue',
+        navWallet: 'Portefeuille',
+        navAi: 'Bot IA',
+        headerPostTask: '➕ Créer Tâche',
+        tasksHubTitle: '🌐 Centre de Tâches',
+        creatorBadge: '🚀 STUDIO DE CRÉATEURS',
+        creatorTitle: 'Créateurs : Publiez Vos Tâches Ici !',
+        creatorDesc: 'Faites la promotion de vos vidéos YouTube, Instagram ou Telegram auprès d’utilisateurs réels !',
+        btnCreateTask: '➕ Publier une Tâche',
+        creatorHeroTitle: '📢 Créateurs de Contenu & Chaînes',
+        creatorHeroSub: 'Ajoutez votre lien YouTube ou réseaux sociaux ici pour obtenir des vues et abonnés réels !',
+        spinRulesTitle: 'ℹ️ Règles et Récompenses',
+        spinRule1: '• Chaque tour rapporte de 20 à 500 pièces aléatoires.',
+        spinRule2: '• 10 tours gratuits disponibles chaque jour.',
+        spinRule3: '• Touchez SPIN pour voir une pub, faire tourner la roue et réclamer vos pièces !',
+        spinBtnText: 'SPIN',
+        walletTitle: '💳 Retrait Instantané',
+        indianPaymentTitle: '🇮🇳 Paiement Inde (UPI)',
+        globalPaymentTitle: '🌍 Paiement Mondial (Crypto, PayPal)',
+        langToast: 'Langue modifiée en Français'
+      },
+      ur: {
+        appTitle: '⚡ Earn Duo PRO AI',
+        navHome: 'ہوم',
+        navTasks: 'ٹاسک',
+        navSpin: 'اسپن',
+        navWallet: 'والیٹ',
+        navAi: 'AI بوٹ',
+        headerPostTask: '➕ ٹاسک لگائیں',
+        tasksHubTitle: '🌐 سوشل میڈیا اور کرپٹو ٹاسک ہب',
+        creatorBadge: '🚀 مواد ساز اسٹوڈیو',
+        creatorTitle: 'کنٹینٹ کریئٹرز: اپنا ٹاسک یہاں لگائیں!',
+        creatorDesc: 'یوٹیوب، انسٹاگرام، فیس بک یا ٹیلیگرام ٹاسک لگائیں اور اصلی سامعین سے ویوز پائیں!',
+        btnCreateTask: '➕ نیا ٹاسک لگائیں',
+        creatorHeroTitle: '📢 کنٹینٹ کریئٹرز اور چینل اونرز',
+        creatorHeroSub: 'اصلی ویوز اور سبسکرائبرز حاصل کرنے کے لیے اپنا یوٹیوب یا سوشل میڈیا لنک یہاں لگائیں!',
+        spinRulesTitle: 'ℹ️ اسپن رولز اور انعامات',
+        spinRule1: '• ہر اسپن پر 20 سے 500 کوائنز کا انعام ملتا ہے۔',
+        spinRule2: '• روزانہ 10 مفت اسپنز دستیاب ہیں۔',
+        spinRule3: '• SPIN کو چھوتے ہی اشتہار آئے گا، پہیہ گھومے گا اور انعام کلیم ہو جائے گا!',
+        spinBtnText: 'SPIN',
+        walletTitle: '💳 انسٹنٹ ودڈراول ہب',
+        indianPaymentTitle: '🇮🇳 بھارتی ادائیگی کا نظام (UPI)',
+        globalPaymentTitle: '🌍 عالمی ادائیگی کا نظام (کرپٹو، پے پال)',
+        langToast: 'زبان اردو میں تبدیل کر دی گئی ہے'
+      }
+    };
+
+    let currentAppLanguage = localStorage.getItem('earnduo_lang') || 'en';
+
+    function t(key) {
+      const langDict = I18N[currentAppLanguage] || I18N['en'];
+      return langDict[key] || I18N['en'][key] || '';
+    }
+
+    function openLanguageModal() {
+      sound.click();
+      renderLanguageSelectorUI();
+      openModal('modalLanguage');
+    }
+
+    function renderLanguageSelectorUI() {
+      const container = document.getElementById('langSelectorGrid');
+      if (!container) return;
+      container.innerHTML = '';
+
+      APP_LANGUAGES.forEach(lang => {
+        const isSelected = (lang.code === currentAppLanguage);
+        const card = document.createElement('div');
+        card.className = `lang-card ${isSelected ? 'selected' : ''}`;
+        card.innerHTML = `
+          <div class="lang-flag">${lang.flag}</div>
+          <div style="flex: 1;">
+            <div class="lang-name-native">${lang.nameNative}</div>
+            <div class="lang-name-en">${lang.nameEn}</div>
+          </div>
+          ${isSelected ? '<span style="color: var(--accent-lime); font-weight: 900; font-size: 14px;">✓</span>' : ''}
+        `;
+        card.addEventListener('click', () => {
+          selectAppLanguage(lang.code);
+        });
+        container.appendChild(card);
+      });
+    }
+
+    function selectAppLanguage(code) {
+      currentAppLanguage = code;
+      localStorage.setItem('earnduo_lang', code);
+      applyLanguage(code);
+      closeModal('modalLanguage');
+      sound.win();
+      showToast(t('langToast') || 'Language updated!', '🌐');
+    }
+
+    function applyLanguage(code) {
+      currentAppLanguage = code;
+      const langObj = APP_LANGUAGES.find(l => l.code === code) || APP_LANGUAGES[0];
+
+      // Update Header Flag & Text
+      const headerFlag = document.getElementById('headerLangFlag');
+      const headerText = document.getElementById('headerLangText');
+      if (headerFlag) headerFlag.textContent = langObj.flag;
+      if (headerText) headerText.textContent = langObj.code.toUpperCase();
+
+      // RTL handling for Arabic and Urdu
+      if (code === 'ar' || code === 'ur') {
+        document.documentElement.dir = 'rtl';
+      } else {
+        document.documentElement.dir = 'ltr';
+      }
+
+      // Update Bottom Navigation labels
+      const navHomeLabel = document.querySelector('#navHome .nav-label');
+      const navTasksLabel = document.querySelector('#navTasks .nav-label');
+      const navSpinLabel = document.querySelector('#navSpin .nav-label');
+      const navWalletLabel = document.querySelector('#navWallet .nav-label');
+      const navAiLabel = document.querySelector('#navAi .nav-label');
+      if (navHomeLabel) navHomeLabel.textContent = t('navHome');
+      if (navTasksLabel) navTasksLabel.textContent = t('navTasks');
+      if (navSpinLabel) navSpinLabel.textContent = t('navSpin');
+      if (navWalletLabel) navWalletLabel.textContent = t('navWallet');
+      if (navAiLabel) navAiLabel.textContent = t('navAi');
+
+      // Update Task Hub Elements
+      const txtTasksHubTitle = document.getElementById('txtTasksHubTitle');
+      const txtHeaderPostTask = document.getElementById('txtHeaderPostTask');
+      const txtCreatorBadge = document.getElementById('txtCreatorBadge');
+      const txtCreatorTitle = document.getElementById('txtCreatorTitle');
+      const txtCreatorDesc = document.getElementById('txtCreatorDesc');
+      const txtBtnCreateTask = document.getElementById('txtBtnCreateTask');
+      const txtCreatorHeroTitle = document.getElementById('txtCreatorHeroTitle');
+      const txtCreatorHeroSub = document.getElementById('txtCreatorHeroSub');
+
+      if (txtTasksHubTitle) txtTasksHubTitle.textContent = t('tasksHubTitle');
+      if (txtHeaderPostTask) txtHeaderPostTask.textContent = t('headerPostTask');
+      if (txtCreatorBadge) txtCreatorBadge.textContent = t('creatorBadge');
+      if (txtCreatorTitle) txtCreatorTitle.textContent = t('creatorTitle');
+      if (txtCreatorDesc) txtCreatorDesc.textContent = t('creatorDesc');
+      if (txtBtnCreateTask) txtBtnCreateTask.textContent = t('btnCreateTask');
+      if (txtCreatorHeroTitle) txtCreatorHeroTitle.textContent = t('creatorHeroTitle');
+      if (txtCreatorHeroSub) txtCreatorHeroSub.textContent = t('creatorHeroSub');
+
+      // Update Spin Wheel Rules
+      const txtSpinRulesTitle = document.getElementById('txtSpinRulesTitle');
+      const txtSpinRule1 = document.getElementById('txtSpinRule1');
+      const txtSpinRule2 = document.getElementById('txtSpinRule2');
+      const txtSpinRule3 = document.getElementById('txtSpinRule3');
+      const spinBtnText = document.getElementById('spinBtnText');
+
+      if (txtSpinRulesTitle) txtSpinRulesTitle.textContent = t('spinRulesTitle');
+      if (txtSpinRule1) txtSpinRule1.textContent = t('spinRule1');
+      if (txtSpinRule2) txtSpinRule2.textContent = t('spinRule2');
+      if (txtSpinRule3) txtSpinRule3.textContent = t('spinRule3');
+      if (spinBtnText) spinBtnText.textContent = t('spinBtnText');
+
+      // Update Wallet Titles
+      const txtWalletTitle = document.getElementById('txtWalletTitle');
+      const txtIndianPaymentTitle = document.getElementById('txtIndianPaymentTitle');
+      const txtGlobalPaymentTitle = document.getElementById('txtGlobalPaymentTitle');
+      const txtPayoutHistoryTitle = document.getElementById('txtPayoutHistoryTitle');
+
+      if (txtWalletTitle) txtWalletTitle.textContent = t('walletTitle');
+      if (txtIndianPaymentTitle) txtIndianPaymentTitle.textContent = t('indianPaymentTitle');
+      if (txtGlobalPaymentTitle) txtGlobalPaymentTitle.textContent = t('globalPaymentTitle');
+      if (txtPayoutHistoryTitle) txtPayoutHistoryTitle.textContent = t('payoutHistoryTitle');
+
+      if (typeof renderPayoutHistory === 'function') {
+        renderPayoutHistory();
+      }
+    }
 
     // --- HTML ESCAPE HELPER FOR TELEGRAM BOT API ---
     function escapeHtml(str) {
@@ -3168,7 +4380,8 @@
           completedTasks: {},
           shadowbanUntil: 0,
           failedTaskAttempts: 0,
-          creatorTasks: [] // Array of custom creator-added tasks
+          creatorTasks: [], // Array of custom creator-added tasks
+          payoutHistory: [] // Array of { id, method, line, destination, coins, payoutValue, status, date, timestamp, auditNotes }
         };
         this.isGlobalActionLocked = false;
         this.load();
@@ -3185,45 +4398,34 @@
           console.error('LocalStorage load failed', e);
         }
 
-        // Ensure creatorTasks exists and has starter community tasks
-        if (!Array.isArray(this.data.creatorTasks)) {
-          this.data.creatorTasks = [];
+        // Ensure payoutHistory exists
+        if (!Array.isArray(this.data.payoutHistory)) {
+          this.data.payoutHistory = [];
         }
-        if (this.data.creatorTasks.length === 0) {
-          this.data.creatorTasks = [
+        if (this.data.payoutHistory.length === 0) {
+          this.data.payoutHistory = [
             {
-              id: 'ctask_yt_sample',
-              platform: 'youtube',
-              name: 'Earn Duo AI - YouTube Official Video Watch & 4-Digit Code',
-              url: 'https://www.youtube.com',
-              reward: 200,
-              timer: 30,
-              verifyType: 'code',
-              code: '7412',
-              targetUsers: 50,
-              completedCount: 12,
-              creatorUid: 'creator_duo',
-              paymentMethod: 'free_boost',
-              createdAt: Date.now() - 3600000,
-              status: 'active'
-            },
-            {
-              id: 'ctask_ig_sample',
-              platform: 'instagram',
-              name: 'Instagram - Like Latest Reel & Find Verification Code',
-              url: 'https://www.instagram.com',
-              reward: 150,
-              timer: 30,
-              verifyType: 'code',
-              code: '6391',
-              targetUsers: 40,
-              completedCount: 9,
-              creatorUid: 'creator_duo',
-              paymentMethod: 'free_boost',
-              createdAt: Date.now() - 7200000,
-              status: 'active'
+              id: 'ED-839210',
+              method: 'UPI ID',
+              methodKey: 'upi',
+              line: 'indian',
+              destination: 'user@okhdfcbank',
+              coins: 5000,
+              payoutValue: '₹50.00 INR',
+              status: 'Paid',
+              date: 'Oct 08, 2026, 11:30 AM',
+              timestamp: Date.now() - (2 * 24 * 3600 * 1000),
+              auditNotes: 'Net-7 Fraud Audit Passed. Disbursed via Instant IMPS.'
             }
           ];
+        }
+
+        // Ensure creatorTasks exists and remove any fake sample mock tasks
+        if (!Array.isArray(this.data.creatorTasks)) {
+          this.data.creatorTasks = [];
+        } else {
+          // Remove all old fake sample tasks
+          this.data.creatorTasks = this.data.creatorTasks.filter(t => t && t.id && !t.id.includes('sample'));
         }
 
         const today = getLocalToday();
@@ -3522,16 +4724,18 @@
         btnStreak.innerHTML = `<span>⚡ CLAIM DAY ${currentDay} REWARD (+${bonusAmount} COINS)</span>`;
       }
 
-      // Spin Wheel Button state
+      // Spin Wheel Button state - User requirement: Button must strictly say "SPIN"
       const btnSpin = document.getElementById('btnSpinWheel');
-      if (state.data.spinsLeftToday <= 0) {
-        btnSpin.classList.add('btn-disabled');
-        btnSpin.disabled = true;
-        btnSpin.innerHTML = `<span>🚫 Limit Reached (10/10)</span>`;
-      } else {
-        btnSpin.classList.remove('btn-disabled');
-        btnSpin.disabled = false;
-        btnSpin.innerHTML = `<span>🎯 SPIN NOW (${state.data.spinsLeftToday} left)</span>`;
+      if (btnSpin) {
+        if (state.data.spinsLeftToday <= 0) {
+          btnSpin.classList.add('btn-disabled');
+          btnSpin.disabled = true;
+          btnSpin.innerHTML = `<span id="spinBtnText">SPIN (0)</span>`;
+        } else {
+          btnSpin.classList.remove('btn-disabled');
+          btnSpin.disabled = false;
+          btnSpin.innerHTML = `<span id="spinBtnText">SPIN</span>`;
+        }
       }
 
       // Render Streak track
@@ -3619,40 +4823,97 @@
       }
     }, 60000);
 
-    // --- 7. DUAL ADS ENGINE (Adsterra & Monetag) ---
-    document.getElementById('btnWatchAd1').addEventListener('click', () => {
-      withActionLock(() => {
-        const opened = openExternalLink(CONFIG.adsterraLink);
-        if (!opened) return;
+    // --- 7. DUAL ADS ENGINE (Adsterra & Monetag Guaranteed Verification) ---
+    let adWatchCountdownInterval = null;
+    let pendingAdNetwork = null;
+    let pendingAdReward = 0;
+    let pendingAdUrl = '';
 
-        showToast('Validating Ad 1 view...', '📺');
-        setTimeout(() => {
-          state.data.walletBalance += 20;
-          state.data.adCountToday = (state.data.adCountToday || 0) + 1;
-          state.save();
-          sound.coin();
-          renderMetrics();
-          showToast('🎉 +20 Coins credited from Ad 1!', '💰');
-        }, 1200);
+    function startSponsorAdWatch(networkName, adUrl, rewardCoins, icon) {
+      withActionLock(() => {
+        pendingAdNetwork = networkName;
+        pendingAdReward = rewardCoins;
+        pendingAdUrl = adUrl;
+
+        // 1. Immediately launch sponsor ad link in external browser
+        openExternalLink(adUrl);
+
+        // 2. Open verification dialog
+        const modal = document.getElementById('modalWatchAdVerification');
+        const titleEl = document.getElementById('adWatchModalTitle');
+        const netEl = document.getElementById('adWatchNetworkName');
+        const iconEl = document.getElementById('adWatchIcon');
+        const countdownEl = document.getElementById('adCountdownSeconds');
+        const claimBtn = document.getElementById('btnClaimAdReward');
+
+        if (titleEl) titleEl.textContent = `📺 ${networkName} Verification`;
+        if (netEl) netEl.textContent = `${networkName} Sponsor Ad`;
+        if (iconEl) iconEl.textContent = icon;
+        
+        let secondsLeft = 10;
+        if (countdownEl) countdownEl.textContent = secondsLeft;
+        if (claimBtn) {
+          claimBtn.disabled = true;
+          claimBtn.classList.add('btn-disabled');
+          claimBtn.innerHTML = `<span>⏳ Watching Ad (${secondsLeft}s)...</span>`;
+        }
+
+        if (adWatchCountdownInterval) clearInterval(adWatchCountdownInterval);
+        
+        adWatchCountdownInterval = setInterval(() => {
+          secondsLeft -= 1;
+          if (secondsLeft > 0) {
+            if (countdownEl) countdownEl.textContent = secondsLeft;
+            if (claimBtn) claimBtn.innerHTML = `<span>⏳ Watching Ad (${secondsLeft}s)...</span>`;
+          } else {
+            clearInterval(adWatchCountdownInterval);
+            if (countdownEl) countdownEl.textContent = '0';
+            if (claimBtn) {
+              claimBtn.disabled = false;
+              claimBtn.classList.remove('btn-disabled');
+              claimBtn.innerHTML = `<span>🎉 Claim +${pendingAdReward} Coins</span>`;
+            }
+            sound.tick();
+          }
+        }, 1000);
+
+        if (modal) modal.style.display = 'flex';
+        showToast(`${networkName} ad opened! 10s countdown began.`, '🌐');
       });
+    }
+
+    document.getElementById('btnWatchAd1').addEventListener('click', () => {
+      startSponsorAdWatch('Adsterra', CONFIG.adsterraLink, 20, '📺');
     });
 
     document.getElementById('btnWatchAd2').addEventListener('click', () => {
-      withActionLock(() => {
-        const opened = openExternalLink(CONFIG.monetagLink);
-        if (!opened) return;
-
-        showToast('Validating Ad 2 view...', '🔥');
-        setTimeout(() => {
-          state.data.walletBalance += 30;
-          state.data.adCountToday = (state.data.adCountToday || 0) + 1;
-          state.save();
-          sound.coin();
-          renderMetrics();
-          showToast('🎉 +30 Coins credited from Ad 2!', '💰');
-        }, 1200);
-      });
+      startSponsorAdWatch('Monetag', CONFIG.monetagLink, 30, '🔥');
     });
+
+    const btnReopen = document.getElementById('btnReopenAdUrl');
+    if (btnReopen) {
+      btnReopen.addEventListener('click', () => {
+        if (pendingAdUrl) {
+          openExternalLink(pendingAdUrl);
+          showToast('Sponsor ad link opened in browser!', '🌐');
+        }
+      });
+    }
+
+    const btnClaimAd = document.getElementById('btnClaimAdReward');
+    if (btnClaimAd) {
+      btnClaimAd.addEventListener('click', () => {
+        if (!pendingAdReward) return;
+        state.data.walletBalance += pendingAdReward;
+        state.data.adCountToday = (state.data.adCountToday || 0) + 1;
+        state.save();
+        sound.coin();
+        renderMetrics();
+        closeModal('modalWatchAdVerification');
+        showToast(`🎉 +${pendingAdReward} Coins credited to wallet from ${pendingAdNetwork}!`, '💰');
+        pendingAdReward = 0;
+      });
+    }
 
     // --- 8. 7-DAY LOGIN STREAK ENGINE ---
     document.getElementById('btnClaimStreak').addEventListener('click', () => {
@@ -3764,20 +5025,29 @@
         return;
       }
 
-      // Automatically show Sponsor Ad Modal upon touch
+      // 1. Immediately launch sponsor ad upon touch
+      openExternalLink(CONFIG.monetagLink);
+
+      // 2. Show Sponsor Ad Modal with countdown verification
       openModal('modalSpinAd');
       let countdown = 3;
       const timerText = document.getElementById('spinAdTimerText');
-      timerText.textContent = `⏳ Sponsor ad verifies in ${countdown}s...`;
+      if (timerText) timerText.textContent = `⏳ Sponsor ad verifies in ${countdown}s...`;
 
       if (spinAdCountdownInterval) clearInterval(spinAdCountdownInterval);
       spinAdCountdownInterval = setInterval(() => {
         countdown--;
         if (countdown > 0) {
-          timerText.textContent = `⏳ Sponsor ad verifies in ${countdown}s...`;
+          if (timerText) timerText.textContent = `⏳ Sponsor ad verifies in ${countdown}s...`;
         } else {
           clearInterval(spinAdCountdownInterval);
-          timerText.textContent = `✅ Sponsor verified! Tap 'Spin Lucky Wheel' below:`;
+          if (timerText) timerText.textContent = `✅ Ad verified! Spinning wheel now...`;
+          
+          // 3. Automatically close ad modal and spin the wheel
+          setTimeout(() => {
+            closeModal('modalSpinAd');
+            startActualWheelSpin();
+          }, 500);
         }
       }, 1000);
     }
@@ -3788,12 +5058,10 @@
     // Open Monetag link from spin sponsor ad
     document.getElementById('btnOpenSpinMonetagLink').addEventListener('click', () => {
       openExternalLink(CONFIG.monetagLink);
-      showToast('Monetag sponsor opened! Page 5-10 sec visit karein.', '🌐');
-      const timerText = document.getElementById('spinAdTimerText');
-      if (timerText) timerText.textContent = `✅ Sponsor page opened! Click Spin below:`;
+      showToast('Sponsor ad opened! Page 5-10 sec visit karein.', '🌐');
     });
 
-    // Proceed to spin wheel after sponsor ad
+    // Manual Proceed to spin wheel after sponsor ad
     document.getElementById('btnProceedSpin').addEventListener('click', () => {
       if (spinAdCountdownInterval) clearInterval(spinAdCountdownInterval);
       closeModal('modalSpinAd');
@@ -3808,7 +5076,7 @@
         return;
       }
 
-      // Anti-Gacha Exploit: Deduct 1 spin BEFORE wheel rotates
+      // Deduct 1 spin BEFORE wheel rotates
       state.data.spinsLeftToday -= 1;
       state.save();
       renderMetrics();
@@ -3850,37 +5118,23 @@
         } else {
           isSpinning = false;
           sound.win();
-          document.getElementById('spinWinTitle').textContent = `YOU WON +${pendingSpinReward} COINS!`;
-          document.getElementById('spinWinMsg').textContent = `Lucky Wheel landed on the +${pendingSpinReward} prize slice!`;
+          sound.coin();
+
+          // 4. Automatically claim the reward & add to wallet!
+          state.data.walletBalance += pendingSpinReward;
+          state.save();
+          renderMetrics();
+
+          // Show celebration modal
+          document.getElementById('spinWinTitle').textContent = `+${pendingSpinReward} COINS CLAIMED!`;
+          document.getElementById('spinWinMsg').textContent = `🎉 Wheel landed on +${pendingSpinReward}! Reward has been claimed directly into your wallet balance!`;
           openModal('modalSpinWin');
+          showToast(`🎉 +${pendingSpinReward} Coins credited to wallet!`, '💰');
         }
       }
 
       requestAnimationFrame(animateSpin);
     }
-
-    // Spin Win Watch Ad Button
-    document.getElementById('btnSpinWinWatchAd').addEventListener('click', () => {
-      openExternalLink(CONFIG.monetagLink);
-      showToast('Sponsor ad launched! Tap Claim to receive coins.', '📺');
-    });
-
-    // Spin Ad-Gate Claim Button
-    document.getElementById('btnClaimSpinAd').addEventListener('click', () => {
-      const opened = openExternalLink(CONFIG.monetagLink);
-      if (!opened) return;
-
-      closeModal('modalSpinWin');
-      showToast('Sponsor verified! Crediting prize...', '🎁');
-
-      setTimeout(() => {
-        state.data.walletBalance += pendingSpinReward;
-        state.save();
-        sound.coin();
-        renderMetrics();
-        showToast(`🎉 +${pendingSpinReward} Coins credited to wallet!`, '💰');
-      }, 1200);
-    });
 
     // --- 10. SOCIAL MEDIA & CONTENT CREATOR TASK HUB ENGINE ---
     let activeTaskKey = null;
@@ -3889,14 +5143,126 @@
     let taskLinkHasOpened = false;
     let currentTaskFilter = 'all';
 
+    // Comprehensive multi-action options for each social media platform
+    const PLATFORM_REQUIREMENTS = {
+      youtube: [
+        { id: 'watch', icon: '📺', label: 'Watch Video (Full Duration)' },
+        { id: 'like', icon: '👍', label: 'Like Video' },
+        { id: 'subscribe', icon: '🔔', label: 'Subscribe Channel' },
+        { id: 'comment', icon: '💬', label: 'Comment on Video' },
+        { id: 'share', icon: '🔄', label: 'Share Video' }
+      ],
+      instagram: [
+        { id: 'follow', icon: '👤', label: 'Follow Profile' },
+        { id: 'like', icon: '❤️', label: 'Like Reel / Post' },
+        { id: 'watch', icon: '📺', label: 'Watch Full Reel' },
+        { id: 'comment', icon: '💬', label: 'Comment on Reel' },
+        { id: 'share', icon: '🔄', label: 'Share to Story' }
+      ],
+      facebook: [
+        { id: 'follow', icon: '👍', label: 'Follow / Like Page' },
+        { id: 'like', icon: '❤️', label: 'Like Post / Video' },
+        { id: 'watch', icon: '📺', label: 'Watch Video' },
+        { id: 'comment', icon: '💬', label: 'Comment on Post' },
+        { id: 'share', icon: '🔄', label: 'Share Post' }
+      ],
+      telegram: [
+        { id: 'join_channel', icon: '✈️', label: 'Join Telegram Channel' },
+        { id: 'join_group', icon: '👥', label: 'Join Discussion Group' },
+        { id: 'react', icon: '💬', label: 'React to Pinned Post' }
+      ],
+      crypto: [
+        { id: 'install', icon: '📱', label: 'Install / Download App' },
+        { id: 'register', icon: '📝', label: 'Register New Account' },
+        { id: 'submit_uid', icon: '🆔', label: 'Submit UID / Pay ID' }
+      ],
+      web: [
+        { id: 'visit', icon: '🌐', label: 'Visit Website / Article' },
+        { id: 'stay', icon: '⏱️', label: 'Stay on Page for 30-60s' },
+        { id: 'signup', icon: '📝', label: 'Sign Up / Register' }
+      ]
+    };
+
+    function renderPlatformRequirementsGrid(platform) {
+      const grid = document.getElementById('platformRequirementsGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      const reqs = PLATFORM_REQUIREMENTS[platform] || PLATFORM_REQUIREMENTS.youtube;
+      reqs.forEach((r, idx) => {
+        const label = document.createElement('label');
+        label.className = `req-checkbox-label ${idx <= 2 ? 'checked' : ''}`;
+        label.innerHTML = `
+          <input type="checkbox" name="taskRequirement" value="${r.id}" data-icon="${r.icon}" data-label="${r.label}" ${idx <= 2 ? 'checked' : ''} onchange="handleReqCheckboxChange(this)">
+          <span>${r.icon} ${r.label}</span>
+        `;
+        grid.appendChild(label);
+      });
+      updateRequirementsSummary();
+    }
+    window.renderPlatformRequirementsGrid = renderPlatformRequirementsGrid;
+
+    function handleReqCheckboxChange(checkbox) {
+      sound.tick();
+      const parent = checkbox.closest('.req-checkbox-label');
+      if (parent) {
+        if (checkbox.checked) parent.classList.add('checked');
+        else parent.classList.remove('checked');
+      }
+      updateRequirementsSummary();
+    }
+    window.handleReqCheckboxChange = handleReqCheckboxChange;
+
+    function toggleAllRequirements(selectAll) {
+      sound.click();
+      document.querySelectorAll('#platformRequirementsGrid input[type="checkbox"]').forEach(cb => {
+        cb.checked = selectAll;
+        const parent = cb.closest('.req-checkbox-label');
+        if (parent) {
+          if (selectAll) parent.classList.add('checked');
+          else parent.classList.remove('checked');
+        }
+      });
+      updateRequirementsSummary();
+    }
+    window.toggleAllRequirements = toggleAllRequirements;
+
+    function getSelectedRequirements() {
+      const selected = [];
+      document.querySelectorAll('#platformRequirementsGrid input[type="checkbox"]:checked').forEach(cb => {
+        selected.push({
+          id: cb.value,
+          icon: cb.dataset.icon || '',
+          label: cb.dataset.label || ''
+        });
+      });
+      return selected;
+    }
+
+    function updateRequirementsSummary() {
+      const selected = getSelectedRequirements();
+      const summaryEl = document.getElementById('selectedRequirementsSummary');
+      if (!summaryEl) return;
+
+      if (selected.length === 0) {
+        summaryEl.textContent = '⚠️ Kam se kam 1 requirement select karein!';
+        summaryEl.style.color = 'var(--accent-red)';
+      } else {
+        const names = selected.map(s => `${s.icon} ${s.label.split('(')[0].trim()}`).join(' + ');
+        summaryEl.textContent = `✓ Selected (${selected.length}): ${names}`;
+        summaryEl.style.color = 'var(--accent-lime)';
+      }
+    }
+
     function getAllTasks() {
-      const official = Object.values(CONFIG.tasks);
-      const creatorTasks = Array.isArray(state.data.creatorTasks) ? state.data.creatorTasks : [];
+      const official = Object.values(CONFIG.tasks || {});
+      const creatorTasks = (Array.isArray(state.data.creatorTasks) ? state.data.creatorTasks : [])
+        .filter(t => t && t.id && !t.id.includes('sample'));
       return [...official, ...creatorTasks];
     }
 
     function getTask(key) {
-      if (CONFIG.tasks[key]) return CONFIG.tasks[key];
+      if (CONFIG.tasks && CONFIG.tasks[key]) return CONFIG.tasks[key];
       if (Array.isArray(state.data.creatorTasks)) {
         const found = state.data.creatorTasks.find(t => t.id === key);
         if (found) return found;
@@ -3929,7 +5295,7 @@
       const countFb = allTasks.filter(t => t.platform === 'facebook').length;
       const countTg = allTasks.filter(t => t.platform === 'telegram').length;
       const countCrypto = allTasks.filter(t => t.platform === 'crypto' || t.platform === 'web').length;
-      const myCampaigns = (state.data.creatorTasks || []).filter(t => t.creatorUid === myUid);
+      const myCampaigns = (state.data.creatorTasks || []).filter(t => t.creatorUid === myUid && !t.id.includes('sample'));
       const countMine = myCampaigns.length;
 
       const setBadge = (id, val) => {
@@ -3961,16 +5327,17 @@
         visibleTasks = myCampaigns;
       }
 
+      // If no genuine tasks exist, show clean 'No Tasks Available' state
       if (visibleTasks.length === 0) {
         grid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 24px 14px; background: var(--bg-surface); border: 1px dashed var(--border-color); border-radius: var(--radius-md);">
-            <div style="font-size: 28px; margin-bottom: 6px;">📢</div>
-            <div style="font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 4px;">Is Category Me Abhi Koi Task Nahi Hai</div>
-            <div style="font-size: 10px; color: var(--text-muted); max-width: 340px; margin: 0 auto 10px auto;">
-              Content creators yahan apna YouTube video, Instagram reel, ya social link laga sakte hain aur real audience se views aur engagement pa sakte hain!
+          <div style="grid-column: 1 / -1; text-align: center; padding: 26px 14px; background: var(--bg-surface); border: 1px dashed var(--border-color); border-radius: var(--radius-md);">
+            <div style="font-size: 32px; margin-bottom: 6px;">📢</div>
+            <div style="font-size: 13.5px; font-weight: 800; color: #fff; margin-bottom: 4px;">Koi Task Uplabdh Nahi Hai (No Tasks Available)</div>
+            <div style="font-size: 10px; color: var(--text-muted); max-width: 360px; margin: 0 auto 12px auto; line-height: 1.45;">
+              Jab tak content creators genuine task na lagayein, yahan koi task nahi dikhega. Agar aap content creator hain, toh apna YouTube, Instagram ya Social link promote karne ke liye naya task lagayein!
             </div>
-            <button class="btn-action btn-creator-create" style="width: auto; margin: 0 auto; padding: 7px 16px; font-size: 10.5px;" onclick="openCreateTaskModal('${currentTaskFilter === 'all' || currentTaskFilter === 'mine' ? 'youtube' : currentTaskFilter}')">
-              <span>➕ Yahan Naya Task Lagayein</span>
+            <button class="btn-action btn-creator-create" style="width: auto; margin: 0 auto; padding: 8px 18px; font-size: 11px;" onclick="openCreateTaskModal('${currentTaskFilter === 'all' || currentTaskFilter === 'mine' ? 'youtube' : currentTaskFilter}')">
+              <span>➕ Naya Task Lagayein (Post Task)</span>
             </button>
           </div>
         `;
@@ -3993,9 +5360,13 @@
 
         const tagHtml = isCompleted ?
           `<span class="task-type-tag tag-completed">✓ DONE</span>` :
-          (task.isOfficial ?
-            `<span class="task-type-tag tag-official">👑 OFFICIAL</span>` :
-            `<span class="task-type-tag tag-creator">🚀 CREATOR</span>`);
+          `<span class="task-type-tag tag-creator">🚀 CREATOR</span>`;
+
+        // Generate requirement pills
+        let reqsPills = '';
+        if (Array.isArray(task.requirementLabels) && task.requirementLabels.length > 0) {
+          reqsPills = task.requirementLabels.slice(0, 3).map(r => `<span style="font-size: 7.5px; background: rgba(255,255,255,0.06); padding: 1px 4px; border-radius: 3px; color: #94a3b8;">${escapeHtml(r.split(' ')[0] + ' ' + (r.split(' ')[1] || ''))}</span>`).join(' ');
+        }
 
         card.innerHTML = `
           <div class="task-card-top">
@@ -4003,21 +5374,33 @@
             ${tagHtml}
           </div>
           <div class="task-card-title">${escapeHtml(task.name)}</div>
+
+          <!-- Creator Genuine Target Link Preview (Directly Clickable) -->
+          <div class="task-card-link-preview" onclick="event.stopPropagation(); selectTask('${task.id}', true);" title="Touch to open creator URL">
+            <span style="color: var(--accent-cyan); font-weight: 800;">🔗 URL:</span>
+            <span class="task-card-url-truncate">${escapeHtml(task.url)}</span>
+            <span class="link-open-chip">↗ Open</span>
+          </div>
+
+          ${reqsPills ? `<div style="display: flex; gap: 3px; flex-wrap: wrap; margin-bottom: 5px;">${reqsPills}</div>` : ''}
           <div class="task-card-footer">
             <span class="task-card-reward">🪙 +${task.reward}</span>
             <span class="task-card-timer">⏳ ${task.timer || 30}s</span>
           </div>
+          <button type="button" class="btn-card-start" onclick="event.stopPropagation(); selectTask('${task.id}', true);" style="margin-top: 6px; padding: 6px 10px; font-size: 10px; background: linear-gradient(135deg, #a855f7, #6366f1);">
+            <span>▶️ Start Task & Open Link</span>
+          </button>
         `;
 
         card.addEventListener('click', () => {
-          selectTask(task.id);
+          selectTask(task.id, false);
         });
 
         grid.appendChild(card);
       });
     }
 
-    function selectTask(key) {
+    function selectTask(key, autoOpen = false) {
       if (state.isShadowbanned()) {
         sound.error();
         alert('⚠️ TASK HUB IS TEMPORARILY LOCKED!\nYou entered incorrect codes 3 times. Please wait for the 24-hour security shadowban lockout to expire.');
@@ -4052,21 +5435,44 @@
 
       document.getElementById('taskExecName').innerHTML = `<span>${pEmoji} ${escapeHtml(task.name)}</span> <span style="color: var(--accent-lime); font-size: 11px;">(+${task.reward} Coins)</span>`;
 
+      // Display Creator's Target URL prominently & accurately
+      const urlTextEl = document.getElementById('taskExecUrlText');
+      const urlDisplayBox = document.getElementById('taskExecUrlDisplay');
+      if (urlTextEl) urlTextEl.textContent = task.url;
+      if (urlDisplayBox) urlDisplayBox.dataset.url = task.url;
+
+      // Populate Requirements Checklist
+      const checklistContainer = document.getElementById('taskExecChecklist');
+      if (checklistContainer) {
+        checklistContainer.innerHTML = '';
+        const reqs = Array.isArray(task.requirementLabels) && task.requirementLabels.length > 0 
+          ? task.requirementLabels 
+          : [`📺 Watch / Visit Task Link (${task.timer || 30}s)`, '👍 Like / Engage with Post', '🔔 Follow / Subscribe'];
+        
+        reqs.forEach((r, idx) => {
+          const item = document.createElement('div');
+          item.className = 'req-check-item';
+          item.innerHTML = `<span class="badge-dot">✓</span> <span><b>Step ${idx + 1}:</b> ${escapeHtml(r)}</span>`;
+          checklistContainer.appendChild(item);
+        });
+      }
+
+      // Step-by-Step Execution Instructions
       const instructionsBox = document.getElementById('taskExecInstructions');
       if (task.isUid || task.verifyType === 'proof') {
         instructionsBox.innerHTML = `
           <ol>
-            <li>Click 'Open Task Link' below. The ${task.timer || 30}s countdown timer begins.</li>
-            <li>Complete the task (e.g. view, subscribe/follow, or register) on the opened page.</li>
-            <li>Enter your username, UID, or proof text in the box below after countdown finishes.</li>
+            <li>Neeche diye gaye link par touch karein. Creator ka page open hoga aur ${task.timer || 30}s timer shuru hoga.</li>
+            <li>Diye gaye sabhi steps complete karein (Subscribe, Like, Follow ya Signup).</li>
+            <li>Timer khatam hone ke baad apna social media username ya UID enter karke verify karein.</li>
           </ol>
         `;
       } else {
         instructionsBox.innerHTML = `
           <ol>
-            <li>Click 'Open Task Link' below. The ${task.timer || 30}s countdown timer begins.</li>
-            <li>Watch video/post carefully and locate the creator's 4-digit verification code.</li>
-            <li>Enter the 4-digit secret code after countdown finishes to receive +${task.reward} Coins!</li>
+            <li>Neeche diye gaye Creator ke URL par touch karein. Link direct open hoga aur ${task.timer || 30}s timer shuru hoga.</li>
+            <li>Video/post pura dekhein aur content creator ka 4-digit secret code dhoondhein.</li>
+            <li>Timer complete hone par 4-digit code enter karein aur +${task.reward} coins claim karein!</li>
           </ol>
         `;
       }
@@ -4099,22 +5505,27 @@
       timerBadge.textContent = `⏳ ${taskTimerSeconds}s Locked`;
       timerBadge.style.color = 'var(--accent-cyan)';
 
-      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (autoOpen) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setTimeout(() => { openActiveTaskLink(); }, 120);
+      } else {
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     }
 
-    // Link Protection: timer starts ONLY after task link opens
-    document.getElementById('btnOpenTaskLink').addEventListener('click', () => {
+    // Direct touch launcher for task URL & Start Countdown
+    function openActiveTaskLink() {
       if (!activeTaskKey) return;
       if (state.isShadowbanned()) return;
 
       const task = getTask(activeTaskKey);
-      if (!task) return;
+      if (!task || !task.url) return;
 
-      const opened = openExternalLink(task.url);
-      if (!opened) return;
+      // Reliable external browser or native app opening (e.g. YouTube app directly!)
+      openExternalLink(task.url);
 
       taskLinkHasOpened = true;
-      showToast(`Task link opened! ${task.timer || 30}s anti-cheat timer started.`, '⏳');
+      showToast(`Creator URL opened! ${task.timer || 30}s timer chalu ho gaya hai.`, '⏳');
 
       const timerBadge = document.getElementById('taskExecTimer');
       const input = document.getElementById('taskInputVal');
@@ -4138,11 +5549,33 @@
           sound.tick();
         }
       }, 1000);
-    });
+    }
+    window.openActiveTaskLink = openActiveTaskLink;
 
-    // Verify and Submit Task
-    document.getElementById('btnSubmitTask').addEventListener('click', () => {
-      if (!activeTaskKey || !taskLinkHasOpened) return;
+    function copyTaskUrl() {
+      if (!activeTaskKey) return;
+      const task = getTask(activeTaskKey);
+      if (!task || !task.url) return;
+
+      try {
+        navigator.clipboard.writeText(task.url).then(() => {
+          showToast('📋 Creator task URL copy ho gaya!', '✅');
+        }).catch(() => {
+          showToast(`URL: ${task.url}`, '🔗');
+        });
+      } catch (_) {
+        showToast(`URL: ${task.url}`, '🔗');
+      }
+    }
+    window.copyTaskUrl = copyTaskUrl;
+
+    // Verify and Submit Active Task
+    function verifyActiveTask() {
+      if (!activeTaskKey) return;
+      if (!taskLinkHasOpened) {
+        alert('⚠️ Task link kholna zaroori hai! Pehle "Touch to Open" ya "Open Link" dabakar video/post open karein.');
+        return;
+      }
       if (state.isShadowbanned()) return;
 
       const task = getTask(activeTaskKey);
@@ -4165,14 +5598,14 @@
         sound.error();
         const newlyBanned = state.recordFailedAttempt();
         if (newlyBanned) {
-          alert('🚨 SHADOWBAN TRIGGERED!\n3 consecutive incorrect inputs entered. The Task Hub is now locked for 24 hours to prevent bot spam.');
+          alert('🚨 SHADOWBAN TRIGGERED!\n3 galat codes enter kiye gaye hain. Task Hub ab 24 ghante ke liye locked hai.');
           document.getElementById('taskExecCard').style.display = 'none';
           renderMetrics();
           renderTasksList();
           return;
         } else {
           const attemptsLeft = 3 - (state.data.failedTaskAttempts || 0);
-          alert(`❌ Verification Failed!\nIncorrect code or UID format.\n⚠️ Warning: ${attemptsLeft} attempts remaining before a 24-hour security shadowban!`);
+          alert(`❌ Verification Failed!\nGalat code ya invalid input format.\n⚠️ Warning: ${attemptsLeft} attempts bache hain shadowban se pehle!`);
           input.focus();
           return;
         }
@@ -4200,18 +5633,49 @@
       state.data.completedTasks[activeTaskKey] = true;
       state.save();
 
-      showToast(`🎉 Verified! +${task.reward} Coins credited to 24h Security Hold!`, '⏳', 4000);
+      showToast(`🎉 Verified! +${task.reward} Coins 24h Security Hold me credit hue!`, '⏳', 4000);
       document.getElementById('taskExecCard').style.display = 'none';
       renderMetrics();
       renderTasksList();
-    });
+    }
+    window.verifyActiveTask = verifyActiveTask;
+
+    // Clipboard paste helper for creator URL
+    function pasteTaskUrlFromClipboard() {
+      sound.click();
+      if (navigator.clipboard && navigator.clipboard.readText) {
+        navigator.clipboard.readText().then(text => {
+          if (text) {
+            document.getElementById('createTaskUrl').value = text.trim();
+            showToast('📋 Link pasted from clipboard!', '✅');
+            calculateTaskBudget();
+          } else {
+            showToast('Clipboard is empty!', 'ℹ️');
+          }
+        }).catch(() => {
+          const input = document.getElementById('createTaskUrl');
+          if (input) input.focus();
+          showToast('Please long-press the URL field to paste', 'ℹ️');
+        });
+      } else {
+        const input = document.getElementById('createTaskUrl');
+        if (input) input.focus();
+        showToast('Please long-press the URL field to paste', 'ℹ️');
+      }
+    }
+    window.pasteTaskUrlFromClipboard = pasteTaskUrlFromClipboard;
 
     // --- CONTENT CREATOR STUDIO MODAL LOGIC ---
     function openCreateTaskModal(preferredPlatform = 'youtube') {
       sound.click();
       const modal = document.getElementById('modalCreateTask');
       if (!modal) return;
-      document.getElementById('formCreateTask').reset();
+      
+      const titleInput = document.getElementById('createTaskTitle');
+      const urlInput = document.getElementById('createTaskUrl');
+      if (titleInput) titleInput.value = '';
+      if (urlInput) urlInput.value = '';
+
       selectCreatePlatform(preferredPlatform);
       selectVerifyMethod('code');
       generateRandomTaskCode();
@@ -4233,14 +5697,17 @@
         else btn.classList.remove('active');
       });
 
+      // Populate multi-action requirements for this platform
+      renderPlatformRequirementsGrid(platform);
+
       const titleInput = document.getElementById('createTaskTitle');
       const urlInput = document.getElementById('createTaskUrl');
 
       if (platform === 'youtube') {
-        titleInput.placeholder = 'e.g. YouTube Video Watch Karein & Secret Code Dhoondhein';
-        urlInput.placeholder = 'https://www.youtube.com/watch?v=...';
+        titleInput.placeholder = 'e.g. YouTube Video Watch Karein, Like & Subscribe';
+        urlInput.placeholder = 'https://www.youtube.com/watch?v=... ya https://youtu.be/...';
       } else if (platform === 'instagram') {
-        titleInput.placeholder = 'e.g. Instagram Reel Like Karein & Code Enter Karein';
+        titleInput.placeholder = 'e.g. Instagram Reel Like Karein, Follow & Code Find';
         urlInput.placeholder = 'https://www.instagram.com/reel/...';
       } else if (platform === 'facebook') {
         titleInput.placeholder = 'e.g. Facebook Page Follow Karein & Post Like';
@@ -4248,6 +5715,9 @@
       } else if (platform === 'telegram') {
         titleInput.placeholder = 'e.g. Telegram Channel Join Karein & Find Code';
         urlInput.placeholder = 'https://t.me/...';
+      } else if (platform === 'crypto') {
+        titleInput.placeholder = 'e.g. Crypto App Signup & Submit UID';
+        urlInput.placeholder = 'https://...';
       } else {
         titleInput.placeholder = 'e.g. Website Visit Karein ya App Signup';
         urlInput.placeholder = 'https://...';
@@ -4322,7 +5792,7 @@
     window.handlePaymentMethodChange = handlePaymentMethodChange;
 
     function handleCreateTaskSubmit(event) {
-      event.preventDefault();
+      if (event && event.preventDefault) event.preventDefault();
       sound.click();
 
       const platform = document.getElementById('createTaskPlatformVal').value || 'youtube';
@@ -4336,13 +5806,20 @@
       const paymentMethodRadio = document.querySelector('input[name="createTaskPayment"]:checked');
       const paymentMethod = paymentMethodRadio ? paymentMethodRadio.value : 'free_boost';
 
+      const selectedReqs = getSelectedRequirements();
+
       if (!title || title.length < 3) {
         alert('Kripya task ka sahi title enter karein (kam se kam 3 akshar).');
         return;
       }
 
       if (!url || (!url.startsWith('http://') && !url.startsWith('https://'))) {
-        alert('Kripya valid URL enter karein jo http:// ya https:// se start hota ho.');
+        alert('Kripya valid URL enter karein jo http:// ya https:// se start hota ho (e.g. https://www.youtube.com/watch?v=...)');
+        return;
+      }
+
+      if (selectedReqs.length === 0) {
+        alert('Kripya kam se kam 1 requirement checkbox select karein (e.g. Watch Video, Like, ya Subscribe).');
         return;
       }
 
@@ -4371,6 +5848,8 @@
         timer: timer,
         verifyType: verifyType,
         code: verifyType === 'code' ? code : '',
+        requirements: selectedReqs.map(r => r.id),
+        requirementLabels: selectedReqs.map(r => `${r.icon} ${r.label}`),
         targetUsers: targetUsers,
         completedCount: 0,
         creatorUid: state.getUserId(),
@@ -4396,7 +5875,7 @@
       renderTasksList();
 
       showToast('🎉 Task Live Ho Gaya! Sabhi users ab ise dekh sakte hain.', '🚀', 5000);
-      alert(`🎉 MUBARAK HO! AAPKA TASK LIVE HO GAYA HAI!\n\nPlatform: ${platform.toUpperCase()}\nTitle: ${title}\nSecret Code: ${verifyType === 'code' ? code : 'Username Proof'}\nReward: +${reward} Coins per user\nTarget: ${targetUsers} Users\n\nAb real users aapka link visit karenge aur countdown timer complete hone ke baad engagement denge!`);
+      alert(`🎉 MUBARAK HO! AAPKA TASK LIVE HO GAYA HAI!\n\nPlatform: ${platform.toUpperCase()}\nTitle: ${title}\nTarget URL: ${url}\nRequirements: ${selectedReqs.map(r => r.label).join(', ')}\nSecret Code: ${verifyType === 'code' ? code : 'Username Proof'}\nReward: +${reward} Coins per user\nTarget: ${targetUsers} Users\n\nAb real users aapka link visit karenge aur countdown timer complete hone ke baad engagement denge!`);
     }
     window.handleCreateTaskSubmit = handleCreateTaskSubmit;
 
@@ -4518,31 +5997,29 @@
     // --- 11. WITHDRAWAL SYSTEM ENGINE ---
     let selectedWithdrawMethod = 'bybit';
 
-    const withdrawBadges = document.querySelectorAll('.withdraw-badge');
-    withdrawBadges.forEach(badge => {
-      badge.addEventListener('click', () => {
-        sound.click();
-        selectedWithdrawMethod = badge.dataset.method;
-        withdrawBadges.forEach(b => {
-          if (b.dataset.method === selectedWithdrawMethod) b.classList.add('selected');
-          else b.classList.remove('selected');
+    function initWithdrawBadges() {
+      const withdrawBadges = document.querySelectorAll('.withdraw-badge');
+      withdrawBadges.forEach(badge => {
+        badge.addEventListener('click', () => {
+          sound.click();
+          selectedWithdrawMethod = badge.dataset.method;
+          withdrawBadges.forEach(b => {
+            if (b.dataset.method === selectedWithdrawMethod) b.classList.add('selected');
+            else b.classList.remove('selected');
+          });
+          updateWithdrawFormUI();
         });
-        updateWithdrawFormUI();
       });
-    });
+    }
 
     function updateWithdrawFormUI() {
       const config = CONFIG.withdrawMethods[selectedWithdrawMethod];
+      if (!config) return;
       const labelEl = document.getElementById('withdrawInputLabel');
       const inputDest = document.getElementById('withdrawDestination');
       const hintEl = document.getElementById('withdrawMethodHint');
 
-      if (selectedWithdrawMethod === 'upi') {
-        labelEl.innerHTML = '🇮🇳 <strong>Enter Your UPI ID:</strong> <span style="color:var(--accent-lime); font-size:9.5px;">(Virtual Payment Address)</span>';
-      } else {
-        labelEl.textContent = config.inputLabel;
-      }
-
+      labelEl.innerHTML = config.inputLabel;
       inputDest.placeholder = config.placeholder || 'Enter recipient details';
       document.getElementById('withdrawCoinsAmount').placeholder = `Min: ${config.min.toLocaleString()} Coins`;
 
@@ -4554,7 +6031,7 @@
         inputDest.inputMode = 'numeric';
         inputDest.pattern = '[0-9]*';
       } else {
-        inputDest.inputMode = 'text';
+        inputDest.inputMode = (selectedWithdrawMethod === 'paypal' || selectedWithdrawMethod === 'playcard') ? 'email' : 'text';
         inputDest.removeAttribute('pattern');
       }
 
@@ -4579,13 +6056,14 @@
       const coins = parseInt(document.getElementById('withdrawCoinsAmount').value.replace(/\D/g, '') || 0, 10);
       const config = CONFIG.withdrawMethods[selectedWithdrawMethod];
       const equivEl = document.getElementById('withdrawEquivalent');
+      if (!config || !equivEl) return;
 
       if (config.currency === 'INR') {
         const inr = (coins * CONFIG.coinToInr).toFixed(2);
         equivEl.textContent = `₹${inr} INR`;
       } else {
         const usdt = (coins / CONFIG.coinsPerUsdt).toFixed(2);
-        equivEl.textContent = `${usdt} USDT`;
+        equivEl.textContent = `${usdt} ${config.currency}`;
       }
     }
 
@@ -4601,6 +6079,119 @@
       updateWithdrawFormUI();
       showToast('Saved recipient details removed.', '🗑️');
     });
+
+    // --- PAYOUT HISTORY LOGIC ---
+    function renderPayoutHistory() {
+      const container = document.getElementById('payoutHistoryList');
+      const countBadge = document.getElementById('payoutHistoryCountBadge');
+      if (!container) return;
+
+      const history = Array.isArray(state.data.payoutHistory) ? state.data.payoutHistory : [];
+      if (countBadge) {
+        countBadge.textContent = `${history.length} ${history.length === 1 ? 'Request' : 'Requests'}`;
+      }
+
+      if (history.length === 0) {
+        container.innerHTML = `
+          <div class="payout-empty-state">
+            <div class="payout-empty-icon">📜</div>
+            <div style="font-weight: 700; font-size: 11.5px; color: #fff; margin-bottom: 3px;" id="txtNoPayoutTitle">${t('noPayoutTitle') || 'No Payout Requests Yet'}</div>
+            <div style="font-size: 9.5px; line-height: 1.4; color: var(--text-muted); max-width: 260px; margin: 0 auto;" id="txtNoPayoutDesc">
+              ${t('noPayoutDesc') || 'Submit your withdrawal above to view real-time audit status, Net-7 verification timeline, and disbursement receipts.'}
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = history.map(item => {
+        let statusClass = 'status-pending';
+        let statusIcon = '⏳';
+        const statusText = item.status || 'Pending Audit';
+
+        if (statusText.toLowerCase().includes('paid') || statusText.toLowerCase().includes('completed') || statusText.toLowerCase().includes('success')) {
+          statusClass = 'status-paid';
+          statusIcon = '✅';
+        } else if (statusText.toLowerCase().includes('review') || statusText.toLowerCase().includes('audit')) {
+          statusClass = 'status-pending';
+          statusIcon = '⏳';
+        } else if (statusText.toLowerCase().includes('processing')) {
+          statusClass = 'status-processing';
+          statusIcon = '⚡';
+        }
+
+        const flagIcon = item.line === 'indian' ? '🇮🇳' : '🌍';
+        const cleanDest = item.destination ? (item.destination.length > 20 ? item.destination.substring(0, 18) + '...' : item.destination) : 'N/A';
+
+        return `
+          <div class="payout-item-card" onclick="openPayoutReceiptModal('${item.id}')" title="Tap to view payout audit receipt">
+            <div class="payout-item-header">
+              <div class="payout-method-tag">
+                <span>${flagIcon}</span>
+                <span>${item.method || 'Withdrawal'}</span>
+              </div>
+              <span class="payout-status-badge ${statusClass}">
+                ${statusIcon} ${statusText}
+              </span>
+            </div>
+            <div class="payout-item-body">
+              <div>
+                <div class="payout-val-display">${item.payoutValue || ''}</div>
+                <div class="payout-coins-sub">🪙 ${(item.coins || 0).toLocaleString()} Coins</div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 9px; color: var(--text-muted);">Recipient / UID:</div>
+                <div class="payout-dest-display">${cleanDest}</div>
+              </div>
+            </div>
+            <div class="payout-item-footer">
+              <span>Ref: <strong style="color: var(--accent-cyan); font-family: monospace;">#${item.id}</strong></span>
+              <span>📅 ${item.date || 'Recently'}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+    window.renderPayoutHistory = renderPayoutHistory;
+
+    function openPayoutReceiptModal(payoutId) {
+      sound.click();
+      const item = (state.data.payoutHistory || []).find(p => p.id === payoutId);
+      if (!item) return;
+
+      const flag = item.line === 'indian' ? '🇮🇳 Indian Payment System' : '🌍 Global Payment System';
+      const modal = document.getElementById('modalPayoutDetails');
+      if (!modal) {
+        alert(`📜 Withdrawal Receipt #${item.id}\n\nMethod: ${item.method}\nRecipient: ${item.destination}\nAmount: ${item.coins} Coins (${item.payoutValue})\nStatus: ${item.status}\nSubmitted: ${item.date}\n\n🛡️ Net-7 Fraud & Anti-Cheat Audit Active (3-7 business days).`);
+        return;
+      }
+
+      document.getElementById('receiptRefId').textContent = '#' + item.id;
+      document.getElementById('receiptMethod').textContent = item.method;
+      document.getElementById('receiptSystem').textContent = flag;
+      document.getElementById('receiptDest').textContent = item.destination;
+      document.getElementById('receiptCoins').textContent = (item.coins || 0).toLocaleString() + ' Coins';
+      document.getElementById('receiptValue').textContent = item.payoutValue;
+      
+      const statusEl = document.getElementById('receiptStatus');
+      statusEl.textContent = item.status;
+      if (item.status.toLowerCase().includes('paid')) {
+        statusEl.className = 'payout-status-badge status-paid';
+      } else {
+        statusEl.className = 'payout-status-badge status-pending';
+      }
+
+      document.getElementById('receiptDate').textContent = item.date;
+
+      openModal('modalPayoutDetails');
+    }
+    window.openPayoutReceiptModal = openPayoutReceiptModal;
+
+    function closePayoutReceiptModal() {
+      sound.click();
+      closeModal('modalPayoutDetails');
+    }
+    window.closePayoutReceiptModal = closePayoutReceiptModal;
 
     // Submit Withdrawal Request (with Telegram HTML API & Network Fail Safety)
     document.getElementById('btnSubmitWithdrawal').addEventListener('click', async () => {
@@ -4637,12 +6228,13 @@
       if (coins > state.data.walletBalance) {
         sound.error();
         alert(`Insufficient balance! Your wallet has ${state.data.walletBalance.toLocaleString()} Coins.`);
+        inputCoins.focus();
         return;
       }
 
       const inrEquiv = (coins * CONFIG.coinToInr).toFixed(2);
       const usdtEquiv = (coins / CONFIG.coinsPerUsdt).toFixed(2);
-      const payoutVal = (config.currency === 'INR') ? `₹${inrEquiv} INR` : `${usdtEquiv} USDT`;
+      const payoutVal = (config.currency === 'INR') ? `₹${inrEquiv} INR` : `${usdtEquiv} ${config.currency}`;
 
       const confirmMsg = `Confirm Withdrawal Request?\n\nMethod: ${config.name}\nRecipient: ${destination}\nAmount: ${coins.toLocaleString()} Coins (${payoutVal})\n\n⚠️ NOTE: All withdrawals undergo a mandatory 3 to 7 working days (Net-7) fraud & anti-cheat audit before disbursement.`;
       if (!confirm(confirmMsg)) return;
@@ -4651,12 +6243,53 @@
       btn.disabled = true;
       btn.innerHTML = `<span>⏳ Submitting Withdrawal...</span>`;
 
+      const refId = 'ED-' + Math.floor(100000 + Math.random() * 900000);
+      const nowObj = new Date();
+      const formattedDate = nowObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ', ' + nowObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      const newPayoutRecord = {
+        id: refId,
+        method: config.name,
+        methodKey: selectedWithdrawMethod,
+        line: config.line || (selectedWithdrawMethod === 'upi' || selectedWithdrawMethod === 'paytm' || selectedWithdrawMethod === 'phonepe' || selectedWithdrawMethod === 'gpay' || selectedWithdrawMethod === 'bank' ? 'indian' : 'global'),
+        destination: destination,
+        coins: coins,
+        payoutValue: payoutVal,
+        status: 'Pending Audit',
+        date: formattedDate,
+        timestamp: Date.now(),
+        auditNotes: 'Net-7 Anti-Fraud Audit Active (3-7 business days disbursement)'
+      };
+
       // Check if backend URL is configured
       if (!CONFIG.backendUrl || !CONFIG.backendUrl.trim()) {
         btn.disabled = false;
         btn.innerHTML = `<span>🚀 Submit Withdrawal Request</span>`;
-        sound.error();
-        alert('Backend not configured yet. No coins were deducted.');
+        // Deduct coins & record pending withdrawal locally
+        state.data.walletBalance -= coins;
+        state.data.pendingCoins.push({
+          id: 'wd_' + Date.now(),
+          coins: coins,
+          unlockTime: Date.now() + (3 * 24 * 60 * 60 * 1000),
+          reason: `${config.name} Payout (${destination})`
+        });
+        if (document.getElementById('checkSaveDetails').checked) {
+          state.data.savedPayoutDetails[selectedWithdrawMethod] = destination;
+        }
+
+        if (!Array.isArray(state.data.payoutHistory)) state.data.payoutHistory = [];
+        state.data.payoutHistory.unshift(newPayoutRecord);
+
+        state.save();
+        sound.win();
+        sound.coin();
+        renderMetrics();
+        renderPayoutHistory();
+        inputCoins.value = '';
+        inputDest.value = '';
+        updateWithdrawFormUI();
+        alert(`✅ Withdrawal Request Submitted Successfully!\n\nReference: ${refId}\nMethod: ${config.name}\nRecipient: ${destination}\nAmount: ${coins.toLocaleString()} Coins (${payoutVal})\n\n🛡️ Status: Net-7 Anti-Fraud Audit Active (3-7 business days disbursement)`);
+        showToast(`Withdrawal of ${payoutVal} submitted!`, '💳');
         return;
       }
 
@@ -4701,12 +6334,16 @@
             state.data.savedPayoutDetails[selectedWithdrawMethod] = destination;
           }
 
+          if (!Array.isArray(state.data.payoutHistory)) state.data.payoutHistory = [];
+          state.data.payoutHistory.unshift(newPayoutRecord);
+
           state.save();
           sound.win();
           renderMetrics();
+          renderPayoutHistory();
           updateWithdrawFormUI();
 
-          alert(`✅ Withdrawal Submitted Successfully!\n\nYour request has been dispatched to the administrative queue.\nStatus: Net-7 Fraud & Anti-Cheat Audit (3-7 working days) before payment release.`);
+          alert(`✅ Withdrawal Submitted Successfully!\n\nReference: ${refId}\nMethod: ${config.name}\nRecipient: ${destination}\nAmount: ${coins.toLocaleString()} Coins (${payoutVal})\n\nStatus: Net-7 Fraud & Anti-Cheat Audit (3-7 working days) before payment release.`);
           showToast('Withdrawal request submitted successfully!', '🚀', 5000);
         } else {
           sound.error();
@@ -4972,7 +6609,11 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
       if (tabId === 'tabTasks') {
-        if (!activeTaskKey) selectTask('youtube');
+        renderTasksList();
+      }
+
+      if (tabId === 'tabWallet') {
+        renderPayoutHistory();
       }
 
       if (tabId === 'tabSpin') {
@@ -5006,10 +6647,12 @@
     // --- 15. INITIALIZATION ON PAGE LOAD ---
     window.addEventListener('DOMContentLoaded', () => {
       updateSoundBtnUI();
+      initWithdrawBadges();
       renderMetrics();
       renderTasksList();
       updateWithdrawFormUI();
-      selectTask('youtube');
+      renderPayoutHistory();
+      applyLanguage(currentAppLanguage);
       state.loadFromFirebase();
     });
 

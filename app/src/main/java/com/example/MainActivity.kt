@@ -52,10 +52,6 @@ class MainActivity : ComponentActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    window.setFlags(
-      android.view.WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
-      android.view.WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
-    )
     enableEdgeToEdge()
 
     setContent {
@@ -165,10 +161,20 @@ class MainActivity : ComponentActivity() {
           } catch (_: Exception) {
             ""
           }
-          val initialUrl = if (configuredUrl.isNotEmpty() && (configuredUrl.startsWith("http://") || configuredUrl.startsWith("https://"))) {
+          val isRemote = configuredUrl.isNotEmpty() && (configuredUrl.startsWith("http://") || configuredUrl.startsWith("https://"))
+          val initialUrl = if (isRemote) {
             configuredUrl
           } else {
             "file:///android_asset/index.html"
+          }
+
+          // If connected to remote URL (e.g. GitHub Pages), ensure fresh content is fetched
+          if (isRemote) {
+            settings.cacheMode = WebSettings.LOAD_NO_CACHE
+            clearCache(true)
+          } else {
+            settings.cacheMode = WebSettings.LOAD_DEFAULT
+            clearCache(false)
           }
 
           webViewClient = object : WebViewClient() {
@@ -270,7 +276,6 @@ class MainActivity : ComponentActivity() {
             }
           }
 
-          clearCache(false)
           loadUrl(initialUrl)
           onWebViewCreated(this)
         }
@@ -282,32 +287,32 @@ class MainActivity : ComponentActivity() {
     @JavascriptInterface
     fun openExternalUrl(url: String): Boolean {
       return try {
-        val uri = Uri.parse(url)
-        val viewIntent = Intent(Intent.ACTION_VIEW, uri).apply {
-          addCategory(Intent.CATEGORY_BROWSABLE)
-          addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
+        val trimmedUrl = url.trim()
+        if (trimmedUrl.isEmpty()) return false
+        val uri = Uri.parse(trimmedUrl)
         
-        // Prefer Chrome or default system browser so monetization network cookies and redirects register on Adsterra & Monetag servers
-        val pm = activity.packageManager
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"))
-        val resolveInfo = pm.resolveActivity(browserIntent, android.content.pm.PackageManager.MATCH_DEFAULT_ONLY)
-        if (resolveInfo != null && resolveInfo.activityInfo != null) {
-          viewIntent.setPackage(resolveInfo.activityInfo.packageName)
-        }
-        
-        try {
-          activity.startActivity(viewIntent)
-        } catch (e: Exception) {
-          // Fallback to chooser without setPackage
-          val genericIntent = Intent(Intent.ACTION_VIEW, uri).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        activity.runOnUiThread {
+          try {
+            val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+              addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            activity.startActivity(intent)
+          } catch (e: Exception) {
+            try {
+              val fallbackIntent = Intent(Intent.ACTION_VIEW, uri).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+              }
+              val chooser = Intent.createChooser(fallbackIntent, "Open Link")
+              chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+              activity.startActivity(chooser)
+            } catch (e2: Exception) {
+              android.util.Log.e("EarnDuoApp", "Error opening URL: $trimmedUrl", e2)
+            }
           }
-          activity.startActivity(genericIntent)
         }
         true
       } catch (e: Exception) {
-        android.util.Log.e("EarnDuoApp", "Error opening ad URL: $url", e)
+        android.util.Log.e("EarnDuoApp", "openExternalUrl error: $url", e)
         false
       }
     }
