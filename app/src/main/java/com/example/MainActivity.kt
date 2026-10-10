@@ -129,7 +129,8 @@ class MainActivity : ComponentActivity() {
           }
 
           setBackgroundColor(android.graphics.Color.parseColor("#0A0D12"))
-          // Avoid forcing LAYER_TYPE_HARDWARE which causes MESA rendernode errors on virtualized emulators; let system choose default
+          // Set software layer type to eliminate MESA rendernode errors on virtualized emulators without physical GPU DRI nodes
+          setLayerType(android.view.View.LAYER_TYPE_SOFTWARE, null)
           isFocusable = true
           isFocusableInTouchMode = true
           isClickable = true

@@ -119,19 +119,19 @@
 
     /* Header */
     .app-header {
-      background: linear-gradient(180deg, #182232 0%, var(--bg-surface) 100%);
+      background: linear-gradient(180deg, #182436 0%, var(--bg-surface) 100%);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 8px 10px;
-      margin-bottom: 8px;
-      box-shadow: var(--shadow-card);
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
     }
 
     .header-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .brand-title {
@@ -139,20 +139,21 @@
       align-items: center;
       gap: 6px;
       font-size: 16px;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: -0.3px;
       color: #fff;
     }
 
     .brand-badge {
       background: linear-gradient(135deg, var(--accent-lime), #84cc16);
-      color: #000;
-      font-size: 9px;
+      color: #06230b;
+      font-size: 8.5px;
       font-weight: 900;
-      padding: 2px 5px;
+      padding: 2.5px 6px;
       border-radius: 4px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      box-shadow: 0 1px 6px var(--accent-lime-glow);
     }
 
     .header-actions {
@@ -165,8 +166,9 @@
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       color: var(--text-main);
-      padding: 4px 8px;
-      font-size: 12px;
+      padding: 5px 9px;
+      font-size: 11px;
+      font-weight: 700;
       border-radius: var(--radius-sm);
       cursor: pointer;
       display: flex;
@@ -181,30 +183,48 @@
 
     /* Live Payout Ticker */
     .ticker-wrap {
-      background: rgba(0, 0, 0, 0.45);
-      border-radius: var(--radius-sm);
-      padding: 3px 6px;
+      background: rgba(0, 0, 0, 0.55);
+      border-radius: 6px;
+      padding: 4px 8px;
       overflow: hidden;
       display: flex;
       align-items: center;
-      gap: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      gap: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
     .ticker-tag {
-      background: var(--accent-cyan);
-      color: #000;
+      background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+      color: #fff;
       font-size: 8px;
       font-weight: 900;
-      padding: 1px 4px;
-      border-radius: 3px;
+      padding: 2px 6px;
+      border-radius: 4px;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      letter-spacing: 0.3px;
+    }
+    .ticker-tag::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 6px #22c55e;
+      animation: liveDot 1.5s infinite alternate;
+    }
+    @keyframes liveDot {
+      0% { opacity: 0.4; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
     }
     .ticker-marquee {
       font-size: 10px;
       color: var(--accent-lime);
       white-space: nowrap;
       display: inline-block;
-      animation: marquee 22s linear infinite;
+      animation: marquee 24s linear infinite;
+      font-weight: 600;
     }
     @keyframes marquee {
       0% { transform: translateX(100%); }
@@ -215,39 +235,70 @@
     .grid-4-col {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 5px;
-      margin-bottom: 8px;
+      gap: 6px;
+      margin-bottom: 10px;
     }
 
     .metric-card {
-      background: var(--bg-surface);
+      background: linear-gradient(160deg, #182232 0%, var(--bg-surface) 100%);
       border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
-      padding: 6px 4px;
+      border-radius: var(--radius-md);
+      padding: 8px 4px;
       text-align: center;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 60px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      min-height: 64px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 12%;
+      right: 12%;
+      height: 2px;
+      border-radius: 0 0 3px 3px;
+      background: var(--accent-lime);
+      box-shadow: 0 1px 6px var(--accent-lime-glow);
+    }
+    .metric-card:nth-child(2)::before {
+      background: var(--accent-yellow);
+      box-shadow: 0 1px 6px rgba(250, 204, 21, 0.4);
+    }
+    .metric-card:nth-child(3)::before {
+      background: #fb923c;
+      box-shadow: 0 1px 6px rgba(251, 146, 60, 0.4);
+    }
+    .metric-card:nth-child(4)::before {
+      background: var(--accent-cyan);
+      box-shadow: 0 1px 6px var(--accent-cyan-glow);
     }
 
     .metric-label {
-      font-size: 9px;
-      font-weight: 600;
+      font-size: 8.5px;
+      font-weight: 700;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.4px;
       margin-bottom: 2px;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 3px;
     }
 
     .metric-val {
-      font-size: 13px;
-      font-weight: 800;
+      font-size: 14px;
+      font-weight: 900;
       color: var(--accent-lime);
-      line-height: 1.1;
+      line-height: 1.15;
+      letter-spacing: -0.2px;
     }
 
     .metric-sub {
@@ -255,6 +306,9 @@
       color: var(--text-dim);
       margin-top: 2px;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
     }
 
     /* CARDS & CONTAINERS */
@@ -291,20 +345,20 @@
 
     /* 7-DAY LOGIN STREAK HERO CARD (Full Width & Polished) */
     .streak-card-box {
-      background: linear-gradient(150deg, #162232 0%, var(--bg-surface) 100%);
-      border: 1px solid rgba(163, 230, 53, 0.28);
-      border-radius: var(--radius-md);
-      padding: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      background: linear-gradient(150deg, #152234 0%, var(--bg-surface) 100%);
+      border: 1px solid rgba(163, 230, 53, 0.32);
+      border-radius: var(--radius-lg);
+      padding: 12px 12px 14px 12px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
       position: relative;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .streak-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .streak-header-left {
@@ -314,13 +368,19 @@
     }
 
     .streak-flame-icon {
-      font-size: 20px;
-      filter: drop-shadow(0 2px 6px rgba(251, 146, 60, 0.5));
+      font-size: 22px;
+      filter: drop-shadow(0 2px 8px rgba(251, 146, 60, 0.6));
+      animation: flamePulse 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes flamePulse {
+      0% { transform: scale(1); filter: drop-shadow(0 2px 6px rgba(251, 146, 60, 0.5)); }
+      100% { transform: scale(1.12); filter: drop-shadow(0 2px 12px rgba(251, 146, 60, 0.85)); }
     }
 
     .streak-title {
-      font-size: 13px;
-      font-weight: 800;
+      font-size: 13.5px;
+      font-weight: 900;
       color: #fff;
       letter-spacing: -0.2px;
       display: flex;
@@ -336,28 +396,31 @@
 
     .streak-badge {
       font-size: 9px;
-      padding: 3px 7px;
-      border-radius: 5px;
-      background: rgba(163, 230, 53, 0.15);
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(163, 230, 53, 0.16);
       color: var(--accent-lime);
-      border: 1px solid rgba(163, 230, 53, 0.35);
+      border: 1px solid rgba(163, 230, 53, 0.4);
       font-weight: 800;
       letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
     }
 
     /* Streak Visual Track (7 Columns Full Width) */
     .streak-track {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-      margin: 10px 0 12px 0;
+      gap: 5px;
+      margin: 10px 0 14px 0;
     }
 
     .streak-day-node {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-sm);
-      padding: 6px 2px;
+      padding: 7px 2px;
       text-align: center;
       font-size: 9px;
       display: flex;
@@ -365,44 +428,46 @@
       align-items: center;
       justify-content: center;
       gap: 3px;
-      min-height: 52px;
+      min-height: 56px;
       transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
       position: relative;
     }
 
     .streak-day-node > span:first-child {
-      font-size: 9px;
+      font-size: 8.5px;
       font-weight: 700;
       color: var(--text-muted);
       letter-spacing: 0.2px;
     }
 
     .streak-day-node .streak-coins {
-      font-size: 9.5px;
-      font-weight: 800;
+      font-size: 10px;
+      font-weight: 900;
       color: #fff;
     }
 
     .streak-day-node.active {
       border: 1.5px solid var(--accent-lime);
-      background: linear-gradient(180deg, rgba(163, 230, 53, 0.22) 0%, rgba(20, 30, 44, 0.95) 100%);
+      background: linear-gradient(180deg, rgba(163, 230, 53, 0.25) 0%, rgba(20, 30, 44, 0.98) 100%);
       color: var(--accent-lime);
       font-weight: 800;
-      transform: scale(1.05);
-      box-shadow: 0 0 12px var(--accent-lime-glow);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px var(--accent-lime-glow);
       z-index: 2;
     }
 
     .streak-day-node.active > span:first-child {
       color: var(--accent-lime);
+      font-weight: 800;
     }
     .streak-day-node.active .streak-coins {
       color: #fff;
+      font-weight: 900;
     }
 
     .streak-day-node.completed {
       background: rgba(34, 197, 94, 0.16);
-      border-color: rgba(34, 197, 94, 0.45);
+      border-color: rgba(34, 197, 94, 0.5);
       color: #86efac;
     }
     .streak-day-node.completed > span:first-child {
@@ -410,9 +475,29 @@
     }
     .streak-day-node.completed .streak-coins {
       color: #86efac;
+      font-size: 12px;
     }
 
-    /* Subtle celebratory 'pop' scale bounce when claimed */
+    /* Jackpot Node (Day 7) */
+    .streak-day-node.jackpot-node {
+      border: 1px solid rgba(250, 204, 21, 0.45);
+      background: linear-gradient(180deg, rgba(250, 204, 21, 0.15) 0%, #17202e 100%);
+    }
+    .streak-day-node.jackpot-node > span:first-child {
+      color: #facc15;
+      font-weight: 800;
+    }
+    .streak-day-node.jackpot-node .streak-coins {
+      color: #fef08a;
+      font-weight: 900;
+    }
+    .streak-day-node.jackpot-node.active {
+      border: 2px solid #facc15;
+      box-shadow: 0 0 16px rgba(250, 204, 21, 0.5);
+      background: linear-gradient(180deg, rgba(250, 204, 21, 0.3) 0%, rgba(24, 32, 46, 1) 100%);
+    }
+
+    /* Celebratory pop bounce animation */
     .streak-day-node.pop-claimed {
       animation: streakNodePop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
@@ -428,14 +513,54 @@
       100% { transform: scale(1); }
     }
 
+    /* Primary Streak Claim Button (Tactile Gaming Polish) */
     .btn-claim-streak {
       width: 100%;
-      padding: 12px;
-      font-size: 13px;
+      padding: 13px 16px;
+      font-size: 13.5px;
       font-weight: 900;
-      border-radius: var(--radius-sm);
+      border-radius: var(--radius-md);
       letter-spacing: 0.5px;
-      box-shadow: 0 4px 16px var(--accent-lime-glow);
+      background: linear-gradient(135deg, #a3e635 0%, #22c55e 100%);
+      color: #05200c;
+      box-shadow: 0 6px 20px rgba(163, 230, 53, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .btn-claim-streak:active:not(:disabled) {
+      transform: scale(0.98);
+      box-shadow: 0 2px 10px rgba(163, 230, 53, 0.3);
+    }
+    .btn-claim-streak::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 40%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+      transform: rotate(25deg);
+      animation: btnShimmer 3.5s infinite;
+    }
+    @keyframes btnShimmer {
+      0% { left: -60%; }
+      30%, 100% { left: 140%; }
+    }
+    .btn-claim-streak.btn-claimed-state {
+      background: rgba(30, 41, 59, 0.85) !important;
+      color: #94a3b8 !important;
+      border: 1px solid rgba(34, 197, 94, 0.35) !important;
+      box-shadow: none !important;
+      cursor: default !important;
+    }
+    .btn-claim-streak.btn-claimed-state::after {
+      display: none;
     }
 
     /* SPONSOR ADS BALANCED TWIN SECTION */
@@ -452,24 +577,24 @@
     }
 
     .sponsor-section-title {
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 800;
       color: var(--text-main);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
     }
 
     .sponsor-section-tag {
-      font-size: 9px;
+      font-size: 9.5px;
       font-weight: 800;
       color: var(--accent-yellow);
-      background: rgba(250, 204, 21, 0.12);
-      border: 1px solid rgba(250, 204, 21, 0.35);
-      padding: 2px 6px;
-      border-radius: 4px;
+      background: rgba(250, 204, 21, 0.14);
+      border: 1px solid rgba(250, 204, 21, 0.4);
+      padding: 2.5px 7px;
+      border-radius: 6px;
     }
 
     .sponsor-twin-grid {
@@ -481,18 +606,19 @@
     .sponsor-card {
       background: var(--bg-surface);
       border-radius: var(--radius-md);
-      padding: 10px;
+      padding: 12px 10px;
       display: flex;
       flex-direction: column;
       text-align: left;
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      box-shadow: var(--shadow-card);
+      transition: transform 0.15s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
       border: 1px solid var(--border-color);
       color: var(--text-main);
       width: 100%;
+      min-height: 125px;
     }
 
     .sponsor-card:active {
@@ -500,21 +626,21 @@
     }
 
     .sponsor-ad1-card {
-      background: linear-gradient(150deg, rgba(14, 165, 233, 0.14) 0%, #121a26 100%);
-      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: linear-gradient(155deg, rgba(14, 165, 233, 0.16) 0%, #101826 100%);
+      border: 1px solid rgba(56, 189, 248, 0.38);
     }
-    .sponsor-ad1-card:active {
+    .sponsor-ad1-card:hover, .sponsor-ad1-card:focus-visible {
       border-color: #38bdf8;
-      box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.25);
     }
 
     .sponsor-ad2-card {
-      background: linear-gradient(150deg, rgba(245, 158, 11, 0.14) 0%, #1a1924 100%);
-      border: 1px solid rgba(251, 191, 36, 0.35);
+      background: linear-gradient(155deg, rgba(245, 158, 11, 0.16) 0%, #181726 100%);
+      border: 1px solid rgba(251, 191, 36, 0.38);
     }
-    .sponsor-ad2-card:active {
+    .sponsor-ad2-card:hover, .sponsor-ad2-card:focus-visible {
       border-color: #fbbf24;
-      box-shadow: 0 0 16px rgba(251, 191, 36, 0.35);
+      box-shadow: 0 6px 20px rgba(251, 191, 36, 0.25);
     }
 
     .sponsor-card-top {
@@ -525,51 +651,52 @@
     }
 
     .sponsor-icon-badge {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 17px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     }
 
     .ad1-badge {
-      background: rgba(56, 189, 248, 0.18);
-      border: 1px solid rgba(56, 189, 248, 0.4);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.25) 0%, rgba(2, 132, 199, 0.25) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.5);
     }
 
     .ad2-badge {
-      background: rgba(251, 191, 36, 0.18);
-      border: 1px solid rgba(251, 191, 36, 0.4);
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.25) 0%, rgba(217, 119, 6, 0.25) 100%);
+      border: 1px solid rgba(251, 191, 36, 0.5);
     }
 
     .sponsor-reward-tag {
-      font-size: 9px;
-      font-weight: 800;
-      padding: 2.5px 6px;
-      border-radius: 4px;
-      letter-spacing: 0.3px;
+      font-size: 9.5px;
+      font-weight: 900;
+      padding: 3px 7px;
+      border-radius: 5px;
+      letter-spacing: 0.4px;
     }
 
     .tag-cyan {
-      background: rgba(6, 182, 212, 0.2);
+      background: rgba(6, 182, 212, 0.22);
       color: #38bdf8;
-      border: 1px solid rgba(6, 182, 212, 0.45);
+      border: 1px solid rgba(6, 182, 212, 0.5);
     }
 
     .tag-amber {
-      background: rgba(245, 158, 11, 0.2);
+      background: rgba(245, 158, 11, 0.22);
       color: #fbbf24;
-      border: 1px solid rgba(245, 158, 11, 0.45);
+      border: 1px solid rgba(245, 158, 11, 0.5);
     }
 
     .sponsor-card-body {
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .sponsor-name {
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 800;
       color: #fff;
       line-height: 1.2;
@@ -578,36 +705,41 @@
     .sponsor-desc {
       font-size: 9.5px;
       color: var(--text-muted);
-      margin-top: 2px;
+      margin-top: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .sponsor-card-cta {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 6px 10px;
-      border-radius: 6px;
-      font-size: 10px;
-      font-weight: 800;
+      padding: 7px 11px;
+      border-radius: 7px;
+      font-size: 10.5px;
+      font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.5px;
       margin-top: auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
     }
 
     .cta-cyan {
       background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-      color: #fff;
-      box-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
+      color: #032030;
+      box-shadow: 0 3px 12px rgba(56, 189, 248, 0.35);
     }
 
     .cta-amber {
       background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
-      color: #000;
-      box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+      color: #2b1704;
+      box-shadow: 0 3px 12px rgba(251, 191, 36, 0.35);
     }
 
     .cta-arrow {
-      font-size: 11px;
+      font-size: 12px;
+      font-weight: 900;
     }
 
     /* Spin Wheel Canvas */
@@ -746,51 +878,53 @@
     .grid-5-col {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 5px;
-      margin-bottom: 8px;
+      gap: 6px;
+      margin-bottom: 10px;
     }
 
     .task-tile {
-      background: var(--bg-surface);
+      background: linear-gradient(160deg, #182232 0%, var(--bg-surface) 100%);
       border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
-      padding: 6px 2px;
+      border-radius: var(--radius-md);
+      padding: 8px 3px;
       text-align: center;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 64px;
-      transition: all 0.2s ease;
+      min-height: 70px;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
       position: relative;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
     }
 
     .task-tile:active {
-      transform: scale(0.95);
+      transform: scale(0.94);
       border-color: var(--accent-lime);
     }
 
     .task-tile.selected {
       border-color: var(--accent-lime);
-      background: rgba(163, 230, 53, 0.08);
-      box-shadow: 0 0 10px var(--accent-lime-glow);
+      background: linear-gradient(160deg, rgba(163, 230, 53, 0.16) 0%, #152230 100%);
+      box-shadow: 0 0 14px var(--accent-lime-glow);
+      transform: translateY(-2px);
     }
 
     .task-tile.completed {
-      border-color: var(--accent-green);
-      opacity: 0.8;
-      background: rgba(34, 197, 94, 0.08);
+      border-color: rgba(34, 197, 94, 0.6);
+      background: linear-gradient(160deg, rgba(34, 197, 94, 0.12) 0%, #101c1c 100%);
     }
 
     .task-icon {
-      font-size: 16px;
-      margin-bottom: 2px;
+      font-size: 19px;
+      margin-bottom: 3px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
     }
 
     .task-name {
-      font-size: 8.5px;
-      font-weight: 700;
+      font-size: 9px;
+      font-weight: 800;
       color: var(--text-main);
       white-space: nowrap;
       overflow: hidden;
@@ -799,13 +933,14 @@
     }
 
     .task-reward-badge {
-      font-size: 8px;
-      font-weight: 800;
+      font-size: 8.5px;
+      font-weight: 900;
       color: var(--accent-lime);
-      background: rgba(163, 230, 53, 0.15);
-      border-radius: 3px;
-      padding: 1px 3px;
-      margin-top: 3px;
+      background: rgba(163, 230, 53, 0.18);
+      border: 1px solid rgba(163, 230, 53, 0.35);
+      border-radius: 4px;
+      padding: 1.5px 4px;
+      margin-top: 4px;
     }
 
     /* Active Task Execution Card */
@@ -883,42 +1018,50 @@
 
     /* 5-COLUMN WITHDRAWAL SELECTOR */
     .withdraw-badge {
-      background: var(--bg-surface);
+      background: linear-gradient(160deg, #182232 0%, var(--bg-surface) 100%);
       border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
-      padding: 5px 2px;
+      border-radius: var(--radius-md);
+      padding: 7px 3px;
       text-align: center;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 52px;
-      transition: all 0.15s ease;
+      min-height: 58px;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    .withdraw-badge:active {
+      transform: scale(0.94);
     }
 
     .withdraw-badge.selected {
       border-color: var(--accent-lime);
-      background: rgba(163, 230, 53, 0.1);
-      box-shadow: 0 0 8px var(--accent-lime-glow);
+      background: linear-gradient(160deg, rgba(163, 230, 53, 0.16) 0%, #152230 100%);
+      box-shadow: 0 0 12px var(--accent-lime-glow);
+      transform: translateY(-2px);
     }
 
     .withdraw-badge-icon {
-      font-size: 13px;
+      font-size: 16px;
       margin-bottom: 2px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
     }
 
     .withdraw-badge-name {
-      font-size: 8.5px;
-      font-weight: 700;
+      font-size: 9px;
+      font-weight: 800;
       color: var(--text-main);
       white-space: nowrap;
     }
 
     .withdraw-badge-min {
-      font-size: 7.5px;
-      color: var(--text-dim);
-      margin-top: 1px;
+      font-size: 8px;
+      font-weight: 700;
+      color: var(--accent-lime);
+      margin-top: 2px;
     }
 
     /* Withdrawal Form & Notice */
@@ -1089,6 +1232,364 @@
       letter-spacing: 4px;
     }
 
+    /* ==================== CREATOR STUDIO & DYNAMIC TASK HUB STYLES ==================== */
+    .creator-studio-banner {
+      background: linear-gradient(135deg, #1e1b4b 0%, #172554 50%, #0f172a 100%);
+      border: 1px solid rgba(168, 85, 247, 0.45);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 18px rgba(168, 85, 247, 0.22);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    .creator-studio-banner::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .creator-banner-left {
+      position: relative;
+      z-index: 1;
+    }
+    .creator-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(168, 85, 247, 0.25);
+      border: 1px solid rgba(168, 85, 247, 0.5);
+      color: #e9d5ff;
+      font-size: 8.5px;
+      font-weight: 900;
+      padding: 2.5px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .creator-banner-title {
+      font-size: 13.5px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.2px;
+      margin-bottom: 3px;
+    }
+    .creator-banner-desc {
+      font-size: 10px;
+      color: #cbd5e1;
+      line-height: 1.4;
+    }
+    .creator-banner-actions {
+      display: flex;
+      gap: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    .btn-creator-create {
+      background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(168, 85, 247, 0.4);
+    }
+    .btn-creator-create:active {
+      transform: scale(0.97);
+    }
+
+    /* Platform Category Filters */
+    .task-filter-container {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+      scrollbar-width: none;
+    }
+    .task-filter-container::-webkit-scrollbar {
+      display: none;
+    }
+    .task-filter-pill {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.18s ease;
+      flex-shrink: 0;
+    }
+    .task-filter-pill:active {
+      transform: scale(0.95);
+    }
+    .task-filter-pill.active {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border-color: var(--accent-lime);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(163, 230, 53, 0.25);
+    }
+    .task-filter-pill .pill-count {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 1px 5px;
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--accent-lime);
+    }
+
+    /* Dynamic Task Grid & Cards */
+    .tasks-grid-wrap {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    @media (min-width: 600px) {
+      .tasks-grid-wrap {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (min-width: 840px) {
+      .tasks-grid-wrap {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .task-card-item {
+      background: linear-gradient(160deg, #182232 0%, var(--bg-surface) 100%);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+      min-height: 112px;
+    }
+    .task-card-item:active {
+      transform: scale(0.96);
+    }
+    .task-card-item.selected {
+      border-color: var(--accent-lime);
+      background: linear-gradient(160deg, rgba(163, 230, 53, 0.16) 0%, #152230 100%);
+      box-shadow: 0 0 14px var(--accent-lime-glow);
+    }
+    .task-card-item.completed {
+      border-color: rgba(34, 197, 94, 0.6);
+      background: linear-gradient(160deg, rgba(34, 197, 94, 0.12) 0%, #101c1c 100%);
+    }
+    .task-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+    .task-card-icon {
+      font-size: 22px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    }
+    .task-type-tag {
+      font-size: 8px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .tag-official {
+      background: rgba(56, 189, 248, 0.18);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+    .tag-creator {
+      background: rgba(168, 85, 247, 0.2);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.4);
+    }
+    .tag-completed {
+      background: rgba(34, 197, 94, 0.22);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.45);
+    }
+    .task-card-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.35;
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .task-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .task-card-reward {
+      font-size: 10px;
+      font-weight: 900;
+      color: var(--accent-lime);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .task-card-timer {
+      font-size: 9px;
+      color: var(--accent-cyan);
+      font-weight: 700;
+    }
+
+    /* Modal Create Task Styles */
+    .form-group {
+      margin-bottom: 10px;
+    }
+    .form-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #e2e8f0;
+      margin-bottom: 4px;
+    }
+    .form-hint {
+      font-size: 9px;
+      color: var(--text-muted);
+      margin-top: 3px;
+      line-height: 1.35;
+    }
+    .platform-selector-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .platform-choice-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 7px 4px;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      transition: all 0.15s ease;
+      color: var(--text-main);
+    }
+    .platform-choice-btn:active {
+      transform: scale(0.96);
+    }
+    .platform-choice-btn.active {
+      border-color: var(--accent-lime);
+      background: linear-gradient(145deg, rgba(163, 230, 53, 0.16) 0%, #152230 100%);
+      box-shadow: 0 0 10px var(--accent-lime-glow);
+    }
+    .platform-choice-btn .p-icon {
+      font-size: 16px;
+    }
+    .platform-choice-btn .p-name {
+      font-size: 9.5px;
+      font-weight: 800;
+    }
+
+    .pill-selector {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .choice-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .choice-pill:active { transform: scale(0.96); }
+    .choice-pill.active {
+      border-color: var(--accent-lime);
+      background: rgba(163, 230, 53, 0.15);
+      color: #fff;
+    }
+
+    .budget-calc-box {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      margin: 8px 0;
+    }
+    .budget-calc-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10.5px;
+      margin-bottom: 4px;
+      color: #cbd5e1;
+    }
+    .budget-total-val {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--accent-lime);
+    }
+
+    /* Campaign Manager List */
+    .campaign-item-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+    .campaign-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .campaign-item-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .campaign-progress-bar {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 3px;
+      margin: 6px 0;
+      overflow: hidden;
+    }
+    .campaign-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-lime), #84cc16);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
     /* Tab Panes */
     .tab-pane {
       display: none;
@@ -1189,49 +1690,52 @@
     }
 
     .quick-nav-card {
-      background: var(--bg-card);
+      background: linear-gradient(155deg, #182234 0%, var(--bg-surface) 100%);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 10px;
+      padding: 12px 10px;
       cursor: pointer;
       transition: all 0.2s ease;
       display: flex;
       flex-direction: column;
       position: relative;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
     }
 
     .quick-nav-card:active {
       transform: scale(0.97);
+      border-color: var(--accent-lime);
       background: var(--bg-card-hover);
     }
 
     .quick-card-icon {
       font-size: 24px;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
     }
 
     .quick-card-title {
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 800;
       color: #fff;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
     }
 
     .quick-card-desc {
       font-size: 9.5px;
       color: var(--text-muted);
-      line-height: 1.3;
-      margin-bottom: 6px;
+      line-height: 1.35;
+      margin-bottom: 8px;
       flex: 1;
     }
 
     .quick-card-badge {
-      font-size: 9px;
+      font-size: 9.5px;
       font-weight: 800;
       color: var(--accent-lime);
       display: flex;
       align-items: center;
-      gap: 2px;
+      gap: 3px;
     }
 
     /* AI Bot & Chat Component */
@@ -1478,7 +1982,8 @@
     <header class="app-header">
       <div class="header-top">
         <div class="brand-title">
-          <span>⚡ Earn Duo AI</span>
+          <span>⚡ Earn Duo</span>
+          <span class="brand-badge">PRO AI</span>
         </div>
         <div class="header-actions">
           <button id="btnHeaderAi" class="icon-btn" onclick="switchTab('tabAi')" title="Open AI Bot" style="color: var(--accent-lime); border-color: rgba(163, 230, 53, 0.4);">
@@ -1536,10 +2041,10 @@
       <!-- Featured Tasks Quick Banner -->
       <div class="featured-tasks-banner" onclick="switchTab('tabTasks')">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-size: 24px;">🌐</span>
+          <span style="font-size: 24px;">🚀</span>
           <div>
-            <div style="font-size: 11px; font-weight: 800; color: #fff;">YouTube, Instagram, Facebook, Bybit & Binance Tasks</div>
-            <div style="font-size: 9.5px; color: var(--accent-lime);">Complete with Anti-Cheat Timer & Earn +1,300 Coins</div>
+            <div style="font-size: 11px; font-weight: 800; color: #fff;">YouTube, Social Tasks & Creator Studio</div>
+            <div style="font-size: 9.5px; color: var(--accent-lime);">Complete Tasks & Earn Coins • Creators Can Post Campaigns!</div>
           </div>
         </div>
         <button class="btn-action btn-lime" style="width: auto; padding: 4px 10px; font-size: 9.5px; margin: 0;">Open Tasks →</button>
@@ -1552,18 +2057,18 @@
             <span class="streak-flame-icon">🔥</span>
             <div>
               <div class="streak-title">7-Day Daily Streak</div>
-              <div class="streak-sub">Daily check-in reward boost</div>
+              <div class="streak-sub">Daily check-in reward multiplier</div>
             </div>
           </div>
-          <span class="card-badge streak-badge" id="streakBadge">IST Reset 12 AM</span>
+          <span class="card-badge streak-badge" id="streakBadge">⏳ Resets 12:00 AM IST</span>
         </div>
 
         <div class="streak-track" id="streakTrack">
           <!-- 7 day nodes injected by JS -->
         </div>
 
-        <button id="btnClaimStreak" class="btn-action btn-lime btn-claim-streak">
-          <span>⚡ Claim Day <span id="streakDayNum">1</span></span>
+        <button id="btnClaimStreak" class="btn-claim-streak">
+          <span>⚡ CLAIM DAY <span id="streakDayNum">1</span> REWARD (+100 COINS)</span>
         </button>
       </section>
 
@@ -1571,7 +2076,7 @@
       <section class="sponsor-ads-section">
         <div class="sponsor-header-row">
           <span class="sponsor-section-title">📺 Daily Sponsor Boosters</span>
-          <span class="sponsor-section-tag">+50 Coins Total</span>
+          <span class="sponsor-section-tag">⚡ Instant +50 Coins</span>
         </div>
 
         <div class="sponsor-twin-grid">
@@ -1583,10 +2088,10 @@
             </div>
             <div class="sponsor-card-body">
               <div class="sponsor-name">Watch Ad 1</div>
-              <div class="sponsor-desc">Monetag Fast Sponsor</div>
+              <div class="sponsor-desc">⚡ Monetag Fast Booster</div>
             </div>
             <div class="sponsor-card-cta cta-cyan">
-              <span>Watch Ad</span>
+              <span>▶ Watch Now</span>
               <span class="cta-arrow">↗</span>
             </div>
           </button>
@@ -1599,10 +2104,10 @@
             </div>
             <div class="sponsor-card-body">
               <div class="sponsor-name">Watch Ad 2</div>
-              <div class="sponsor-desc">High-Yield Sponsor Link</div>
+              <div class="sponsor-desc">🔥 High-Yield Booster</div>
             </div>
             <div class="sponsor-card-cta cta-amber">
-              <span>Watch Ad</span>
+              <span>▶ Watch Now</span>
               <span class="cta-arrow">↗</span>
             </div>
           </button>
@@ -1665,58 +2170,81 @@
       </div>
     </div>
 
-    <!-- ==================== TAB 2: TASKS (YOUTUBE, INSTAGRAM, FACEBOOK, BYBIT, BINANCE) ==================== -->
+    <!-- ==================== TAB 2: TASKS (YOUTUBE, INSTAGRAM, FACEBOOK, BYBIT, BINANCE & CREATOR TASKS) ==================== -->
     <div id="tabTasks" class="tab-pane">
       <div class="section-header">
         <div class="section-title">
-          <span>🌐 YouTube, Instagram, Facebook, Bybit & Binance Tasks</span>
+          <span>🌐 Social Media & Crypto Tasks Hub</span>
         </div>
-        <span class="guide-link" id="btnOpenCreatorGuide" onclick="openModal('modalCreatorGuide')">Creator Guide</span>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span class="guide-link" id="btnOpenCreatorGuide" onclick="openModal('modalCreatorGuide')">Creator Guide</span>
+          <span class="guide-link" style="color: var(--accent-lime); font-weight: 800;" onclick="openMyCampaignsModal()">📊 My Tasks</span>
+        </div>
       </div>
+
+      <!-- CONTENT CREATOR STUDIO PROMOTIONAL BANNER -->
+      <section class="creator-studio-banner">
+        <div class="creator-banner-left">
+          <div class="creator-badge">🚀 CONTENT CREATOR STUDIO</div>
+          <div class="creator-banner-title">Content Creators: Apna Task Yahan Lagayein!</div>
+          <div class="creator-banner-desc">YouTube Video Views/Subscribe, Instagram Followers/Reels, Facebook ya Telegram task lagayein aur real audience se guaranteed engagement payein!</div>
+        </div>
+        <div class="creator-banner-actions">
+          <button class="btn-action btn-creator-create" onclick="openCreateTaskModal('youtube')" style="flex: 1.2;">
+            <span>➕ Naya Task Lagayein</span>
+          </button>
+          <button class="btn-action btn-ad1" onclick="openMyCampaignsModal()" style="flex: 1;">
+            <span>📂 Mere Campaigns (<span id="creatorCampaignsCountBadge">0</span>)</span>
+          </button>
+        </div>
+      </section>
 
       <!-- Anti-Cheat Security Notice Card -->
       <div class="anti-cheat-card">
         <span style="font-size: 16px;">🛡️</span>
         <div>
           <strong style="color: #f87171;">STRICT ANTI-CHEAT SECURITY ACTIVE:</strong><br>
-          • <b>Mandatory 30s Countdown:</b> Click 'Open Task Link' below. The 30s timer begins immediately. The code input unlocks ONLY after the timer finishes.<br>
-          • <b>Secret Verification Codes:</b> Genuine codes & UIDs only. <b>3 wrong attempts = 24-Hour Security Lockout!</b><br>
-          • <b>24h Security Hold:</b> Task coins are held in 24h Security Hold before unlocking into spendable balance to prevent bot spam.
+          • <b>Mandatory Countdown:</b> Task link open karne par anti-cheat timer chalu hota hai. Timer complete hone ke baad hi verification code input unlock hoga.<br>
+          • <b>Secret Verification Codes:</b> Video/post me diya gaya genuine 4-digit code ya UID hi enter karein. <b>3 wrong attempts = 24-Hour Lockout!</b><br>
+          • <b>24h Security Hold:</b> Task coins 24h security hold me reserve hote hain taaki bot spam aur fraud prevent ho sake.
         </div>
       </div>
 
-      <!-- 5 Social & Crypto Task Tiles -->
-      <section class="grid-5-col" id="socialTasksGrid">
-        <!-- 1: YouTube -->
-        <div class="task-tile" data-task="youtube">
-          <div class="task-icon">▶️</div>
-          <div class="task-name">YouTube</div>
-          <div class="task-reward-badge">+200</div>
-        </div>
-        <!-- 2: Instagram -->
-        <div class="task-tile" data-task="instagram">
-          <div class="task-icon">📸</div>
-          <div class="task-name">Instagram</div>
-          <div class="task-reward-badge">+150</div>
-        </div>
-        <!-- 3: Facebook -->
-        <div class="task-tile" data-task="facebook">
-          <div class="task-icon">📘</div>
-          <div class="task-name">Facebook</div>
-          <div class="task-reward-badge">+150</div>
-        </div>
-        <!-- 4: Binance Square -->
-        <div class="task-tile" data-task="binance">
-          <div class="task-icon">🟡</div>
-          <div class="task-name">Binance</div>
-          <div class="task-reward-badge">+300</div>
-        </div>
-        <!-- 5: Bybit Signup -->
-        <div class="task-tile" data-task="bybit">
-          <div class="task-icon">🟠</div>
-          <div class="task-name">Bybit</div>
-          <div class="task-reward-badge">+500</div>
-        </div>
+      <!-- PLATFORM CATEGORY FILTER TABS -->
+      <div class="task-filter-container" id="taskFiltersBar">
+        <button class="task-filter-pill active" data-filter="all" onclick="filterTasks('all')">
+          <span>🌐 All Tasks</span>
+          <span class="pill-count" id="taskCountAll">0</span>
+        </button>
+        <button class="task-filter-pill" data-filter="youtube" onclick="filterTasks('youtube')">
+          <span>▶️ YouTube</span>
+          <span class="pill-count" id="taskCountYouTube">0</span>
+        </button>
+        <button class="task-filter-pill" data-filter="instagram" onclick="filterTasks('instagram')">
+          <span>📸 Instagram</span>
+          <span class="pill-count" id="taskCountInstagram">0</span>
+        </button>
+        <button class="task-filter-pill" data-filter="facebook" onclick="filterTasks('facebook')">
+          <span>📘 Facebook</span>
+          <span class="pill-count" id="taskCountFacebook">0</span>
+        </button>
+        <button class="task-filter-pill" data-filter="telegram" onclick="filterTasks('telegram')">
+          <span>✈️ Telegram</span>
+          <span class="pill-count" id="taskCountTelegram">0</span>
+        </button>
+        <button class="task-filter-pill" data-filter="crypto" onclick="filterTasks('crypto')">
+          <span>🟡 Crypto & Web</span>
+          <span class="pill-count" id="taskCountCrypto">0</span>
+        </button>
+        <button class="task-filter-pill" data-filter="mine" onclick="filterTasks('mine')">
+          <span>⭐ My Campaigns</span>
+          <span class="pill-count" id="taskCountMine">0</span>
+        </button>
+      </div>
+
+      <!-- DYNAMIC TASK GRID / TILES -->
+      <section class="tasks-grid-wrap" id="socialTasksGrid">
+        <!-- Rendered dynamically by renderTasksList() -->
       </section>
 
       <!-- Active Task Execution Card -->
@@ -2019,11 +2547,11 @@
   <div id="modalCreatorGuide" class="modal-overlay">
     <div class="modal-box">
       <div class="modal-header">
-        <span class="modal-title">🛠️ Content Creator Secret Code Generator</span>
+        <span class="modal-title">🛠️ Content Creator Guide & Code Generator</span>
         <button class="modal-close" onclick="closeModal('modalCreatorGuide')">✕</button>
       </div>
       <div class="modal-content">
-        <p>Content creators and promoters can generate randomized 4-digit verification codes to place inside promotional videos or tutorials.</p>
+        <p>Content creators, YouTubers aur promoters apne videos ya social media posts ke liye randomized 4-digit verification code generate karke yahan task laga sakte hain!</p>
         <div class="creator-code-box">
           <div style="font-size: 9px; color: var(--text-muted); text-transform: uppercase;">Generated Creator Code</div>
           <div id="creatorGeneratedCode" class="creator-code-val">7382</div>
@@ -2031,7 +2559,10 @@
             🔄 Generate New Code
           </button>
         </div>
-        <p style="margin-top: 6px;"><strong>Active Social Task Codes for Users:</strong></p>
+        <button onclick="closeModal('modalCreatorGuide'); openCreateTaskModal('youtube');" class="btn-action btn-creator-create" style="margin-top: 8px; padding: 8px 12px; font-size: 11px;">
+          <span>➕ Yahan Naya Social Media Task Lagayein →</span>
+        </button>
+        <p style="margin-top: 10px;"><strong>Active Social Task Codes for Users:</strong></p>
         <ul style="padding-left: 16px; margin-top: 4px;">
           <li>YouTube Task: Code <code>8421</code> (+200 Coins)</li>
           <li>Instagram Task: Code <code>4123</code> (+150 Coins)</li>
@@ -2039,6 +2570,217 @@
           <li>Binance Square: 7-10 Digit Numeric Pay ID (+300 Coins)</li>
           <li>Bybit Signup: 7-10 Digit Numeric UID (+500 Coins)</li>
         </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Create Social Media Task (Content Creator Studio) -->
+  <div id="modalCreateTask" class="modal-overlay">
+    <div class="modal-box" style="border-color: rgba(168, 85, 247, 0.6); max-width: 480px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span style="font-size: 18px;">🚀</span>
+          <div>
+            <div class="modal-title" style="color: #c084fc;">Content Creator: Naya Task Lagayein</div>
+            <div style="font-size: 8.5px; color: var(--text-muted);">Apna YouTube, Instagram, Facebook ya Social Link Promote Karein</div>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeModal('modalCreateTask')">✕</button>
+      </div>
+      <div class="modal-content">
+        <form id="formCreateTask" onsubmit="handleCreateTaskSubmit(event)">
+          <!-- 1. Platform Choice -->
+          <div class="form-group">
+            <label class="form-label">
+              <span>1. Social Media Platform Chunein:</span>
+            </label>
+            <div class="platform-selector-grid" id="createPlatformGrid">
+              <div class="platform-choice-btn active" data-platform="youtube" onclick="selectCreatePlatform('youtube')">
+                <span class="p-icon">▶️</span>
+                <span class="p-name">YouTube</span>
+              </div>
+              <div class="platform-choice-btn" data-platform="instagram" onclick="selectCreatePlatform('instagram')">
+                <span class="p-icon">📸</span>
+                <span class="p-name">Instagram</span>
+              </div>
+              <div class="platform-choice-btn" data-platform="facebook" onclick="selectCreatePlatform('facebook')">
+                <span class="p-icon">📘</span>
+                <span class="p-name">Facebook</span>
+              </div>
+              <div class="platform-choice-btn" data-platform="telegram" onclick="selectCreatePlatform('telegram')">
+                <span class="p-icon">✈️</span>
+                <span class="p-name">Telegram</span>
+              </div>
+              <div class="platform-choice-btn" data-platform="crypto" onclick="selectCreatePlatform('crypto')">
+                <span class="p-icon">🟡</span>
+                <span class="p-name">Crypto App</span>
+              </div>
+              <div class="platform-choice-btn" data-platform="web" onclick="selectCreatePlatform('web')">
+                <span class="p-icon">🌐</span>
+                <span class="p-name">Website / Blog</span>
+              </div>
+            </div>
+            <input type="hidden" id="createTaskPlatformVal" value="youtube">
+          </div>
+
+          <!-- 2. Task Title -->
+          <div class="form-group">
+            <label class="form-label" for="createTaskTitle">
+              <span>2. Task Title (Kaam ka Naam):</span>
+            </label>
+            <input type="text" id="createTaskTitle" class="input-field" style="width: 100%;" placeholder="e.g. YouTube Video Watch Karein & Secret Code Dhoondhein" required>
+            <div style="display: flex; gap: 4px; margin-top: 4px; overflow-x: auto; padding-bottom: 2px;">
+              <span class="choice-pill" style="font-size: 8.5px; padding: 2px 6px;" onclick="applyTitleSuggestion('Watch Video & Find Code')">▶️ Watch & Code</span>
+              <span class="choice-pill" style="font-size: 8.5px; padding: 2px 6px;" onclick="applyTitleSuggestion('Subscribe Channel & Like')">🔔 Subscribe</span>
+              <span class="choice-pill" style="font-size: 8.5px; padding: 2px 6px;" onclick="applyTitleSuggestion('Follow Instagram & Like Reel')">📸 Follow & Reel</span>
+              <span class="choice-pill" style="font-size: 8.5px; padding: 2px 6px;" onclick="applyTitleSuggestion('Join Telegram Channel')">✈️ Telegram Join</span>
+            </div>
+          </div>
+
+          <!-- 3. Target Link / URL -->
+          <div class="form-group">
+            <label class="form-label" for="createTaskUrl">
+              <span>3. Target Link / URL (YouTube Video / Profile Link):</span>
+            </label>
+            <input type="url" id="createTaskUrl" class="input-field" style="width: 100%;" placeholder="https://www.youtube.com/watch?v=..." required>
+            <div class="form-hint">Yahan apna genuine video ya profile link dalein. Users 'Open Task Link' dabane par issi page par jayenge.</div>
+          </div>
+
+          <!-- 4. Verification Method -->
+          <div class="form-group">
+            <label class="form-label">
+              <span>4. User Verification Method:</span>
+            </label>
+            <div style="display: flex; gap: 6px; margin-bottom: 6px;">
+              <div class="choice-pill active" id="pillVerifyCode" onclick="selectVerifyMethod('code')" style="flex: 1; text-align: center;">
+                🔢 4-Digit Secret Code
+              </div>
+              <div class="choice-pill" id="pillVerifyProof" onclick="selectVerifyMethod('proof')" style="flex: 1; text-align: center;">
+                🆔 Username / Proof
+              </div>
+            </div>
+            <input type="hidden" id="createTaskVerifyTypeVal" value="code">
+
+            <!-- Code input block -->
+            <div id="blockSecretCode" style="background: rgba(18, 24, 34, 0.7); border: 1px dashed var(--accent-lime); border-radius: var(--radius-sm); padding: 8px; margin-top: 6px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span style="font-size: 9.5px; font-weight: 800; color: #fff;">Secret 4-Digit Code:</span>
+                <button type="button" class="btn-action btn-lime" style="width: auto; padding: 2px 8px; font-size: 8.5px;" onclick="generateRandomTaskCode()">
+                  🎲 Random Code
+                </button>
+              </div>
+              <input type="text" id="createTaskCode" class="input-field" style="width: 100%; font-size: 14px; letter-spacing: 2px; font-weight: 800; text-align: center; color: var(--accent-lime);" maxlength="4" placeholder="e.g. 7482" value="8421">
+              <div class="form-hint" style="color: #bef264;">ℹ️ Yeh code aap apne video ke beech me ya description me mention karein taaki real viewers hi claim kar sakein!</div>
+            </div>
+
+            <!-- Proof input block -->
+            <div id="blockProofInfo" style="display: none; background: rgba(18, 24, 34, 0.7); border: 1px dashed var(--accent-cyan); border-radius: var(--radius-sm); padding: 8px; margin-top: 6px;">
+              <div style="font-size: 9.5px; font-weight: 800; color: #fff; margin-bottom: 3px;">Username / Profile Proof:</div>
+              <div class="form-hint">Users task complete karke apna social media handle ya UID submit karenge jo aapke campaign dashboard me show hoga.</div>
+            </div>
+          </div>
+
+          <!-- 5. Watch Timer & Reward -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div class="form-group">
+              <label class="form-label" for="createTaskTimer">
+                <span>⏱️ Watch Timer:</span>
+              </label>
+              <select id="createTaskTimer" class="select-dropdown" onchange="calculateTaskBudget()" style="margin-bottom: 0;">
+                <option value="15">15 Seconds</option>
+                <option value="30" selected>30 Seconds (Standard)</option>
+                <option value="45">45 Seconds</option>
+                <option value="60">60 Seconds</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="createTaskReward">
+                <span>💰 Reward Per User:</span>
+              </label>
+              <select id="createTaskReward" class="select-dropdown" onchange="calculateTaskBudget()" style="margin-bottom: 0;">
+                <option value="100">100 Coins</option>
+                <option value="150">150 Coins</option>
+                <option value="200" selected>200 Coins</option>
+                <option value="300">300 Coins</option>
+                <option value="500">500 Coins</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 6. Target Users -->
+          <div class="form-group">
+            <label class="form-label">
+              <span>👥 Target Completions (Kitne Users Chahiye):</span>
+            </label>
+            <div class="pill-selector" id="pillsTargetUsers">
+              <span class="choice-pill active" onclick="setTargetUsers(10, this)">10 Users</span>
+              <span class="choice-pill" onclick="setTargetUsers(25, this)">25 Users</span>
+              <span class="choice-pill" onclick="setTargetUsers(50, this)">50 Users</span>
+              <span class="choice-pill" onclick="setTargetUsers(100, this)">100 Users</span>
+            </div>
+            <input type="hidden" id="createTaskTargetUsersVal" value="10">
+          </div>
+
+          <!-- 7. Budget Calculation & Payment Method -->
+          <div class="budget-calc-box">
+            <div class="budget-calc-row">
+              <span>Campaign Cost Calculation:</span>
+              <span id="budgetFormulaText">200 Coins × 10 Users</span>
+            </div>
+            <div class="budget-calc-row" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 4px; margin-top: 4px;">
+              <span style="font-weight: 800; color: #fff;">Total Campaign Budget:</span>
+              <span class="budget-total-val" id="createTaskTotalBudget">2,000 Coins</span>
+            </div>
+
+            <div style="margin-top: 8px;">
+              <div style="font-size: 9.5px; font-weight: 800; color: #fff; margin-bottom: 4px;">Payment Option Chunein:</div>
+              <div style="display: flex; flex-direction: column; gap: 4px;">
+                <label style="display: flex; align-items: center; gap: 6px; font-size: 10px; cursor: pointer;">
+                  <input type="radio" name="createTaskPayment" value="free_boost" checked onchange="handlePaymentMethodChange()">
+                  <span style="color: var(--accent-lime); font-weight: 700;">🎁 Free Creator Promotional Boost (100% Free / Zero Fee)</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 6px; font-size: 10px; cursor: pointer;">
+                  <input type="radio" name="createTaskPayment" value="wallet" onchange="handlePaymentMethodChange()">
+                  <span style="color: #cbd5e1;">🪙 Pay from Wallet Balance (Available: <b id="createTaskWalletBal">250</b> Coins)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn-action btn-creator-create" style="padding: 10px; font-size: 12px; margin-top: 6px;">
+            <span>🚀 Task Live Karein (Publish Campaign)</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: My Created Tasks / Campaign Manager -->
+  <div id="modalMyCampaigns" class="modal-overlay">
+    <div class="modal-box" style="border-color: rgba(56, 189, 248, 0.6); max-width: 480px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span style="font-size: 18px;">📊</span>
+          <div>
+            <div class="modal-title" style="color: #38bdf8;">Mere Lagaye Gaye Tasks (My Campaigns)</div>
+            <div style="font-size: 8.5px; color: var(--text-muted);">Aapke live aur completed promotional tasks ka dashboard</div>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeModal('modalMyCampaigns')">✕</button>
+      </div>
+      <div class="modal-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 10px; color: var(--text-muted);">Total Campaigns: <b id="myCampaignsCountText" style="color: #fff;">0</b></span>
+          <button class="btn-action btn-lime" style="width: auto; padding: 4px 10px; font-size: 9.5px;" onclick="closeModal('modalMyCampaigns'); openCreateTaskModal('youtube');">
+            <span>➕ Naya Task Lagayein</span>
+          </button>
+        </div>
+
+        <div id="myCampaignsListContainer" style="display: flex; flex-direction: column; gap: 8px; max-height: 55vh; overflow-y: auto;">
+          <!-- Injected dynamically by renderMyCampaignsUI() -->
+        </div>
       </div>
     </div>
   </div>
@@ -2223,11 +2965,11 @@
 
       // Social Tasks
       tasks: {
-        youtube: { name: 'YouTube', timer: 30, code: '8421', reward: 200, url: 'https://www.youtube.com' },
-        instagram: { name: 'Instagram', timer: 30, code: '4123', reward: 150, url: 'https://www.instagram.com' },
-        facebook: { name: 'Facebook', timer: 30, code: '9988', reward: 150, url: 'https://www.facebook.com' },
-        binance: { name: 'Binance Square', timer: 30, isUid: true, reward: 300, url: 'https://www.binance.com/register?ref=EARN2DUO1AI' },
-        bybit: { name: 'Bybit Signup', timer: 30, isUid: true, reward: 500, url: 'https://www.bybit.com/invite?ref=WWXMBLX' }
+        youtube: { id: 'youtube', platform: 'youtube', name: 'YouTube Official Watch & Code', timer: 30, code: '8421', reward: 200, url: 'https://www.youtube.com', isOfficial: true },
+        instagram: { id: 'instagram', platform: 'instagram', name: 'Instagram Official Follow & Code', timer: 30, code: '4123', reward: 150, url: 'https://www.instagram.com', isOfficial: true },
+        facebook: { id: 'facebook', platform: 'facebook', name: 'Facebook Official Page & Code', timer: 30, code: '9988', reward: 150, url: 'https://www.facebook.com', isOfficial: true },
+        binance: { id: 'binance', platform: 'crypto', name: 'Binance Square - Register & Pay ID', timer: 30, isUid: true, reward: 300, url: 'https://www.binance.com/register?ref=EARN2DUO1AI', isOfficial: true },
+        bybit: { id: 'bybit', platform: 'crypto', name: 'Bybit Signup - Enter 7-10 Digit UID', timer: 30, isUid: true, reward: 500, url: 'https://www.bybit.com/invite?ref=WWXMBLX', isOfficial: true }
       },
 
       // Withdrawal Limits, Formats, Placeholders & Hints
@@ -2303,9 +3045,13 @@
 
       init() {
         if (!this.ctx) {
-          const AudioContext = window.AudioContext || window.webkitAudioContext;
-          if (AudioContext) {
-            this.ctx = new AudioContext();
+          try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (AudioContext) {
+              this.ctx = new AudioContext();
+            }
+          } catch (e) {
+            this.ctx = null;
           }
         }
         if (this.ctx && this.ctx.state === 'suspended') {
@@ -2323,7 +3069,7 @@
         if (!this.enabled) return;
         try {
           this.init();
-          if (!this.ctx) return;
+          if (!this.ctx || this.ctx.state !== 'running') return;
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
           const start = this.ctx.currentTime + delay;
@@ -2336,6 +3082,13 @@
 
           osc.connect(gain);
           gain.connect(this.ctx.destination);
+
+          osc.onended = () => {
+            try {
+              osc.disconnect();
+              gain.disconnect();
+            } catch (e) {}
+          };
 
           osc.start(start);
           osc.stop(start + duration);
@@ -2411,7 +3164,8 @@
           savedPayoutDetails: {},
           completedTasks: {},
           shadowbanUntil: 0,
-          failedTaskAttempts: 0
+          failedTaskAttempts: 0,
+          creatorTasks: [] // Array of custom creator-added tasks
         };
         this.isGlobalActionLocked = false;
         this.load();
@@ -2426,6 +3180,47 @@
           }
         } catch (e) {
           console.error('LocalStorage load failed', e);
+        }
+
+        // Ensure creatorTasks exists and has starter community tasks
+        if (!Array.isArray(this.data.creatorTasks)) {
+          this.data.creatorTasks = [];
+        }
+        if (this.data.creatorTasks.length === 0) {
+          this.data.creatorTasks = [
+            {
+              id: 'ctask_yt_sample',
+              platform: 'youtube',
+              name: 'Earn Duo AI - YouTube Official Video Watch & 4-Digit Code',
+              url: 'https://www.youtube.com',
+              reward: 200,
+              timer: 30,
+              verifyType: 'code',
+              code: '7412',
+              targetUsers: 50,
+              completedCount: 12,
+              creatorUid: 'creator_duo',
+              paymentMethod: 'free_boost',
+              createdAt: Date.now() - 3600000,
+              status: 'active'
+            },
+            {
+              id: 'ctask_ig_sample',
+              platform: 'instagram',
+              name: 'Instagram - Like Latest Reel & Find Verification Code',
+              url: 'https://www.instagram.com',
+              reward: 150,
+              timer: 30,
+              verifyType: 'code',
+              code: '6391',
+              targetUsers: 40,
+              completedCount: 9,
+              creatorUid: 'creator_duo',
+              paymentMethod: 'free_boost',
+              createdAt: Date.now() - 7200000,
+              status: 'active'
+            }
+          ];
         }
 
         const today = getLocalToday();
@@ -2713,15 +3508,15 @@
       // Streak Button state
       const btnStreak = document.getElementById('btnClaimStreak');
       const streakDayNum = document.getElementById('streakDayNum');
-      streakDayNum.textContent = currentDay;
+      if (streakDayNum) streakDayNum.textContent = currentDay;
       if (claimedToday) {
-        btnStreak.classList.add('btn-disabled');
+        btnStreak.classList.add('btn-disabled', 'btn-claimed-state');
         btnStreak.disabled = true;
-        btnStreak.innerHTML = `<span>✅ Day ${currentDay} Claimed</span>`;
+        btnStreak.innerHTML = `<span>✅ Day ${currentDay} Claimed • Resets 12:00 AM IST</span>`;
       } else {
-        btnStreak.classList.remove('btn-disabled');
+        btnStreak.classList.remove('btn-disabled', 'btn-claimed-state');
         btnStreak.disabled = false;
-        btnStreak.innerHTML = `<span>⚡ Claim Day ${currentDay} (+${bonusAmount})</span>`;
+        btnStreak.innerHTML = `<span>⚡ CLAIM DAY ${currentDay} REWARD (+${bonusAmount} COINS)</span>`;
       }
 
       // Spin Wheel Button state
@@ -2750,6 +3545,7 @@
 
     function renderStreakTrack() {
       const container = document.getElementById('streakTrack');
+      if (!container) return;
       container.innerHTML = '';
       const currentDay = state.data.streakCurrentDay;
       const today = getLocalToday();
@@ -2761,32 +3557,31 @@
         node.id = `streakDayNode_${i}`;
         const reward = CONFIG.streakRewards[i - 1];
 
+        if (i === 7) {
+          node.classList.add('jackpot-node');
+        }
+
+        const dayTitle = i === 7 ? '👑 Day 7' : `Day ${i}`;
+
         if (i < currentDay || (i === currentDay && claimedToday)) {
           node.classList.add('completed');
-          node.innerHTML = `<span>D${i}</span><span class="streak-coins">✓</span>`;
+          node.innerHTML = `<span>${dayTitle}</span><span class="streak-coins">✓</span>`;
           if (newlyClaimedStreakDay === i) {
             node.classList.add('pop-claimed');
           }
         } else if (i === currentDay) {
           node.classList.add('active');
-          node.innerHTML = `<span>D${i}</span><span class="streak-coins">+${reward}</span>`;
+          node.innerHTML = `<span>${dayTitle}</span><span class="streak-coins">+${reward}</span>`;
         } else {
-          node.innerHTML = `<span>D${i}</span><span class="streak-coins">+${reward}</span>`;
+          node.innerHTML = `<span>${dayTitle}</span><span class="streak-coins">+${reward}</span>`;
         }
         container.appendChild(node);
       }
     }
 
     function renderCompletedTasks() {
-      for (const key of Object.keys(CONFIG.tasks)) {
-        const tile = document.querySelector(`.task-tile[data-task="${key}"]`);
-        if (tile) {
-          if (state.data.completedTasks[key]) {
-            tile.classList.add('completed');
-          } else {
-            tile.classList.remove('completed');
-          }
-        }
+      if (typeof renderTasksList === 'function') {
+        renderTasksList();
       }
     }
 
@@ -3084,19 +3879,140 @@
       }, 1200);
     });
 
-    // --- 10. SOCIAL MEDIA TASK HUB ENGINE ---
+    // --- 10. SOCIAL MEDIA & CONTENT CREATOR TASK HUB ENGINE ---
     let activeTaskKey = null;
     let taskTimerInterval = null;
     let taskTimerSeconds = 0;
     let taskLinkHasOpened = false;
+    let currentTaskFilter = 'all';
 
-    const taskTiles = document.querySelectorAll('.task-tile');
-    taskTiles.forEach(tile => {
-      tile.addEventListener('click', () => {
-        const key = tile.dataset.task;
-        selectTask(key);
+    function getAllTasks() {
+      const official = Object.values(CONFIG.tasks);
+      const creatorTasks = Array.isArray(state.data.creatorTasks) ? state.data.creatorTasks : [];
+      return [...official, ...creatorTasks];
+    }
+
+    function getTask(key) {
+      if (CONFIG.tasks[key]) return CONFIG.tasks[key];
+      if (Array.isArray(state.data.creatorTasks)) {
+        const found = state.data.creatorTasks.find(t => t.id === key);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function filterTasks(filter) {
+      sound.click();
+      currentTaskFilter = filter;
+      document.querySelectorAll('#taskFiltersBar .task-filter-pill').forEach(pill => {
+        if (pill.dataset.filter === filter) pill.classList.add('active');
+        else pill.classList.remove('active');
       });
-    });
+      renderTasksList();
+    }
+    window.filterTasks = filterTasks;
+
+    function renderTasksList() {
+      const grid = document.getElementById('socialTasksGrid');
+      if (!grid) return;
+
+      const allTasks = getAllTasks();
+      const myUid = state.getUserId();
+
+      // Update filter count badges
+      const countAll = allTasks.length;
+      const countYt = allTasks.filter(t => t.platform === 'youtube').length;
+      const countIg = allTasks.filter(t => t.platform === 'instagram').length;
+      const countFb = allTasks.filter(t => t.platform === 'facebook').length;
+      const countTg = allTasks.filter(t => t.platform === 'telegram').length;
+      const countCrypto = allTasks.filter(t => t.platform === 'crypto' || t.platform === 'web').length;
+      const myCampaigns = (state.data.creatorTasks || []).filter(t => t.creatorUid === myUid);
+      const countMine = myCampaigns.length;
+
+      const setBadge = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+      };
+      setBadge('taskCountAll', countAll);
+      setBadge('taskCountYouTube', countYt);
+      setBadge('taskCountInstagram', countIg);
+      setBadge('taskCountFacebook', countFb);
+      setBadge('taskCountTelegram', countTg);
+      setBadge('taskCountCrypto', countCrypto);
+      setBadge('taskCountMine', countMine);
+      setBadge('creatorCampaignsCountBadge', countMine);
+
+      // Filter tasks according to active category
+      let visibleTasks = allTasks;
+      if (currentTaskFilter === 'youtube') {
+        visibleTasks = allTasks.filter(t => t.platform === 'youtube');
+      } else if (currentTaskFilter === 'instagram') {
+        visibleTasks = allTasks.filter(t => t.platform === 'instagram');
+      } else if (currentTaskFilter === 'facebook') {
+        visibleTasks = allTasks.filter(t => t.platform === 'facebook');
+      } else if (currentTaskFilter === 'telegram') {
+        visibleTasks = allTasks.filter(t => t.platform === 'telegram');
+      } else if (currentTaskFilter === 'crypto') {
+        visibleTasks = allTasks.filter(t => t.platform === 'crypto' || t.platform === 'web');
+      } else if (currentTaskFilter === 'mine') {
+        visibleTasks = myCampaigns;
+      }
+
+      if (visibleTasks.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 24px 14px; background: var(--bg-surface); border: 1px dashed var(--border-color); border-radius: var(--radius-md);">
+            <div style="font-size: 28px; margin-bottom: 6px;">📢</div>
+            <div style="font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 4px;">Is Category Me Abhi Koi Task Nahi Hai</div>
+            <div style="font-size: 10px; color: var(--text-muted); max-width: 340px; margin: 0 auto 10px auto;">
+              Content creators yahan apna YouTube video, Instagram reel, ya social link laga sakte hain aur real audience se views aur engagement pa sakte hain!
+            </div>
+            <button class="btn-action btn-creator-create" style="width: auto; margin: 0 auto; padding: 7px 16px; font-size: 10.5px;" onclick="openCreateTaskModal('${currentTaskFilter === 'all' || currentTaskFilter === 'mine' ? 'youtube' : currentTaskFilter}')">
+              <span>➕ Yahan Naya Task Lagayein</span>
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = '';
+      visibleTasks.forEach(task => {
+        const isCompleted = !!state.data.completedTasks[task.id];
+        const isSelected = (activeTaskKey === task.id);
+        const pIcon = task.platform === 'youtube' ? '▶️' :
+                      task.platform === 'instagram' ? '📸' :
+                      task.platform === 'facebook' ? '📘' :
+                      task.platform === 'telegram' ? '✈️' :
+                      task.platform === 'crypto' ? '🟡' : '🌐';
+
+        const card = document.createElement('div');
+        card.className = `task-card-item ${isSelected ? 'selected' : ''} ${isCompleted ? 'completed' : ''}`;
+        card.dataset.task = task.id;
+
+        const tagHtml = isCompleted ?
+          `<span class="task-type-tag tag-completed">✓ DONE</span>` :
+          (task.isOfficial ?
+            `<span class="task-type-tag tag-official">👑 OFFICIAL</span>` :
+            `<span class="task-type-tag tag-creator">🚀 CREATOR</span>`);
+
+        card.innerHTML = `
+          <div class="task-card-top">
+            <span class="task-card-icon">${pIcon}</span>
+            ${tagHtml}
+          </div>
+          <div class="task-card-title">${escapeHtml(task.name)}</div>
+          <div class="task-card-footer">
+            <span class="task-card-reward">🪙 +${task.reward}</span>
+            <span class="task-card-timer">⏳ ${task.timer || 30}s</span>
+          </div>
+        `;
+
+        card.addEventListener('click', () => {
+          selectTask(task.id);
+        });
+
+        grid.appendChild(card);
+      });
+    }
 
     function selectTask(key) {
       if (state.isShadowbanned()) {
@@ -3111,19 +4027,47 @@
         return;
       }
 
+      const task = getTask(key);
+      if (!task) return;
+
       sound.click();
       activeTaskKey = key;
-      const task = CONFIG.tasks[key];
 
-      taskTiles.forEach(t => {
-        if (t.dataset.task === key) t.classList.add('selected');
-        else t.classList.remove('selected');
+      document.querySelectorAll('.task-card-item').forEach(card => {
+        if (card.dataset.task === key) card.classList.add('selected');
+        else card.classList.remove('selected');
       });
 
       const card = document.getElementById('taskExecCard');
       card.style.display = 'block';
 
-      document.getElementById('taskExecName').textContent = `${task.name} (+${task.reward} Coins)`;
+      const pEmoji = task.platform === 'youtube' ? '▶️' :
+                     task.platform === 'instagram' ? '📸' :
+                     task.platform === 'facebook' ? '📘' :
+                     task.platform === 'telegram' ? '✈️' :
+                     task.platform === 'crypto' ? '🟡' : '🌐';
+
+      document.getElementById('taskExecName').innerHTML = `<span>${pEmoji} ${escapeHtml(task.name)}</span> <span style="color: var(--accent-lime); font-size: 11px;">(+${task.reward} Coins)</span>`;
+
+      const instructionsBox = document.getElementById('taskExecInstructions');
+      if (task.isUid || task.verifyType === 'proof') {
+        instructionsBox.innerHTML = `
+          <ol>
+            <li>Click 'Open Task Link' below. The ${task.timer || 30}s countdown timer begins.</li>
+            <li>Complete the task (e.g. view, subscribe/follow, or register) on the opened page.</li>
+            <li>Enter your username, UID, or proof text in the box below after countdown finishes.</li>
+          </ol>
+        `;
+      } else {
+        instructionsBox.innerHTML = `
+          <ol>
+            <li>Click 'Open Task Link' below. The ${task.timer || 30}s countdown timer begins.</li>
+            <li>Watch video/post carefully and locate the creator's 4-digit verification code.</li>
+            <li>Enter the 4-digit secret code after countdown finishes to receive +${task.reward} Coins!</li>
+          </ol>
+        `;
+      }
+
       const input = document.getElementById('taskInputVal');
       const btnSubmit = document.getElementById('btnSubmitTask');
       input.value = '';
@@ -3135,6 +4079,10 @@
         input.placeholder = `Enter 7-10 Digit Numeric UID / Pay ID`;
         input.inputMode = 'numeric';
         input.pattern = '[0-9]*';
+      } else if (task.verifyType === 'proof') {
+        input.placeholder = `Enter Your Username / Profile Proof`;
+        input.inputMode = 'text';
+        input.pattern = '.*';
       } else {
         input.placeholder = `Enter 4-Digit Secret Code (Timer required)`;
         input.inputMode = 'numeric';
@@ -3143,7 +4091,7 @@
 
       if (taskTimerInterval) clearInterval(taskTimerInterval);
       taskLinkHasOpened = false;
-      taskTimerSeconds = task.timer;
+      taskTimerSeconds = task.timer || 30;
       const timerBadge = document.getElementById('taskExecTimer');
       timerBadge.textContent = `⏳ ${taskTimerSeconds}s Locked`;
       timerBadge.style.color = 'var(--accent-cyan)';
@@ -3151,23 +4099,26 @@
       card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
-    // Link Protection: 30s timer starts ONLY after task link opens
+    // Link Protection: timer starts ONLY after task link opens
     document.getElementById('btnOpenTaskLink').addEventListener('click', () => {
       if (!activeTaskKey) return;
       if (state.isShadowbanned()) return;
 
-      const task = CONFIG.tasks[activeTaskKey];
+      const task = getTask(activeTaskKey);
+      if (!task) return;
+
       const opened = openExternalLink(task.url);
       if (!opened) return;
 
       taskLinkHasOpened = true;
-      showToast('Task link opened! 30s verification timer started.', '⏳');
+      showToast(`Task link opened! ${task.timer || 30}s anti-cheat timer started.`, '⏳');
 
       const timerBadge = document.getElementById('taskExecTimer');
       const input = document.getElementById('taskInputVal');
       const btnSubmit = document.getElementById('btnSubmitTask');
 
       if (taskTimerInterval) clearInterval(taskTimerInterval);
+      taskTimerSeconds = task.timer || 30;
 
       taskTimerInterval = setInterval(() => {
         taskTimerSeconds -= 1;
@@ -3191,7 +4142,9 @@
       if (!activeTaskKey || !taskLinkHasOpened) return;
       if (state.isShadowbanned()) return;
 
-      const task = CONFIG.tasks[activeTaskKey];
+      const task = getTask(activeTaskKey);
+      if (!task) return;
+
       const input = document.getElementById('taskInputVal');
       const val = input.value.trim();
 
@@ -3199,8 +4152,10 @@
       if (task.isUid) {
         const uidRegex = /^\d{7,10}$/;
         isValid = uidRegex.test(val);
+      } else if (task.verifyType === 'proof') {
+        isValid = (val.length >= 3);
       } else {
-        isValid = (val === task.code);
+        isValid = (val.toLowerCase() === String(task.code).toLowerCase());
       }
 
       if (!isValid) {
@@ -3210,6 +4165,7 @@
           alert('🚨 SHADOWBAN TRIGGERED!\n3 consecutive incorrect inputs entered. The Task Hub is now locked for 24 hours to prevent bot spam.');
           document.getElementById('taskExecCard').style.display = 'none';
           renderMetrics();
+          renderTasksList();
           return;
         } else {
           const attemptsLeft = 3 - (state.data.failedTaskAttempts || 0);
@@ -3221,6 +4177,11 @@
 
       state.resetFailedAttempts();
       sound.win();
+
+      // Increment completedCount for creator task
+      if (task.completedCount !== undefined) {
+        task.completedCount = (task.completedCount || 0) + 1;
+      }
 
       // 24-Hour Security Hold Rule
       const holdDuration = 24 * 3600 * 1000;
@@ -3236,10 +4197,299 @@
       state.data.completedTasks[activeTaskKey] = true;
       state.save();
 
-      showToast(`🎉 Verified! +${task.reward} Coins locked in 24h Security Hold!`, '⏳', 4000);
+      showToast(`🎉 Verified! +${task.reward} Coins credited to 24h Security Hold!`, '⏳', 4000);
       document.getElementById('taskExecCard').style.display = 'none';
       renderMetrics();
+      renderTasksList();
     });
+
+    // --- CONTENT CREATOR STUDIO MODAL LOGIC ---
+    function openCreateTaskModal(preferredPlatform = 'youtube') {
+      sound.click();
+      const modal = document.getElementById('modalCreateTask');
+      if (!modal) return;
+      document.getElementById('formCreateTask').reset();
+      selectCreatePlatform(preferredPlatform);
+      selectVerifyMethod('code');
+      generateRandomTaskCode();
+      setTargetUsers(10);
+      document.getElementById('createTaskWalletBal').textContent = state.data.walletBalance.toLocaleString();
+      calculateTaskBudget();
+      modal.style.display = 'flex';
+    }
+    window.openCreateTaskModal = openCreateTaskModal;
+
+    let selectedCreatePlatform = 'youtube';
+
+    function selectCreatePlatform(platform) {
+      sound.click();
+      selectedCreatePlatform = platform;
+      document.getElementById('createTaskPlatformVal').value = platform;
+      document.querySelectorAll('#createPlatformGrid .platform-choice-btn').forEach(btn => {
+        if (btn.dataset.platform === platform) btn.classList.add('active');
+        else btn.classList.remove('active');
+      });
+
+      const titleInput = document.getElementById('createTaskTitle');
+      const urlInput = document.getElementById('createTaskUrl');
+
+      if (platform === 'youtube') {
+        titleInput.placeholder = 'e.g. YouTube Video Watch Karein & Secret Code Dhoondhein';
+        urlInput.placeholder = 'https://www.youtube.com/watch?v=...';
+      } else if (platform === 'instagram') {
+        titleInput.placeholder = 'e.g. Instagram Reel Like Karein & Code Enter Karein';
+        urlInput.placeholder = 'https://www.instagram.com/reel/...';
+      } else if (platform === 'facebook') {
+        titleInput.placeholder = 'e.g. Facebook Page Follow Karein & Post Like';
+        urlInput.placeholder = 'https://www.facebook.com/...';
+      } else if (platform === 'telegram') {
+        titleInput.placeholder = 'e.g. Telegram Channel Join Karein & Find Code';
+        urlInput.placeholder = 'https://t.me/...';
+      } else {
+        titleInput.placeholder = 'e.g. Website Visit Karein ya App Signup';
+        urlInput.placeholder = 'https://...';
+      }
+    }
+    window.selectCreatePlatform = selectCreatePlatform;
+
+    let selectedVerifyMethod = 'code';
+
+    function selectVerifyMethod(method) {
+      sound.click();
+      selectedVerifyMethod = method;
+      document.getElementById('createTaskVerifyTypeVal').value = method;
+      const pillCode = document.getElementById('pillVerifyCode');
+      const pillProof = document.getElementById('pillVerifyProof');
+      const blockCode = document.getElementById('blockSecretCode');
+      const blockProof = document.getElementById('blockProofInfo');
+
+      if (method === 'code') {
+        pillCode.classList.add('active');
+        pillProof.classList.remove('active');
+        blockCode.style.display = 'block';
+        blockProof.style.display = 'none';
+      } else {
+        pillProof.classList.add('active');
+        pillCode.classList.remove('active');
+        blockCode.style.display = 'none';
+        blockProof.style.display = 'block';
+      }
+    }
+    window.selectVerifyMethod = selectVerifyMethod;
+
+    function generateRandomTaskCode() {
+      sound.tick();
+      const code = String(Math.floor(1000 + Math.random() * 9000));
+      document.getElementById('createTaskCode').value = code;
+    }
+    window.generateRandomTaskCode = generateRandomTaskCode;
+
+    function applyTitleSuggestion(title) {
+      sound.click();
+      document.getElementById('createTaskTitle').value = title;
+    }
+    window.applyTitleSuggestion = applyTitleSuggestion;
+
+    function setTargetUsers(count, elem) {
+      sound.click();
+      document.getElementById('createTaskTargetUsersVal').value = count;
+      if (elem) {
+        document.querySelectorAll('#pillsTargetUsers .choice-pill').forEach(p => p.classList.remove('active'));
+        elem.classList.add('active');
+      }
+      calculateTaskBudget();
+    }
+    window.setTargetUsers = setTargetUsers;
+
+    function calculateTaskBudget() {
+      const reward = Number(document.getElementById('createTaskReward').value) || 200;
+      const users = Number(document.getElementById('createTaskTargetUsersVal').value) || 10;
+      const total = reward * users;
+
+      const formula = document.getElementById('budgetFormulaText');
+      const totalEl = document.getElementById('createTaskTotalBudget');
+      if (formula) formula.textContent = `${reward} Coins × ${users} Users`;
+      if (totalEl) totalEl.textContent = `${total.toLocaleString()} Coins`;
+    }
+    window.calculateTaskBudget = calculateTaskBudget;
+
+    function handlePaymentMethodChange() {
+      sound.click();
+    }
+    window.handlePaymentMethodChange = handlePaymentMethodChange;
+
+    function handleCreateTaskSubmit(event) {
+      event.preventDefault();
+      sound.click();
+
+      const platform = document.getElementById('createTaskPlatformVal').value || 'youtube';
+      const title = document.getElementById('createTaskTitle').value.trim();
+      const url = document.getElementById('createTaskUrl').value.trim();
+      const verifyType = document.getElementById('createTaskVerifyTypeVal').value || 'code';
+      const code = document.getElementById('createTaskCode').value.trim();
+      const timer = Number(document.getElementById('createTaskTimer').value) || 30;
+      const reward = Number(document.getElementById('createTaskReward').value) || 200;
+      const targetUsers = Number(document.getElementById('createTaskTargetUsersVal').value) || 10;
+      const paymentMethodRadio = document.querySelector('input[name="createTaskPayment"]:checked');
+      const paymentMethod = paymentMethodRadio ? paymentMethodRadio.value : 'free_boost';
+
+      if (!title || title.length < 3) {
+        alert('Kripya task ka sahi title enter karein (kam se kam 3 akshar).');
+        return;
+      }
+
+      if (!url || (!url.startsWith('http://') && !url.startsWith('https://'))) {
+        alert('Kripya valid URL enter karein jo http:// ya https:// se start hota ho.');
+        return;
+      }
+
+      if (verifyType === 'code' && (!code || code.length !== 4 || isNaN(code))) {
+        alert('Kripya 4-digit numeric verification code enter karein (e.g. 8421).');
+        return;
+      }
+
+      const totalBudget = reward * targetUsers;
+
+      if (paymentMethod === 'wallet') {
+        if (state.data.walletBalance < totalBudget) {
+          const proceed = confirm(`⚠️ Aapke wallet me paryapt coins nahi hain!\n\nChahiye: ${totalBudget.toLocaleString()} Coins\nAapke Paas: ${state.data.walletBalance.toLocaleString()} Coins\n\nKya aap "🎁 Free Creator Promotional Boost" ke sath bilkul FREE me yeh task publish karna chahte hain?`);
+          if (!proceed) return;
+        } else {
+          state.data.walletBalance -= totalBudget;
+        }
+      }
+
+      const newTask = {
+        id: 'ctask_' + Date.now(),
+        platform: platform,
+        name: title,
+        url: url,
+        reward: reward,
+        timer: timer,
+        verifyType: verifyType,
+        code: verifyType === 'code' ? code : '',
+        targetUsers: targetUsers,
+        completedCount: 0,
+        creatorUid: state.getUserId(),
+        paymentMethod: paymentMethod,
+        createdAt: Date.now(),
+        status: 'active'
+      };
+
+      if (!Array.isArray(state.data.creatorTasks)) {
+        state.data.creatorTasks = [];
+      }
+      state.data.creatorTasks.unshift(newTask);
+      state.save();
+
+      closeModal('modalCreateTask');
+      sound.win();
+      renderMetrics();
+      currentTaskFilter = platform;
+      document.querySelectorAll('#taskFiltersBar .task-filter-pill').forEach(pill => {
+        if (pill.dataset.filter === platform) pill.classList.add('active');
+        else pill.classList.remove('active');
+      });
+      renderTasksList();
+
+      showToast('🎉 Task Live Ho Gaya! Sabhi users ab ise dekh sakte hain.', '🚀', 5000);
+      alert(`🎉 MUBARAK HO! AAPKA TASK LIVE HO GAYA HAI!\n\nPlatform: ${platform.toUpperCase()}\nTitle: ${title}\nSecret Code: ${verifyType === 'code' ? code : 'Username Proof'}\nReward: +${reward} Coins per user\nTarget: ${targetUsers} Users\n\nAb real users aapka link visit karenge aur countdown timer complete hone ke baad engagement denge!`);
+    }
+    window.handleCreateTaskSubmit = handleCreateTaskSubmit;
+
+    function openMyCampaignsModal() {
+      sound.click();
+      renderMyCampaignsUI();
+      openModal('modalMyCampaigns');
+    }
+    window.openMyCampaignsModal = openMyCampaignsModal;
+
+    function renderMyCampaignsUI() {
+      const container = document.getElementById('myCampaignsListContainer');
+      const countText = document.getElementById('myCampaignsCountText');
+      if (!container) return;
+
+      const myUid = state.getUserId();
+      const myCampaigns = (state.data.creatorTasks || []).filter(t => t.creatorUid === myUid);
+      if (countText) countText.textContent = myCampaigns.length;
+
+      if (myCampaigns.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 20px 10px; background: rgba(18, 24, 34, 0.6); border-radius: var(--radius-sm); border: 1px dashed var(--border-color);">
+            <div style="font-size: 24px; margin-bottom: 4px;">📂</div>
+            <div style="font-size: 11px; font-weight: 800; color: #fff;">Aapne abhi tak koi campaign post nahi kiya hai</div>
+            <div style="font-size: 9.5px; color: var(--text-muted); margin-top: 2px;">YouTube, Instagram ya Social Media par audience badhane ke liye apna pehla task lagayein!</div>
+            <button class="btn-action btn-lime" style="width: auto; margin: 10px auto 0 auto; padding: 5px 14px; font-size: 10px;" onclick="closeModal('modalMyCampaigns'); openCreateTaskModal('youtube');">
+              <span>➕ Naya Task Lagayein</span>
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = '';
+      myCampaigns.forEach(task => {
+        const percent = Math.min(100, Math.round(((task.completedCount || 0) / (task.targetUsers || 1)) * 100));
+        const pIcon = task.platform === 'youtube' ? '▶️' :
+                      task.platform === 'instagram' ? '📸' :
+                      task.platform === 'facebook' ? '📘' :
+                      task.platform === 'telegram' ? '✈️' : '🌐';
+
+        const item = document.createElement('div');
+        item.className = 'campaign-item-card';
+        item.innerHTML = `
+          <div class="campaign-item-header">
+            <span style="font-size: 11px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 4px;">
+              <span>${pIcon}</span>
+              <span>${escapeHtml(task.name)}</span>
+            </span>
+            <span class="card-badge" style="background: rgba(34, 197, 94, 0.18); color: #86efac; font-size: 8px;">🟢 ACTIVE</span>
+          </div>
+          <div style="font-size: 9px; color: var(--text-muted); margin: 3px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            🔗 <i>${escapeHtml(task.url)}</i>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 9px; color: #cbd5e1; margin-top: 4px;">
+            <span>Code: <b style="color: var(--accent-lime);">${task.code || 'Proof'}</b></span>
+            <span>Reward: <b>+${task.reward} Coins</b></span>
+            <span>Progress: <b>${task.completedCount || 0} / ${task.targetUsers} (${percent}%)</b></span>
+          </div>
+          <div class="campaign-progress-bar">
+            <div class="campaign-progress-fill" style="width: ${percent}%;"></div>
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: 6px; margin-top: 6px;">
+            <button class="btn-action" style="width: auto; padding: 3px 8px; font-size: 9px; background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3);" onclick="deleteCampaign('${task.id}')">
+              <span>🗑️ Delete Task</span>
+            </button>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function deleteCampaign(taskId) {
+      sound.click();
+      const task = (state.data.creatorTasks || []).find(t => t.id === taskId);
+      if (!task) return;
+
+      const confirmDel = confirm(`Kya aap sach me "${task.name}" campaign ko delete karna chahte hain?`);
+      if (!confirmDel) return;
+
+      if (task.paymentMethod === 'wallet') {
+        const remainingUsers = Math.max(0, (task.targetUsers || 0) - (task.completedCount || 0));
+        const refundCoins = remainingUsers * (task.reward || 0);
+        if (refundCoins > 0) {
+          state.data.walletBalance += refundCoins;
+          showToast(`Campaign deleted! +${refundCoins.toLocaleString()} unused coins refunded to wallet.`, '💰');
+        }
+      }
+
+      state.data.creatorTasks = state.data.creatorTasks.filter(t => t.id !== taskId);
+      state.save();
+      renderMetrics();
+      renderMyCampaignsUI();
+      renderTasksList();
+    }
+    window.deleteCampaign = deleteCampaign;
 
     // Creator Guide Modal
     document.getElementById('btnOpenCreatorGuide').addEventListener('click', () => {
@@ -3754,6 +5004,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       updateSoundBtnUI();
       renderMetrics();
+      renderTasksList();
       updateWithdrawFormUI();
       selectTask('youtube');
       state.loadFromFirebase();
