@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Earn Duo AI - Smart Reward Hub</title>
+  <title>Earn Duo AI</title>
   <style>
     :root {
       --bg-dark: #0a0d12;
@@ -33,12 +33,20 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
+      -webkit-tap-highlight-color: rgba(163, 230, 53, 0.2);
+      touch-action: manipulation;
     }
 
-    input, textarea, button {
-      user-select: auto;
+    button, .btn-action, .task-tile, .quick-nav-card, .nav-item, .ai-chip, .featured-tasks-banner, .icon-btn, .modal-close {
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    input, textarea {
+      user-select: text;
+      -webkit-user-select: text;
       font-family: inherit;
     }
 
@@ -49,7 +57,7 @@
       line-height: 1.4;
       overflow-x: hidden;
       min-height: 100vh;
-      padding-bottom: 24px;
+      padding-bottom: 74px;
     }
 
     /* Scrollbars */
@@ -72,7 +80,7 @@
       padding: 6px 8px;
     }
 
-    /* Multi-Column Responsive Grid System (Agal-Bagal Multi-Column Layout) */
+    /* Multi-Column Responsive Grid System (Dynamic 4-5 Column Layout) */
     .multi-col-row {
       display: grid;
       grid-template-columns: 1fr;
@@ -87,19 +95,25 @@
       min-width: 0;
     }
 
-    /* Agal-Bagal side-by-side layout: activates side-by-side on mobile devices & tablets */
+    /* 4 to 5 column responsive grid styling for wider displays / tablets */
     @media (min-width: 600px) {
       .multi-col-row {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, 1fr);
         align-items: start;
+        gap: 12px;
       }
     }
 
-    /* For wide screens / tablets, 2 balanced equal columns */
-    @media (min-width: 820px) {
+    @media (min-width: 840px) {
       .multi-col-row {
-        grid-template-columns: 1.05fr 0.95fr;
-        gap: 16px;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+      .multi-col-row > .col-half:nth-child(1) {
+        grid-column: span 2;
+      }
+      .multi-col-row > .col-half:nth-child(2) {
+        grid-column: span 2;
       }
     }
 
@@ -305,6 +319,7 @@
       flex-direction: column;
       align-items: center;
       gap: 2px;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, border-color 0.3s ease;
     }
 
     .streak-day-node.active {
@@ -312,12 +327,35 @@
       background: rgba(163, 230, 53, 0.12);
       color: var(--accent-lime);
       font-weight: 700;
+      transform: scale(1.02);
     }
 
     .streak-day-node.completed {
       background: #14381b;
       border-color: var(--accent-green);
       color: #86efac;
+    }
+
+    /* Subtle celebratory 'pop' scale bounce when claimed */
+    .streak-day-node.pop-claimed {
+      animation: streakNodePop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes streakNodePop {
+      0% {
+        transform: scale(1);
+      }
+      40% {
+        transform: scale(1.22);
+        box-shadow: 0 0 12px rgba(134, 239, 172, 0.6);
+        border-color: #86efac;
+      }
+      70% {
+        transform: scale(0.95);
+      }
+      100% {
+        transform: scale(1);
+      }
     }
 
     .streak-coins {
@@ -531,7 +569,7 @@
       padding: 10px;
       margin-bottom: 8px;
       box-shadow: var(--shadow-card);
-      display: none;
+      display: block;
     }
 
     .task-exec-title {
@@ -804,86 +842,343 @@
       letter-spacing: 4px;
     }
 
-    /* Assistant Chat Drawer */
-    .chat-drawer {
+    /* Tab Panes */
+    .tab-pane {
+      display: none;
+      animation: tabFadeIn 0.22s ease-out;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes tabFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Bottom Navigation Bar (5 Columns with Icons) */
+    .bottom-nav {
       position: fixed;
       bottom: 0;
-      left: 50%;
-      transform: translateX(-50%) translateY(105%);
-      width: 100%;
-      max-width: 560px;
-      background: var(--bg-surface);
-      border-top: 2px solid var(--accent-cyan);
-      box-shadow: 0 -8px 25px rgba(0,0,0,0.8);
-      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-      padding: 10px;
-      z-index: 10000;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .chat-drawer.open {
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .chat-header {
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: rgba(18, 24, 34, 0.98);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border-color);
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       align-items: center;
+      z-index: 1000;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 4px;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      height: 100%;
+      color: var(--text-muted);
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      transition: all 0.2s ease;
+      position: relative;
+      padding: 4px 0;
+    }
+
+    .nav-item.active {
+      color: var(--accent-lime);
+    }
+
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 28px;
+      height: 3px;
+      background: var(--accent-lime);
+      border-radius: 0 0 4px 4px;
+      box-shadow: 0 2px 8px var(--accent-lime-glow);
+    }
+
+    .nav-icon {
+      font-size: 19px;
+      line-height: 1;
+      margin-bottom: 2px;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .nav-item.active .nav-icon {
+      transform: scale(1.18);
+    }
+
+    .nav-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    /* Quick Nav Grid for Home Tab */
+    .quick-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .quick-nav-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .quick-nav-card:active {
+      transform: scale(0.97);
+      background: var(--bg-card-hover);
+    }
+
+    .quick-card-icon {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .quick-card-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    .quick-card-desc {
+      font-size: 9.5px;
+      color: var(--text-muted);
+      line-height: 1.3;
+      margin-bottom: 6px;
+      flex: 1;
+    }
+
+    .quick-card-badge {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--accent-lime);
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    /* AI Bot & Chat Component */
+    .ai-bot-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      margin-bottom: 12px;
+      position: relative;
+      box-shadow: var(--shadow-card);
+    }
+
+    .ai-bot-desc {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      line-height: 1.4;
       margin-bottom: 8px;
     }
 
-    .chat-messages {
-      height: 180px;
-      overflow-y: auto;
-      background: var(--bg-card);
-      border-radius: var(--radius-sm);
-      padding: 8px;
-      margin-bottom: 6px;
+    .ai-chips-wrap {
       display: flex;
-      flex-direction: column;
       gap: 6px;
-      font-size: 10.5px;
-    }
-
-    .chat-msg {
-      padding: 5px 8px;
-      border-radius: 6px;
-      max-width: 85%;
-      word-break: break-word;
-    }
-
-    .chat-msg.bot {
-      background: #1e293b;
-      color: #e2e8f0;
-      align-self: flex-start;
-      border-left: 2px solid var(--accent-cyan);
-    }
-
-    .chat-msg.user {
-      background: var(--accent-lime);
-      color: #000;
-      align-self: flex-end;
-      font-weight: 600;
-    }
-
-    .faq-chips-row {
-      display: flex;
-      gap: 4px;
       overflow-x: auto;
-      padding-bottom: 4px;
-      margin-bottom: 6px;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+      scrollbar-width: none;
+    }
+    .ai-chips-wrap::-webkit-scrollbar {
+      display: none;
     }
 
-    .faq-chip {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: var(--accent-cyan);
-      font-size: 9px;
+    .ai-chip {
+      background: rgba(163, 230, 53, 0.08);
+      border: 1px solid rgba(163, 230, 53, 0.25);
+      color: var(--accent-lime);
+      font-size: 9.5px;
       font-weight: 700;
-      padding: 3px 6px;
-      border-radius: 12px;
+      padding: 4px 10px;
+      border-radius: 14px;
       white-space: nowrap;
       cursor: pointer;
+      transition: all 0.18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .ai-chip:active, .ai-chip:hover {
+      background: rgba(163, 230, 53, 0.2);
+      border-color: var(--accent-lime);
+      transform: translateY(-1px);
+    }
+
+    .ai-chat-box {
+      height: 220px;
+      overflow-y: auto;
+      background: rgba(10, 15, 29, 0.9);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      margin-bottom: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 11px;
+      border: 1px solid var(--border-color);
+    }
+
+    .ai-msg {
+      display: flex;
+      gap: 6px;
+      max-width: 92%;
+      animation: tabFadeIn 0.2s ease-out;
+    }
+
+    .ai-msg.bot {
+      align-self: flex-start;
+    }
+
+    .ai-msg.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .ai-avatar {
+      font-size: 14px;
+      line-height: 1;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .ai-bubble {
+      padding: 7px 11px;
+      border-radius: 8px;
+      word-break: break-word;
+      line-height: 1.45;
+    }
+
+    .ai-msg.bot .ai-bubble {
+      background: #1e293b;
+      color: #e2e8f0;
+      border-left: 2px solid var(--accent-lime);
+    }
+
+    .ai-msg.user .ai-bubble {
+      background: var(--accent-lime);
+      color: #050b14;
+      font-weight: 700;
+    }
+
+    .ai-input-wrap {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .ai-input {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .ai-input:focus {
+      border-color: var(--accent-lime);
+      box-shadow: 0 0 8px rgba(163, 230, 53, 0.2);
+    }
+
+    .btn-ai-send {
+      background: var(--accent-lime);
+      color: #050b14;
+      border: none;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .btn-ai-send:active {
+      transform: scale(0.96);
+      background: #84cc16;
+    }
+
+    /* Anti-Cheat Notice Card */
+    .anti-cheat-card {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      margin-bottom: 10px;
+      font-size: 10px;
+      color: #fca5a5;
+      line-height: 1.4;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    /* Featured Banner Card on Home */
+    .featured-tasks-banner {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(163, 230, 53, 0.12));
+      border: 1px solid rgba(163, 230, 53, 0.3);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .featured-tasks-banner:active {
+      transform: scale(0.98);
+      border-color: var(--accent-lime);
     }
 
     /* Notification Toast */
@@ -917,40 +1212,12 @@
       font-size: 9px;
       color: var(--text-dim);
       margin-top: 10px;
+      margin-bottom: 8px;
       padding: 4px;
-    }
-
-    /* Floating AI Help Button */
-    .fab-ai {
-      position: fixed;
-      bottom: 16px;
-      right: 16px;
-      background: linear-gradient(135deg, #06b6d4, #a3e635);
-      color: #020617;
-      padding: 8px 14px;
-      border-radius: 25px;
-      font-size: 11px;
-      font-weight: 800;
-      box-shadow: 0 4px 16px rgba(6, 182, 212, 0.4);
-      cursor: pointer;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .fab-ai:active {
-      transform: scale(0.95);
     }
   </style>
 </head>
 <body>
-
-  <!-- Floating Ask AI Button -->
-  <div id="fabAi" class="fab-ai" onclick="openAiHub()" title="Ask AI Assistant">
-    <span>🤖 Ask AI</span>
-  </div>
 
   <!-- Toast Notification -->
   <div id="toast" class="toast">
@@ -965,17 +1232,16 @@
       <div class="header-top">
         <div class="brand-title">
           <span>⚡ Earn Duo AI</span>
-          <span class="brand-badge">SMART HUB</span>
         </div>
         <div class="header-actions">
+          <button id="btnHeaderAi" class="icon-btn" onclick="switchTab('tabAi')" title="Open AI Bot" style="color: var(--accent-lime); border-color: rgba(163, 230, 53, 0.4);">
+            <span>🤖 AI Bot</span>
+          </button>
           <button id="btnSoundToggle" class="icon-btn" title="Toggle Sound">
             <span id="soundIcon">🔊</span>
           </button>
           <button id="btnUidHelp" class="icon-btn" title="UID Help">
             <span>ℹ️ UID</span>
-          </button>
-          <button id="btnOpenChat" class="icon-btn" title="Assistant AI">
-            <span>💬 AI Help</span>
           </button>
         </div>
       </div>
@@ -994,329 +1260,480 @@
       ⚠️ TASK HUB SECURITY LOCKOUT: 3 wrong codes entered. Suspended until: <span id="shadowbanTimer">24:00:00</span>
     </div>
 
-    <!-- 1. PRIMARY METRICS ROW (Strict 4 Columns) -->
-    <section class="grid-4-col" aria-label="Wallet Metrics">
-      <div class="metric-card">
-        <div class="metric-label">💰 Balance</div>
-        <div class="metric-val" id="metricBalance">0</div>
-        <div class="metric-sub" id="metricFiat">₹0.00 | $0.00</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">⏳ Pending</div>
-        <div class="metric-val" style="color: var(--accent-yellow);" id="metricPending">0</div>
-        <div class="metric-sub">24h Security Hold</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">🔥 Streak</div>
-        <div class="metric-val" style="color: #fb923c;" id="metricStreak">Day 1</div>
-        <div class="metric-sub" id="metricStreakBonus">+100 Today</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">🎡 Spins</div>
-        <div class="metric-val" style="color: var(--accent-cyan);" id="metricSpins">10/10</div>
-        <div class="metric-sub">Daily Limit</div>
-      </div>
-    </section>
+    <!-- ==================== TAB 1: HOME (OVERVIEW & QUICK EARN) ==================== -->
+    <div id="tabHome" class="tab-pane active">
+      <!-- 1. PRIMARY METRICS ROW (4 Cards) -->
+      <section class="grid-4-col" aria-label="Wallet Metrics">
+        <div class="metric-card">
+          <div class="metric-label">💰 Balance</div>
+          <div class="metric-val" id="metricBalance">0</div>
+          <div class="metric-sub" id="metricFiat">₹0.00 | $0.00</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">⏳ Pending</div>
+          <div class="metric-val" style="color: var(--accent-yellow);" id="metricPending">0</div>
+          <div class="metric-sub">24h Security Hold</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">🔥 Streak</div>
+          <div class="metric-val" style="color: #fb923c;" id="metricStreak">Day 1</div>
+          <div class="metric-sub" id="metricStreakBonus">+100 Today</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">🎡 Spins</div>
+          <div class="metric-val" style="color: var(--accent-cyan);" id="metricSpins">10/10</div>
+          <div class="metric-sub">Daily Limit</div>
+        </div>
+      </section>
 
-    <!-- 2. MULTI-COLUMN CONTENT ROW (Agal-Bagal Multi-Column Layout) -->
-    <div class="multi-col-row">
-
-      <!-- LEFT COLUMN (Agal): Daily Streak, Spin Wheel & Watch Ads -->
-      <div class="col-half">
-
-        <!-- 2A. ACTION & AD MODULES -->
-        <section class="action-module-grid">
-
-          <!-- Core Card 1: 7-Day Login Streak (Spans 2 columns) -->
-          <div class="card-box span-2-col">
-            <div class="card-title">
-              <span>7-Day Streak</span>
-              <span class="card-badge" id="streakBadge">IST Reset 12 AM</span>
-            </div>
-            <div class="streak-track" id="streakTrack">
-              <!-- 7 day nodes injected by JS -->
-            </div>
-            <button id="btnClaimStreak" class="btn-action btn-lime" style="margin-top: 4px;">
-              <span>⚡ Claim Day <span id="streakDayNum">1</span></span>
-            </button>
+      <!-- Featured Tasks Quick Banner -->
+      <div class="featured-tasks-banner" onclick="switchTab('tabTasks')">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 24px;">🌐</span>
+          <div>
+            <div style="font-size: 11px; font-weight: 800; color: #fff;">YouTube, Instagram, Facebook, Bybit & Binance Tasks</div>
+            <div style="font-size: 9.5px; color: var(--accent-lime);">Complete with Anti-Cheat Timer & Earn +1,300 Coins</div>
           </div>
+        </div>
+        <button class="btn-action btn-lime" style="width: auto; padding: 4px 10px; font-size: 9.5px; margin: 0;">Open Tasks →</button>
+      </div>
 
-          <!-- Core Card 2: Lucky Spin Wheel (Spans 2 columns) -->
-          <div class="card-box span-2-col">
-            <div class="card-title">
-              <span>Lucky Wheel</span>
-              <span class="card-badge" id="wheelBadge">10 Left</span>
-            </div>
-            <div class="wheel-container">
-              <div class="wheel-canvas-wrap">
-                <div class="wheel-pointer"></div>
-                <canvas id="wheelCanvas" width="280" height="280"></canvas>
-                <div class="wheel-center-cap">★</div>
-              </div>
-            </div>
-            <button id="btnSpinWheel" class="btn-action btn-lime" style="margin-top: 6px;">
-              <span>🎯 SPIN NOW</span>
-            </button>
+      <!-- Action & Ad Modules Grid -->
+      <section class="action-module-grid" style="margin-top: 8px;">
+        <!-- Core Card 1: 7-Day Login Streak -->
+        <div class="card-box span-2-col">
+          <div class="card-title">
+            <span>7-Day Streak</span>
+            <span class="card-badge" id="streakBadge">IST Reset 12 AM</span>
           </div>
-
-          <!-- Ad Module: Watch Ad 1 - Adsterra (Spans 2 columns) -->
-          <div class="span-2-col">
-            <button id="btnWatchAd1" class="btn-action btn-ad1">
-              <span>📺 Watch Ad 1 (Adsterra) (+20 Coins)</span>
-            </button>
+          <div class="streak-track" id="streakTrack">
+            <!-- 7 day nodes injected by JS -->
           </div>
+          <button id="btnClaimStreak" class="btn-action btn-lime" style="margin-top: 6px;">
+            <span>⚡ Claim Day <span id="streakDayNum">1</span></span>
+          </button>
+        </div>
 
-          <!-- Ad Module: Watch Ad 2 - Monetag (Spans 2 columns) -->
-          <div class="span-2-col">
-            <button id="btnWatchAd2" class="btn-action btn-ad2">
-              <span>🔥 Watch Ad 2 (Monetag) (+30 Coins)</span>
-            </button>
+        <!-- Ad Module: Watch Ad 1 -->
+        <div class="span-2-col">
+          <button id="btnWatchAd1" class="btn-action btn-ad1">
+            <span>📺 Watch Ad 1</span>
+          </button>
+        </div>
+
+        <!-- Ad Module: Watch Ad 2 -->
+        <div class="span-2-col">
+          <button id="btnWatchAd2" class="btn-action btn-ad2">
+            <span>🔥 Watch Ad 2</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Quick Navigation Grid -->
+      <div style="margin: 12px 0 8px 0;">
+        <div class="section-title" style="margin-bottom: 8px;">
+          <span>⚡ Quick Navigation</span>
+        </div>
+        <div class="quick-nav-grid">
+          <div class="quick-nav-card" onclick="switchTab('tabTasks')">
+            <div class="quick-card-icon">🌐</div>
+            <div class="quick-card-title">Social & Crypto Tasks</div>
+            <div class="quick-card-desc">YouTube, Instagram, Facebook, Bybit & Binance</div>
+            <div class="quick-card-badge">Open Tasks →</div>
           </div>
+          <div class="quick-nav-card" onclick="switchTab('tabSpin')">
+            <div class="quick-card-icon">🎡</div>
+            <div class="quick-card-title">Lucky Spin Wheel</div>
+            <div class="quick-card-desc">10 Daily Free Spins! Win up to 500 Coins</div>
+            <div class="quick-card-badge">Play Spin →</div>
+          </div>
+          <div class="quick-nav-card" onclick="switchTab('tabWallet')">
+            <div class="quick-card-icon">💳</div>
+            <div class="quick-card-title">Instant Withdraw</div>
+            <div class="quick-card-desc">Bybit, Binance, UPI, CELO & BEP20 payouts</div>
+            <div class="quick-card-badge">Withdraw →</div>
+          </div>
+          <div class="quick-nav-card" onclick="switchTab('tabAi')">
+            <div class="quick-card-icon">🤖</div>
+            <div class="quick-card-title">AI Bot Assistant</div>
+            <div class="quick-card-desc">Ask anything about earning, payouts & Net-7 rules</div>
+            <div class="quick-card-badge">Ask AI Bot →</div>
+          </div>
+        </div>
+      </div>
 
-        </section>
+      <!-- Platform Security & Rules Overview -->
+      <div class="card-box" style="margin-top: 10px;">
+        <div class="card-title">
+          <span>🛡️ Platform Rules & Earning Security</span>
+          <span class="card-badge" style="background: rgba(34, 197, 94, 0.15); color: #86efac;">100% Genuine</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 10.5px; color: var(--text-muted); margin-top: 6px;">
+          <div style="display: flex; align-items: flex-start; gap: 8px;">
+            <span style="font-size: 14px;">⚡</span>
+            <div><b>Daily Streak Reset:</b> Login rozana karein aur apna reward claim karein. Midnight 12:00 AM IST par new day unlock hota hai.</div>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 8px;">
+            <span style="font-size: 14px;">📺</span>
+            <div><b>Adsterra & Monetag Sponsor Ads:</b> Real browser integration ke sath bina kisi error ke aapki revenue aur impressions sidhe add hote hain.</div>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 8px;">
+            <span style="font-size: 14px;">🔒</span>
+            <div><b>Net-7 Compliance & Audit:</b> Fraud aur fake bot traffic se bachne ke liye sabhi withdrawals 3 se 7 dino me audit ke baad pass hote hain.</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <!-- 2B. SOCIAL MEDIA TASK HUB -->
+    <!-- ==================== TAB 2: TASKS (YOUTUBE, INSTAGRAM, FACEBOOK, BYBIT, BINANCE) ==================== -->
+    <div id="tabTasks" class="tab-pane">
+      <div class="section-header">
+        <div class="section-title">
+          <span>🌐 YouTube, Instagram, Facebook, Bybit & Binance Tasks</span>
+        </div>
+        <span class="guide-link" id="btnOpenCreatorGuide" onclick="openModal('modalCreatorGuide')">Creator Guide</span>
+      </div>
+
+      <!-- Anti-Cheat Security Notice Card -->
+      <div class="anti-cheat-card">
+        <span style="font-size: 16px;">🛡️</span>
         <div>
-          <div class="section-header">
-            <div class="section-title">
-              <span>🌐 Social Media Tasks (Strict Verification)</span>
-            </div>
-            <span class="guide-link" id="btnOpenCreatorGuide">Creator Guide</span>
+          <strong style="color: #f87171;">STRICT ANTI-CHEAT SECURITY ACTIVE:</strong><br>
+          • <b>Mandatory 30s Countdown:</b> Click 'Open Task Link' below. The 30s timer begins immediately. The code input unlocks ONLY after the timer finishes.<br>
+          • <b>Secret Verification Codes:</b> Genuine codes & UIDs only. <b>3 wrong attempts = 24-Hour Security Lockout!</b><br>
+          • <b>24h Security Hold:</b> Task coins are held in 24h Security Hold before unlocking into spendable balance to prevent bot spam.
+        </div>
+      </div>
+
+      <!-- 5 Social & Crypto Task Tiles -->
+      <section class="grid-5-col" id="socialTasksGrid">
+        <!-- 1: YouTube -->
+        <div class="task-tile" data-task="youtube">
+          <div class="task-icon">▶️</div>
+          <div class="task-name">YouTube</div>
+          <div class="task-reward-badge">+200</div>
+        </div>
+        <!-- 2: Instagram -->
+        <div class="task-tile" data-task="instagram">
+          <div class="task-icon">📸</div>
+          <div class="task-name">Instagram</div>
+          <div class="task-reward-badge">+150</div>
+        </div>
+        <!-- 3: Facebook -->
+        <div class="task-tile" data-task="facebook">
+          <div class="task-icon">📘</div>
+          <div class="task-name">Facebook</div>
+          <div class="task-reward-badge">+150</div>
+        </div>
+        <!-- 4: Binance Square -->
+        <div class="task-tile" data-task="binance">
+          <div class="task-icon">🟡</div>
+          <div class="task-name">Binance</div>
+          <div class="task-reward-badge">+300</div>
+        </div>
+        <!-- 5: Bybit Signup -->
+        <div class="task-tile" data-task="bybit">
+          <div class="task-icon">🟠</div>
+          <div class="task-name">Bybit</div>
+          <div class="task-reward-badge">+500</div>
+        </div>
+      </section>
+
+      <!-- Active Task Execution Card -->
+      <div id="taskExecCard" class="task-exec-card">
+        <div class="task-exec-title">
+          <span id="taskExecName">Task Verification</span>
+          <span id="taskExecTimer" class="timer-badge">⏳ 30s Timer</span>
+        </div>
+        <div class="task-steps" id="taskExecInstructions">
+          <ol>
+            <li>Click 'Open Task Link' below. The 30s timer begins immediately.</li>
+            <li>Complete the required activity and obtain the 4-digit verification code or numeric UID.</li>
+            <li>Enter code/UID after countdown finishes to credit coins to 24h Security Hold.</li>
+          </ol>
+        </div>
+        <div style="display: flex; gap: 5px; margin-bottom: 6px;">
+          <button id="btnOpenTaskLink" class="btn-action btn-ad1" style="flex: 1;">
+            <span>🔗 Open Task Link</span>
+          </button>
+        </div>
+        <div class="input-group">
+          <input type="text" id="taskInputVal" class="input-field" placeholder="Enter Secret Code or Numeric UID" disabled>
+          <button id="btnSubmitTask" class="btn-action btn-lime btn-disabled" style="width: auto; padding: 6px 14px;" disabled>
+            <span>Verify</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Anti-Cheat Security Rules & Guidelines Card -->
+      <div class="card-box" style="margin-top: 10px;">
+        <div class="card-title">
+          <span>🔒 Anti-Cheat & Anti-Fraud Protection Rules</span>
+          <span class="card-badge" style="background: rgba(239, 68, 68, 0.15); color: #f87171;">Strict Enforcement</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px; font-size: 10px; color: var(--text-muted); margin-top: 6px; line-height: 1.45;">
+          <div>• <b>No Skip / Bypass:</b> Task link open hona aur 30 seconds wait karna mandatory hai. Script or bot bypass detect hone par account block ho jata hai.</div>
+          <div>• <b>Secret Code Precision:</b> Video / post me diya gaya exact 4-digit code hi enter karein. Random guessing will result in 24h lock.</div>
+          <div>• <b>Real UID Verification:</b> Bybit aur Binance tasks me apna genuine 7-10 digit UID hi submit karein jo manual audit me verify hota hai.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 3: SPIN (LUCKY WHEEL) ==================== -->
+    <div id="tabSpin" class="tab-pane">
+      <div class="section-header">
+        <div class="section-title">
+          <span>🎡 Lucky Spin Wheel</span>
+        </div>
+        <span class="card-badge" id="wheelBadge" style="background: rgba(6, 182, 212, 0.2); color: var(--accent-cyan); font-weight: 700; font-size: 9px; padding: 3px 8px;">10 Left</span>
+      </div>
+
+      <div class="card-box" style="text-align: center; padding: 14px 10px;">
+        <div class="wheel-container" style="margin: 4px auto 14px auto;">
+          <div class="wheel-canvas-wrap">
+            <div class="wheel-pointer"></div>
+            <canvas id="wheelCanvas" width="280" height="280"></canvas>
+            <div class="wheel-center-cap">★</div>
           </div>
+        </div>
 
-          <section class="grid-5-col" id="socialTasksGrid">
-            <!-- 1: YouTube -->
-            <div class="task-tile" data-task="youtube">
-              <div class="task-icon">▶️</div>
-              <div class="task-name">YouTube</div>
-              <div class="task-reward-badge">+200</div>
-            </div>
-            <!-- 2: Instagram -->
-            <div class="task-tile" data-task="instagram">
-              <div class="task-icon">📸</div>
-              <div class="task-name">Instagram</div>
-              <div class="task-reward-badge">+150</div>
-            </div>
-            <!-- 3: Facebook -->
-            <div class="task-tile" data-task="facebook">
-              <div class="task-icon">📘</div>
-              <div class="task-name">Facebook</div>
-              <div class="task-reward-badge">+150</div>
-            </div>
-            <!-- 4: Binance Square -->
-            <div class="task-tile" data-task="binance">
-              <div class="task-icon">🟡</div>
-              <div class="task-name">Binance</div>
-              <div class="task-reward-badge">+300</div>
-            </div>
-            <!-- 5: Bybit Signup -->
-            <div class="task-tile" data-task="bybit">
-              <div class="task-icon">🟠</div>
-              <div class="task-name">Bybit</div>
-              <div class="task-reward-badge">+500</div>
-            </div>
-          </section>
+        <button id="btnSpinWheel" class="btn-action btn-lime" style="max-width: 320px; margin: 0 auto; padding: 10px 18px; font-size: 13px;">
+          <span>🎯 Spin & Win Coins</span>
+        </button>
 
-          <!-- Active Task Execution Card -->
-          <div id="taskExecCard" class="task-exec-card">
-            <div class="task-exec-title">
-              <span id="taskExecName">Task Verification</span>
-              <span id="taskExecTimer" class="timer-badge">⏳ 30s Timer</span>
-            </div>
-            <div class="task-steps" id="taskExecInstructions">
-              <ol>
-                <li>Click 'Open Task Link' below. The 30s timer begins immediately.</li>
-                <li>Complete the required activity and obtain verification code/UID.</li>
-                <li>Enter code/UID after countdown finishes to credit coins to 24h Security Hold.</li>
-              </ol>
-            </div>
-            <div style="display: flex; gap: 5px; margin-bottom: 6px;">
-              <button id="btnOpenTaskLink" class="btn-action btn-ad1" style="flex: 1;">
-                <span>🔗 Open Task Link</span>
-              </button>
-            </div>
-            <div class="input-group">
-              <input type="text" id="taskInputVal" class="input-field" placeholder="Enter Secret Code or Numeric UID" disabled>
-              <button id="btnSubmitTask" class="btn-action btn-lime btn-disabled" style="width: auto; padding: 6px 14px;" disabled>
-                <span>Verify</span>
-              </button>
+        <div style="margin-top: 14px; background: rgba(18, 24, 34, 0.6); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 8px 12px; text-align: left; font-size: 10px; color: var(--text-muted);">
+          <div style="font-weight: 700; color: #fff; margin-bottom: 4px; display: flex; align-items: center; gap: 4px;">
+            <span>ℹ️ Spin Rules & Rewards</span>
+          </div>
+          <div>• Har spin me aapko 20 se 500 coins tak ka random reward milta hai.</div>
+          <div>• Rozana 10 free spins available hote hain (Midnight 12:00 AM IST reset).</div>
+          <div>• Spin claim karte waqt sponsor ad verify hone par coins sidhe aapke balance me credit ho jate hain!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 4: WALLET (WITHDRAWAL HUB) ==================== -->
+    <div id="tabWallet" class="tab-pane">
+      <div class="section-header">
+        <div class="section-title">
+          <span>💳 Instant Withdrawal Hub</span>
+        </div>
+        <span style="font-size: 9px; color: var(--accent-lime); font-weight: 700;">1000 = ₹10 | 9000 = 1$</span>
+      </div>
+
+      <!-- 5-Column Selector Grid -->
+      <section class="grid-5-col" id="withdrawMethodsGrid">
+        <div class="withdraw-badge selected" data-method="bybit">
+          <div class="withdraw-badge-icon">🟠</div>
+          <div class="withdraw-badge-name">Bybit</div>
+          <div class="withdraw-badge-min">Min 9k (1$)</div>
+        </div>
+        <div class="withdraw-badge" data-method="binance">
+          <div class="withdraw-badge-icon">🟡</div>
+          <div class="withdraw-badge-name">Binance</div>
+          <div class="withdraw-badge-min">Min 9k (1$)</div>
+        </div>
+        <div class="withdraw-badge" data-method="upi">
+          <div class="withdraw-badge-icon">🇮🇳</div>
+          <div class="withdraw-badge-name">UPI</div>
+          <div class="withdraw-badge-min">Min 5k (₹50)</div>
+        </div>
+        <div class="withdraw-badge" data-method="celo">
+          <div class="withdraw-badge-icon">🟢</div>
+          <div class="withdraw-badge-name">CELO</div>
+          <div class="withdraw-badge-min">Min 27k (3$)</div>
+        </div>
+        <div class="withdraw-badge" data-method="bep20">
+          <div class="withdraw-badge-icon">⛓️</div>
+          <div class="withdraw-badge-name">BEP20</div>
+          <div class="withdraw-badge-min">Min 45k (5$)</div>
+        </div>
+      </section>
+
+      <!-- Withdrawal Form Card -->
+      <div class="withdraw-form-card" style="margin-top: 10px;">
+        <!-- Net-7 Audit Notice -->
+        <div class="audit-notice">
+          <span>🛡️</span>
+          <div>
+            <strong>Mandatory Net-7 Audit Notice:</strong> All withdrawal submissions undergo a 3 to 7 working days (Net-7) fraud, anti-cheat, and traffic compliance audit before funds are disbursed to your recipient address.
+          </div>
+        </div>
+
+        <!-- Saved Details Pill -->
+        <div id="savedDetailsPill" class="saved-details-pill" style="display: none;">
+          <span>💾 Saved Account: <strong id="savedAccountText">-</strong></span>
+          <div style="display: flex; gap: 4px;">
+            <button id="btnEditSavedAccount" style="background: none; border: none; color: var(--accent-cyan); font-size: 9px; cursor: pointer;">Edit</button>
+            <button id="btnClearSavedAccount" style="background: none; border: none; color: var(--accent-red); font-size: 9px; cursor: pointer;">Clear</button>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 6px;">
+          <label id="withdrawInputLabel" style="font-size: 9.5px; color: var(--text-muted); display: block; margin-bottom: 2px;">Recipient Address / Bybit UID:</label>
+          <input type="text" id="withdrawDestination" class="input-field" placeholder="Enter recipient Bybit UID" style="width: 100%;">
+          <div id="withdrawMethodHint" style="font-size: 9px; color: var(--accent-lime); margin-top: 3px; padding: 4px 6px; background: rgba(163, 230, 53, 0.08); border-radius: var(--radius-sm); border: 1px dashed rgba(163, 230, 53, 0.25);">
+            🟠 Bybit UID: 7-10 Digit Numeric UID for 0% fee instant payouts.
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+          <div style="flex: 1;">
+            <label style="font-size: 9.5px; color: var(--text-muted); display: block; margin-bottom: 2px;">Coins to Withdraw:</label>
+            <input type="text" inputmode="numeric" pattern="[0-9]*" id="withdrawCoinsAmount" class="input-field" placeholder="e.g. 9000" style="width: 100%;">
+          </div>
+          <div style="flex: 1;">
+            <label style="font-size: 9.5px; color: var(--text-muted); display: block; margin-bottom: 2px;">Payout Value:</label>
+            <div id="withdrawEquivalent" style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 6px 8px; border-radius: var(--radius-sm); font-size: 11px; font-weight: 700; color: var(--accent-lime); height: 29px; display: flex; align-items: center;">
+              0.00 USDT
             </div>
           </div>
         </div>
 
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <label style="font-size: 9.5px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; cursor: pointer;">
+            <input type="checkbox" id="checkSaveDetails" checked style="accent-color: var(--accent-lime);">
+            <span>Save recipient details for next time</span>
+          </label>
+          <span style="font-size: 8.5px; color: var(--text-dim);" id="withdrawFeeLabel">Fee: 0%</span>
+        </div>
+
+        <button id="btnSubmitWithdrawal" class="btn-action btn-lime">
+          <span>🚀 Submit Withdrawal Request</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 5: AI BOT & SUPPORT ==================== -->
+    <div id="tabAi" class="tab-pane">
+      <div class="section-header">
+        <div class="section-title">
+          <span>🤖 Earn Duo AI Bot (24/7 Smart Assistant)</span>
+        </div>
+        <span style="font-size: 8.5px; color: var(--accent-lime); font-weight: 700; background: rgba(163, 230, 53, 0.12); padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(163, 230, 53, 0.25);">● ONLINE</span>
       </div>
 
-      <!-- RIGHT COLUMN (Bagal): Withdrawal Hub, AI Assistant & Support Form -->
-      <div class="col-half">
-
-        <!-- 2C. WITHDRAWAL SYSTEM (Strict 5-Column Method Selector & Form) -->
-        <div>
-          <div class="section-header">
-            <div class="section-title">
-              <span>💳 Instant Withdrawal Hub</span>
-            </div>
-            <span style="font-size: 8.5px; color: var(--accent-lime); font-weight: 700;">1000 = ₹10 | 9000 = 1$</span>
-          </div>
-
-          <section class="grid-5-col" id="withdrawMethodsGrid">
-            <div class="withdraw-badge selected" data-method="bybit">
-              <div class="withdraw-badge-icon">🟠</div>
-              <div class="withdraw-badge-name">Bybit</div>
-              <div class="withdraw-badge-min">Min 9k (1$)</div>
-            </div>
-            <div class="withdraw-badge" data-method="binance">
-              <div class="withdraw-badge-icon">🟡</div>
-              <div class="withdraw-badge-name">Binance</div>
-              <div class="withdraw-badge-min">Min 9k (1$)</div>
-            </div>
-            <div class="withdraw-badge" data-method="upi">
-              <div class="withdraw-badge-icon">🇮🇳</div>
-              <div class="withdraw-badge-name">UPI</div>
-              <div class="withdraw-badge-min">Min 5k (₹50)</div>
-            </div>
-            <div class="withdraw-badge" data-method="celo">
-              <div class="withdraw-badge-icon">🟢</div>
-              <div class="withdraw-badge-name">CELO</div>
-              <div class="withdraw-badge-min">Min 27k (3$)</div>
-            </div>
-            <div class="withdraw-badge" data-method="bep20">
-              <div class="withdraw-badge-icon">⛓️</div>
-              <div class="withdraw-badge-name">BEP20</div>
-              <div class="withdraw-badge-min">Min 45k (5$)</div>
-            </div>
-          </section>
-
-          <!-- Withdrawal Form Card -->
-          <div class="withdraw-form-card">
-            <!-- Net-7 Audit Notice -->
-            <div class="audit-notice">
-              <span>🛡️</span>
-              <div>
-                <strong>Mandatory Net-7 Audit Notice:</strong> All withdrawal submissions undergo a 3 to 7 working days (Net-7) fraud, anti-cheat, and traffic compliance audit before funds are disbursed to your recipient address.
-              </div>
-            </div>
-
-            <!-- Saved Details Pill -->
-            <div id="savedDetailsPill" class="saved-details-pill" style="display: none;">
-              <span>💾 Saved Account: <strong id="savedAccountText">-</strong></span>
-              <div style="display: flex; gap: 4px;">
-                <button id="btnEditSavedAccount" style="background: none; border: none; color: var(--accent-cyan); font-size: 9px; cursor: pointer;">Edit</button>
-                <button id="btnClearSavedAccount" style="background: none; border: none; color: var(--accent-red); font-size: 9px; cursor: pointer;">Clear</button>
-              </div>
-            </div>
-
-            <div style="margin-bottom: 6px;">
-              <label id="withdrawInputLabel" style="font-size: 9.5px; color: var(--text-muted); display: block; margin-bottom: 2px;">Recipient Address / Bybit UID:</label>
-              <input type="text" id="withdrawDestination" class="input-field" placeholder="Enter recipient Bybit UID" style="width: 100%;">
-              <div id="withdrawMethodHint" style="font-size: 9px; color: var(--accent-lime); margin-top: 3px; padding: 4px 6px; background: rgba(163, 230, 53, 0.08); border-radius: var(--radius-sm); border: 1px dashed rgba(163, 230, 53, 0.25);">
-                🟠 Bybit UID: 7-10 Digit Numeric UID for 0% fee instant payouts.
-              </div>
-            </div>
-
-            <div style="display: flex; gap: 6px; margin-bottom: 8px;">
-              <div style="flex: 1;">
-                <label style="font-size: 9.5px; color: var(--text-muted); display: block; margin-bottom: 2px;">Coins to Withdraw:</label>
-                <input type="text" inputmode="numeric" pattern="[0-9]*" id="withdrawCoinsAmount" class="input-field" placeholder="e.g. 9000" style="width: 100%;">
-              </div>
-              <div style="flex: 1;">
-                <label style="font-size: 9.5px; color: var(--text-muted); display: block; margin-bottom: 2px;">Payout Value:</label>
-                <div id="withdrawEquivalent" style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 6px 8px; border-radius: var(--radius-sm); font-size: 11px; font-weight: 700; color: var(--accent-lime); height: 29px; display: flex; align-items: center;">
-                  0.00 USDT
-                </div>
-              </div>
-            </div>
-
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-              <label style="font-size: 9.5px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; cursor: pointer;">
-                <input type="checkbox" id="checkSaveDetails" checked style="accent-color: var(--accent-lime);">
-                <span>Save recipient details for next time</span>
-              </label>
-              <span style="font-size: 8.5px; color: var(--text-dim);" id="withdrawFeeLabel">Fee: 0%</span>
-            </div>
-
-            <button id="btnSubmitWithdrawal" class="btn-action btn-lime">
-              <span>🚀 Submit Withdrawal Request</span>
-            </button>
-          </div>
+      <!-- AI Bot Interactive Card -->
+      <div class="ai-bot-card">
+        <div class="ai-bot-desc">
+          Ask our AI Bot anything about earning, payouts, streaks, secret codes, or rules:
         </div>
 
-        <!-- 2D. EARN DUO AI ASSISTANT (Dedicated In-App AI Hub) -->
-        <div>
-          <div class="section-header" id="sectionAiHub">
-            <div class="section-title">
-              <span>🤖 Earn Duo AI Assistant (Aapke Sawal - AI Ke Jawab)</span>
-            </div>
-            <span style="font-size: 8.5px; color: var(--accent-cyan); font-weight: 700;">24/7 Live AI Help</span>
-          </div>
+        <!-- Quick Question Chips -->
+        <div class="ai-chips-wrap">
+          <button type="button" class="ai-chip" onclick="askAiPrompt('How to withdraw coins?')">💰 How to Withdraw?</button>
+          <button type="button" class="ai-chip" onclick="askAiPrompt('What is the minimum payout limit?')">🎯 Min Payouts</button>
+          <button type="button" class="ai-chip" onclick="askAiPrompt('How to earn more coins?')">⚡ How to Earn?</button>
+          <button type="button" class="ai-chip" onclick="askAiPrompt('How do YouTube and Social Tasks work?')">🌐 Tasks & Codes</button>
+          <button type="button" class="ai-chip" onclick="askAiPrompt('What are the anti-cheat rules?')">🛡️ Anti-Cheat Rules</button>
+          <button type="button" class="ai-chip" onclick="askAiPrompt('How does Lucky Spin Wheel work?')">🎡 Lucky Spin</button>
+          <button type="button" class="ai-chip" onclick="askAiPrompt('Which payout methods are supported?')">💳 UPI & Wallets</button>
+        </div>
 
-          <div class="card-box" style="border-color: rgba(6, 182, 212, 0.4); background: linear-gradient(180deg, rgba(6, 182, 212, 0.05) 0%, rgba(15, 23, 42, 0.8) 100%); margin-bottom: 8px;">
-            <div style="font-size: 10.5px; color: var(--text-muted); margin-bottom: 6px;">
-              💡 App se jude kisi bhi sawal (UPI ID, Monetag ads kamai, Spin wheel, Secret codes) ka jawab yaha puchein:
-            </div>
-            <div class="faq-chips-row">
-              <span class="faq-chip" onclick="handleAiPrompt('upi')">🇮🇳 UPI Payout Rules</span>
-              <span class="faq-chip" onclick="handleAiPrompt('monetag')">📺 Monetag Kamai Zero Kyu Hai?</span>
-              <span class="faq-chip" onclick="handleAiPrompt('spin')">🎡 Spin Wheel & Ads</span>
-              <span class="faq-chip" onclick="handleAiPrompt('secret')">🔑 Task Secret Codes</span>
-              <span class="faq-chip" onclick="handleAiPrompt('hold')">⏳ 24h Hold & Net-7</span>
-            </div>
-            <div id="mainAiChatBox" class="chat-messages" style="height: 170px; margin-bottom: 8px;">
-              <div class="chat-msg bot">
-                👋 <b>Namaste!</b> Mai hu <b>Earn Duo AI Assistant</b>. Aapka koi bhi sawal ho—UPI ID kaise daalein, Monetag ads kamai kaise badhayein, ya task codes—yaha neeche likhkar poohein!
-              </div>
-            </div>
-            <div style="display: flex; gap: 5px;">
-              <input type="text" id="mainAiInput" class="input-field" placeholder="Apna sawal likhein (Hindi / Hinglish / English)..." onkeydown="if(event.key==='Enter')sendMainAiMessage()">
-              <button id="btnMainAiSend" onclick="sendMainAiMessage()" class="btn-action btn-lime" style="width: auto; padding: 6px 14px;">
-                <span>Poochhein 🚀</span>
-              </button>
+        <!-- Chat messages container -->
+        <div id="aiChatBox" class="ai-chat-box">
+          <div class="ai-msg bot">
+            <span class="ai-avatar">🤖</span>
+            <div class="ai-bubble">
+              <b>Welcome to Earn Duo AI!</b><br>
+              Aapka swagat hai! Main Earn Duo AI Bot hoon. Coins kaise kamayein, UPI / Bybit / Binance par withdraw kaise karein, social tasks ke secret codes, ya Net-7 rules ke baare me koi bhi sawal poochiye!
             </div>
           </div>
         </div>
 
-        <!-- 2E. TELEGRAM CUSTOMER SUPPORT FORM -->
-        <div>
-          <div class="section-header">
-            <div class="section-title">
-              <span>📩 Telegram Customer Support (Direct Dispatch)</span>
-            </div>
-            <span style="font-size: 8.5px; color: var(--accent-cyan); font-weight: 700;">@earnduo_alert_bot</span>
-          </div>
-
-          <div class="support-card">
-            <select id="supportCategory" class="select-dropdown">
-              <option value="Withdrawal Inquiry">💰 Payout & Withdrawal Inquiry</option>
-              <option value="Task Verification">🌐 Task Verification / Secret Code Help</option>
-              <option value="Account / Streak">🔥 Login Streak & Balance Issue</option>
-              <option value="Anti-Fraud Audit">🛡️ Net-7 Audit Status Update</option>
-              <option value="Bug Report">🐛 Technical Bug Report</option>
-              <option value="Creator Partnership">🤝 Creator Program / Partnership</option>
-            </select>
-
-            <textarea id="supportMessage" class="textarea-field" placeholder="Describe your issue or query with transaction ID / UID details..."></textarea>
-
-            <div class="file-input-wrap">
-              <span>📷 Attach Screenshot (Images only, &lt;10MB):</span>
-              <input type="file" id="supportImageFile" accept="image/*" style="font-size: 9px; flex: 1;">
-            </div>
-
-            <button id="btnSendSupportTicket" class="btn-action btn-ad1">
-              <span>📨 Send Support Ticket to Telegram Bot</span>
-            </button>
-          </div>
+        <!-- Input Box with Send Button -->
+        <div class="ai-input-wrap">
+          <input type="text" id="aiInputText" class="ai-input" placeholder="Ask Earn Duo AI Bot anything..." onkeydown="if(event.key==='Enter') sendAiMessage()">
+          <button type="button" id="btnSendAi" class="btn-ai-send" onclick="sendAiMessage()">
+            <span>Send</span> <span>➤</span>
+          </button>
         </div>
-
       </div>
 
+      <!-- Customer Support Header -->
+      <div class="section-header" style="margin-top: 14px;">
+        <div class="section-title">
+          <span>📩 Customer Support Ticket</span>
+        </div>
+        <span style="font-size: 8.5px; color: var(--accent-cyan); font-weight: 700;">Official Support</span>
+      </div>
+
+      <div class="support-card">
+        <select id="supportCategory" class="select-dropdown">
+          <option value="Withdrawal Inquiry">💰 Payout & Withdrawal Inquiry</option>
+          <option value="Task Verification">🌐 Task Verification / Secret Code Help</option>
+          <option value="Account / Streak">🔥 Login Streak & Balance Issue</option>
+          <option value="Anti-Fraud Audit">🛡️ Net-7 Audit Status Update</option>
+          <option value="Bug Report">🐛 Technical Bug Report</option>
+          <option value="Creator Partnership">🤝 Creator Program / Partnership</option>
+        </select>
+
+        <textarea id="supportMessage" class="textarea-field" placeholder="Describe your issue or query with transaction ID / UID details..."></textarea>
+
+        <div class="file-input-wrap">
+          <span>📷 Attach Screenshot (Images only, &lt;10MB):</span>
+          <input type="file" id="supportImageFile" accept="image/*" style="font-size: 9px; flex: 1;">
+        </div>
+
+        <button id="btnSendSupportTicket" class="btn-action btn-ad1">
+          <span>📨 Send Support Ticket</span>
+        </button>
+      </div>
+
+      <!-- Quick Platform Guides -->
+      <div style="margin-top: 10px; display: flex; gap: 6px;">
+        <button onclick="openModal('modalCreatorGuide')" class="btn-action" style="flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); font-size: 10px;">
+          <span>🛠️ Creator Code Guide</span>
+        </button>
+        <button onclick="openModal('modalUidHelp')" class="btn-action" style="flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); font-size: 10px;">
+          <span>ℹ️ UID & Pay ID Guide</span>
+        </button>
+      </div>
+
+      <!-- FAQ Summary Card -->
+      <div class="card-box" style="margin-top: 10px;">
+        <div class="card-title">
+          <span>ℹ️ Platform Guidelines & Payout Rules</span>
+        </div>
+        <div style="font-size: 10px; color: var(--text-muted); line-height: 1.5; margin-top: 4px;">
+          <div>• <b>Payout Minimum:</b> UPI min ₹50 (5k coins), Bybit & Binance min 1.00 USDT (9k coins).</div>
+          <div>• <b>Adsterra & Monetag Ads:</b> Official browser me redirect open karke complete karein taaki revenue count ho.</div>
+          <div>• <b>Net-7 Security:</b> Sabhi withdrawals anti-fraud verification ke baad 3-7 dino me pass hote hain.</div>
+        </div>
+      </div>
     </div>
 
     <!-- App Footer -->
     <footer class="app-footer">
-      <div>Earn Duo AI - Smart Reward Hub • Net-7 Anti-Fraud Protected</div>
+      <div>Earn Duo AI • Net-7 Anti-Fraud Protected</div>
       <div style="margin-top: 2px;">Daily resets automatically at 12:00 AM IST (Indian Standard Time)</div>
     </footer>
 
   </div>
+
+  <!-- BOTTOM NAVIGATION BAR (5 Columns with Icons) -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="switchTab('tabHome')" id="navHome">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Home</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('tabTasks')" id="navTasks">
+      <span class="nav-icon">🌐</span>
+      <span class="nav-label">Tasks</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('tabSpin')" id="navSpin">
+      <span class="nav-icon">🎡</span>
+      <span class="nav-label">Spin</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('tabWallet')" id="navWallet">
+      <span class="nav-icon">💳</span>
+      <span class="nav-label">Wallet</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('tabAi')" id="navAi">
+      <span class="nav-icon">🤖</span>
+      <span class="nav-label">AI Bot</span>
+    </button>
+  </nav>
 
   <!-- MODAL: Creator Guide -->
   <div id="modalCreatorGuide" class="modal-overlay">
@@ -1375,26 +1792,27 @@
     </div>
   </div>
 
-  <!-- MODAL: Sponsor Ad for Spin Wheel (Monetag Ad Partner) -->
+  <!-- MODAL: Sponsor Ad for Spin Wheel -->
   <div id="modalSpinAd" class="modal-overlay">
-    <div class="modal-box" style="text-align: center; border-color: var(--accent-cyan);">
+    <div class="modal-box" style="text-align: center; border-color: var(--accent-cyan); position: relative;">
+      <button class="modal-close" onclick="closeModal('modalSpinAd')" style="position: absolute; right: 10px; top: 10px;">✕</button>
       <div style="font-size: 34px; margin-bottom: 2px;">🎬</div>
-      <div class="modal-title" style="color: var(--accent-cyan); font-size: 15px;">SPONSOR REWARDED AD (MONETAG)</div>
+      <div class="modal-title" style="color: var(--accent-cyan); font-size: 15px;">SPONSOR REWARDED AD</div>
       <div style="font-size: 11px; color: var(--text-muted); margin: 6px 0;">
         Watch sponsor ad to activate Lucky Wheel spin & win up to <strong>500 Coins</strong>!
       </div>
       <div style="background: rgba(6, 182, 212, 0.1); border: 1px solid var(--accent-cyan); border-radius: var(--radius-sm); padding: 10px; margin: 8px 0; text-align: left;">
-        <div style="font-size: 8.5px; color: var(--accent-cyan); font-weight: 800;">OFFICIAL MONETAG AD NETWORK</div>
-        <div style="font-size: 12px; font-weight: 800; color: #fff; margin-top: 3px;">⚡ High-Paying CPM Sponsored Link</div>
-        <div style="font-size: 10px; color: #94a3b8; margin-top: 3px;">Sponsor link ko open karke 5-10 second tak page visit karein taaki Monetag dashboard par ad impression record ho sakey!</div>
+        <div style="font-size: 8.5px; color: var(--accent-cyan); font-weight: 800;">OFFICIAL REWARD PARTNER</div>
+        <div style="font-size: 12px; font-weight: 800; color: #fff; margin-top: 3px;">⚡ Sponsored Ad Link</div>
+        <div style="font-size: 10px; color: #94a3b8; margin-top: 3px;">Tap Watch Ads to view sponsor and activate spin rewards!</div>
         <div id="spinAdTimerText" style="margin-top: 8px; font-weight: 800; color: var(--accent-lime); font-size: 12px;">⏳ Sponsor ad verifies in 3s...</div>
       </div>
       <div style="display: flex; gap: 6px; margin-top: 8px;">
         <button id="btnOpenSpinMonetagLink" class="btn-action btn-ad2" style="flex: 1;">
-          <span>🌐 Open Monetag Ad (+10 Bonus)</span>
+          <span>📺 Watch Ads</span>
         </button>
         <button id="btnProceedSpin" class="btn-action btn-lime" style="flex: 1;">
-          <span>🎯 Spin Lucky Wheel Now</span>
+          <span>🎯 Spin</span>
         </button>
       </div>
     </div>
@@ -1402,44 +1820,25 @@
 
   <!-- MODAL: Spin Win Celebration -->
   <div id="modalSpinWin" class="modal-overlay">
-    <div class="modal-box" style="text-align: center;">
+    <div class="modal-box" style="text-align: center; position: relative;">
+      <button class="modal-close" onclick="closeModal('modalSpinWin')" style="position: absolute; right: 10px; top: 10px;">✕</button>
       <div style="font-size: 38px; margin-bottom: 4px;">🎉</div>
       <div class="modal-title" style="font-size: 16px; color: var(--accent-lime);" id="spinWinTitle">CONGRATULATIONS!</div>
       <div style="font-size: 11px; color: #fff; margin: 6px 0;" id="spinWinMsg">You won 100 Coins on the Lucky Wheel!</div>
       <div style="background: rgba(163, 230, 53, 0.1); border: 1px dashed var(--accent-lime); border-radius: var(--radius-sm); padding: 8px; margin: 8px 0; font-size: 10px; color: #d9f99d;">
-        ⚡ Complete 1 quick sponsor ad to confirm and claim your coins directly into your wallet.
+        ⚡ Watch ad to claim your coins directly into your wallet.
       </div>
-      <button id="btnClaimSpinAd" class="btn-action btn-lime" style="margin-top: 6px;">
-        <span>🎁 Watch Sponsor Ad & Claim Coins</span>
-      </button>
+      <div style="display: flex; gap: 6px; margin-top: 8px;">
+        <button id="btnSpinWinWatchAd" class="btn-action btn-ad1" style="flex: 1;">
+          <span>📺 Watch Ads</span>
+        </button>
+        <button id="btnClaimSpinAd" class="btn-action btn-lime" style="flex: 1;">
+          <span>🎁 Claim</span>
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- ASSISTANT CHAT DRAWER -->
-  <div id="chatDrawer" class="chat-drawer">
-    <div class="chat-header">
-      <div style="font-size: 12px; font-weight: 800; color: var(--accent-cyan); display: flex; align-items: center; gap: 5px;">
-        <span>🤖 Earn Duo AI Assistant</span>
-      </div>
-      <button onclick="toggleChatDrawer(false)" style="background: none; border: none; color: var(--text-muted); font-size: 14px; cursor: pointer;">✕</button>
-    </div>
-    <div class="faq-chips-row">
-      <span class="faq-chip" onclick="handleFaqChip('payout')">💳 Payout Rules & Net-7</span>
-      <span class="faq-chip" onclick="handleFaqChip('secret')">🔑 Secret Codes</span>
-      <span class="faq-chip" onclick="handleFaqChip('uid')">🆔 How to find UID</span>
-      <span class="faq-chip" onclick="handleFaqChip('streak')">🔥 7-Day Streak</span>
-      <span class="faq-chip" onclick="handleFaqChip('hold')">⏳ 24h Hold</span>
-    </div>
-    <div id="chatMessages" class="chat-messages">
-      <div class="chat-msg bot">
-        Hello! I am your Earn Duo AI Assistant. How can I help you maximize your rewards today? Choose a topic above or ask below.
-      </div>
-    </div>
-    <div style="display: flex; gap: 5px;">
-      <input type="text" id="chatInput" class="input-field" placeholder="Ask AI assistant..." onkeydown="if(event.key==='Enter')sendChatMessage()">
-      <button onclick="sendChatMessage()" class="btn-action btn-ad1" style="width: auto; padding: 6px 12px;">Send</button>
-    </div>
-  </div>
 
   <!-- FIREBASE CLOUD SDK COMPAT -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -1474,9 +1873,7 @@
       monetagLink: 'https://uplcm.com/4/11969912',
       bybitRefLink: 'https://www.bybit.com/invite?ref=WWXMBLX',
       binanceRefLink: 'https://www.binance.com/register?ref=EARN2DUO1AI',
-      telegramBotToken: '8937678448:AAGuW8eeAcwcv7kUdyuO_bHvM25e76nQCnQ',
-      telegramChatId: '6098454675',
-      telegramBotUser: '@earnduo_alert_bot',
+      backendUrl: '', // Production API endpoint for withdrawals and support tickets
 
       // Currency Rates
       coinToInr: 0.01,          // 1,000 Coins = ₹10 INR
@@ -1974,6 +2371,8 @@
       checkShadowbanUI();
     }
 
+    let newlyClaimedStreakDay = null;
+
     function renderStreakTrack() {
       const container = document.getElementById('streakTrack');
       container.innerHTML = '';
@@ -1984,11 +2383,15 @@
       for (let i = 1; i <= 7; i++) {
         const node = document.createElement('div');
         node.className = 'streak-day-node';
+        node.id = `streakDayNode_${i}`;
         const reward = CONFIG.streakRewards[i - 1];
 
         if (i < currentDay || (i === currentDay && claimedToday)) {
           node.classList.add('completed');
           node.innerHTML = `<span>D${i}</span><span class="streak-coins">✓</span>`;
+          if (newlyClaimedStreakDay === i) {
+            node.classList.add('pop-claimed');
+          }
         } else if (i === currentDay) {
           node.classList.add('active');
           node.innerHTML = `<span>D${i}</span><span class="streak-coins">+${reward}</span>`;
@@ -2098,6 +2501,7 @@
         setTimeout(() => {
           state.data.walletBalance += reward;
           state.data.streakLastClaimDate = today;
+          newlyClaimedStreakDay = day;
           if (state.data.streakCurrentDay < 7) {
             state.data.streakCurrentDay += 1;
           } else {
@@ -2107,6 +2511,11 @@
           sound.win();
           renderMetrics();
           showToast(`🎉 Day ${day} Streak Claimed: +${reward} Coins!`, '🔥');
+
+          // Reset newly claimed streak day marker after pop animation finishes
+          setTimeout(() => {
+            newlyClaimedStreakDay = null;
+          }, 1000);
         }, 1200);
       });
     });
@@ -2127,7 +2536,7 @@
       '#a3e635', '#06b6d4', '#facc15', '#a855f7'
     ];
 
-    function drawWheel(angle) {
+    function drawWheel(angle = currentWheelAngle) {
       const numSegments = CONFIG.wheelSegments.length;
       const arc = (2 * Math.PI) / numSegments;
       const radius = canvas.width / 2;
@@ -2276,6 +2685,12 @@
 
       requestAnimationFrame(animateSpin);
     }
+
+    // Spin Win Watch Ad Button
+    document.getElementById('btnSpinWinWatchAd').addEventListener('click', () => {
+      openExternalLink(CONFIG.monetagLink);
+      showToast('Sponsor ad launched! Tap Claim to receive coins.', '📺');
+    });
 
     // Spin Ad-Gate Claim Button
     document.getElementById('btnClaimSpinAd').addEventListener('click', () => {
@@ -2606,66 +3021,49 @@
 
       const btn = document.getElementById('btnSubmitWithdrawal');
       btn.disabled = true;
-      btn.innerHTML = `<span>⏳ Submitting to Telegram API...</span>`;
+      btn.innerHTML = `<span>⏳ Submitting Withdrawal...</span>`;
+
+      // Check if backend URL is configured
+      if (!CONFIG.backendUrl || !CONFIG.backendUrl.trim()) {
+        btn.disabled = false;
+        btn.innerHTML = `<span>🚀 Submit Withdrawal Request</span>`;
+        sound.error();
+        alert('Backend not configured yet. No coins were deducted.');
+        return;
+      }
 
       const timeStr = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
       const userId = state.getUserId();
       const balanceLeft = state.data.walletBalance - coins;
 
-      // Exact user-specified Telegram Withdrawal Alert Format
-      const tgText = `🔔 <b>NEW WITHDRAWAL REQUEST</b>\n\n` +
-        `👤 <b>User ID:</b> <code>${escapeHtml(userId)}</code>\n` +
-        `💳 <b>Method:</b> ${escapeHtml(config.name)}\n` +
-        `🎯 <b>Account / Address:</b> <code>${escapeHtml(destination)}</code>\n` +
-        `🪙 <b>Amount Coins:</b> ${coins.toLocaleString()}\n` +
-        `💵 <b>Equivalent Value:</b> ${escapeHtml(payoutVal)}\n` +
-        `💰 <b>Balance Left:</b> ${balanceLeft.toLocaleString()} Coins\n` +
-        `📅 <b>Timestamp:</b> ${escapeHtml(timeStr)}\n` +
-        `🛡️ <b>Notice:</b> Net-7 Fraud & Anti-Cheat Audit (3-7 Working Days)\n` +
-        `📱 <b>Platform:</b> ${escapeHtml(CONFIG.appName)}`;
+      // Withdrawal Alert Payload
+      const withdrawalPayload = {
+        type: 'withdrawal',
+        userId: userId,
+        method: config.name,
+        destination: destination,
+        coins: coins,
+        payoutValue: payoutVal,
+        balanceLeft: balanceLeft,
+        timestamp: timeStr,
+        appName: CONFIG.appName
+      };
 
-      // Network Fail Safety: Deduct coins ONLY if Telegram API returns success
+      // Network Fail Safety: Deduct coins ONLY if Backend API returns success
       try {
         let isSuccess = false;
 
-        // 1. Try Android Native Bridge if available (avoids any WebView CORS or network throttling)
-        if (window.AndroidBridge && typeof window.AndroidBridge.dispatchTelegramApi === 'function') {
-          try {
-            const bridgeRes = window.AndroidBridge.dispatchTelegramApi(
-              CONFIG.telegramBotToken,
-              CONFIG.telegramChatId,
-              tgText,
-              'HTML'
-            );
-            if (bridgeRes === 'OK') {
-              isSuccess = true;
-            } else {
-              console.warn('Native Bridge TG response:', bridgeRes);
-            }
-          } catch (bridgeErr) {
-            console.warn('Native Bridge error:', bridgeErr);
-          }
-        }
+        const res = await fetch(CONFIG.backendUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(withdrawalPayload)
+        });
 
-        // 2. Browser standard Fetch fallback
-        if (!isSuccess) {
-          const tgUrl = `https://api.telegram.org/bot${CONFIG.telegramBotToken}/sendMessage`;
-          const res = await fetch(tgUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              chat_id: CONFIG.telegramChatId,
-              text: tgText,
-              parse_mode: 'HTML'
-            })
-          });
-
-          if (res.ok) {
-            isSuccess = true;
-          } else {
-            const errData = await res.json().catch(() => ({}));
-            console.error('Telegram API error:', errData);
-          }
+        if (res.ok) {
+          isSuccess = true;
+        } else {
+          const errData = await res.json().catch(() => ({}));
+          console.error('Backend API error:', errData);
         }
 
         if (isSuccess) {
@@ -2681,22 +3079,22 @@
           updateWithdrawFormUI();
 
           alert(`✅ Withdrawal Submitted Successfully!\n\nYour request has been dispatched to the administrative queue.\nStatus: Net-7 Fraud & Anti-Cheat Audit (3-7 working days) before payment release.`);
-          showToast('Withdrawal request dispatched to Telegram!', '🚀', 5000);
+          showToast('Withdrawal request submitted successfully!', '🚀', 5000);
         } else {
           sound.error();
-          alert('❌ Network Failure: Telegram Bot dispatch could not be confirmed. No coins were deducted. Please check your connection and try again.');
+          alert('❌ Submission Failure: Backend server could not process the request. No coins were deducted. Please check your connection and try again.');
         }
       } catch (err) {
         sound.error();
         console.error('Fetch exception:', err);
-        alert('❌ Network Error: Could not connect to Telegram API. No coins were deducted from your wallet.');
+        alert('❌ Network Error: Could not connect to backend server. No coins were deducted from your wallet.');
       } finally {
         btn.disabled = false;
         btn.innerHTML = `<span>🚀 Submit Withdrawal Request</span>`;
       }
     });
 
-    // --- 12. TELEGRAM CUSTOMER SUPPORT TICKET ENGINE ---
+    // --- 12. CUSTOMER SUPPORT TICKET ENGINE ---
     document.getElementById('btnSendSupportTicket').addEventListener('click', async () => {
       const category = document.getElementById('supportCategory').value;
       const messageInput = document.getElementById('supportMessage');
@@ -2710,7 +3108,7 @@
         return;
       }
 
-      let imageFile = null;
+      let imageBase64 = null;
       if (fileInput.files && fileInput.files[0]) {
         const file = fileInput.files[0];
         if (!file.type.startsWith('image/')) {
@@ -2724,7 +3122,16 @@
           alert('❌ Image file too large! Maximum allowed size is 10MB.');
           return;
         }
-        imageFile = file;
+        try {
+          imageBase64 = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          });
+        } catch (readErr) {
+          console.warn('Could not read image file', readErr);
+        }
       }
 
       // Caption Auto-trim to 950 chars
@@ -2734,45 +3141,39 @@
 
       const btn = document.getElementById('btnSendSupportTicket');
       btn.disabled = true;
-      btn.innerHTML = `<span>⏳ Sending to Telegram Support...</span>`;
+      btn.innerHTML = `<span>⏳ Submitting Support Ticket...</span>`;
+
+      // Check if backend URL is configured
+      if (!CONFIG.backendUrl || !CONFIG.backendUrl.trim()) {
+        btn.disabled = false;
+        btn.innerHTML = `<span>📨 Send Support Ticket</span>`;
+        sound.error();
+        alert('Backend not configured yet');
+        return;
+      }
 
       const timeStr = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
       const userId = state.getUserId();
-      const captionText = `📩 <b>NEW SUPPORT TICKET</b> 📩\n\n` +
-        `👤 <b>User ID:</b> <code>${escapeHtml(userId)}</code>\n` +
-        `📂 <b>Category:</b> ${escapeHtml(category)}\n` +
-        `💬 <b>Message:</b> ${escapeHtml(msg)}\n` +
-        `💰 <b>Wallet Coins:</b> ${state.data.walletBalance.toLocaleString()}\n` +
-        `📅 <b>Timestamp (IST):</b> ${escapeHtml(timeStr)}`;
+      const ticketPayload = {
+        type: 'support_ticket',
+        userId: userId,
+        category: category,
+        message: msg,
+        walletCoins: state.data.walletBalance,
+        timestamp: timeStr,
+        image: imageBase64
+      };
 
       try {
-        let res;
-        if (imageFile) {
-          const formData = new FormData();
-          formData.append('chat_id', CONFIG.telegramChatId);
-          formData.append('caption', captionText);
-          formData.append('parse_mode', 'HTML');
-          formData.append('photo', imageFile);
-
-          res = await fetch(`https://api.telegram.org/bot${CONFIG.telegramBotToken}/sendPhoto`, {
-            method: 'POST',
-            body: formData
-          });
-        } else {
-          res = await fetch(`https://api.telegram.org/bot${CONFIG.telegramBotToken}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              chat_id: CONFIG.telegramChatId,
-              text: captionText,
-              parse_mode: 'HTML'
-            })
-          });
-        }
+        const res = await fetch(CONFIG.backendUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(ticketPayload)
+        });
 
         if (res.ok) {
           sound.win();
-          alert('✅ Support ticket sent to Telegram! Our support team (@earnduo_alert_bot) will review your ticket.');
+          alert('✅ Support ticket sent successfully! Our support team will review your query.');
           messageInput.value = '';
           fileInput.value = '';
           showToast('Support ticket delivered successfully!', '📨');
@@ -2783,156 +3184,176 @@
       } catch (e) {
         sound.error();
         console.error('Support ticket send error', e);
-        alert('Network connection error while contacting Telegram support bot.');
+        alert('Network connection error while contacting support backend.');
       } finally {
         btn.disabled = false;
-        btn.innerHTML = `<span>📨 Send Support Ticket to Telegram Bot</span>`;
+        btn.innerHTML = `<span>📨 Send Support Ticket</span>`;
       }
     });
 
-    // --- 13. ASSISTANT CHATBOT & FAQ CHIPS ---
-    function openAiHub() {
+    // --- 13. EARN DUO AI BOT (24/7 SMART ASSISTANT) ---
+    function sendAiMessage() {
+      const input = document.getElementById('aiInputText');
+      if (!input) return;
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendAiMessage('user', text);
+      input.value = '';
       sound.click();
-      const el = document.getElementById('sectionAiHub');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        setTimeout(() => {
-          const input = document.getElementById('mainAiInput');
-          if (input) input.focus();
-        }, 400);
-      } else {
-        toggleChatDrawer(true);
-      }
-    }
 
-    function toggleChatDrawer(open) {
+      setTimeout(() => {
+        const reply = getAiBotReply(text);
+        appendAiMessage('bot', reply);
+        sound.win();
+      }, 350);
+    }
+    window.sendAiMessage = sendAiMessage;
+
+    function askAiPrompt(question) {
       sound.click();
-      const drawer = document.getElementById('chatDrawer');
-      if (open) drawer.classList.add('open');
-      else drawer.classList.remove('open');
+      appendAiMessage('user', question);
+      setTimeout(() => {
+        const reply = getAiBotReply(question);
+        appendAiMessage('bot', reply);
+        sound.win();
+      }, 300);
     }
+    window.askAiPrompt = askAiPrompt;
 
-    document.getElementById('btnOpenChat').addEventListener('click', () => {
-      openAiHub();
-    });
-
-    function addMainAiMessage(htmlOrText, isUser = false) {
-      const box = document.getElementById('mainAiChatBox');
+    function appendAiMessage(sender, text) {
+      const box = document.getElementById('aiChatBox');
       if (!box) return;
-      const div = document.createElement('div');
-      div.className = `chat-msg ${isUser ? 'user' : 'bot'}`;
-      if (isUser) {
-        div.textContent = htmlOrText;
-      } else {
-        div.innerHTML = htmlOrText;
-      }
-      box.appendChild(div);
+
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `ai-msg ${sender}`;
+
+      const avatar = document.createElement('span');
+      avatar.className = 'ai-avatar';
+      avatar.textContent = (sender === 'bot') ? '🤖' : '👤';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'ai-bubble';
+      bubble.innerHTML = text.replace(/\n/g, '<br>');
+
+      msgDiv.appendChild(avatar);
+      msgDiv.appendChild(bubble);
+      box.appendChild(msgDiv);
+
       box.scrollTop = box.scrollHeight;
+    }
 
-      // Sync with chat drawer messages as well
-      const drawerBox = document.getElementById('chatMessages');
-      if (drawerBox) {
-        const dDiv = document.createElement('div');
-        dDiv.className = `chat-msg ${isUser ? 'user' : 'bot'}`;
-        if (isUser) dDiv.textContent = htmlOrText;
-        else dDiv.innerHTML = htmlOrText;
-        drawerBox.appendChild(dDiv);
-        drawerBox.scrollTop = drawerBox.scrollHeight;
+    function getAiBotReply(query) {
+      const q = query.toLowerCase();
+
+      if (q.includes('withdraw') || q.includes('payout') || q.includes('paise') || q.includes('nikale') || q.includes('nikalna') || q.includes('transfer')) {
+        return `💰 <b>Withdrawal & Payout Methods in Earn Duo AI:</b>\n\n` +
+          `• <b>🇮🇳 UPI:</b> Min 5,000 Coins = ₹50 INR (10,000 Coins = ₹100 INR). Direct bank transfer via your UPI ID (e.g. name@oksbi).\n` +
+          `• <b>🟠 Bybit UID:</b> Min 9,000 Coins = 1.00 USDT. Instant 0% fee transfer via your 7-10 digit Bybit UID.\n` +
+          `• <b>🟡 Binance Pay ID:</b> Min 9,000 Coins = 1.00 USDT. 0% fee instant transfer via your Binance Pay ID.\n` +
+          `• <b>🟢 CELO Network:</b> Min 27,000 Coins = 3.00 USDT.\n` +
+          `• <b>⛓️ BNB Smart Chain (BEP20):</b> Min 45,000 Coins = 5.00 USDT.\n\n` +
+          `👉 Payout request karne ke liye bottom bar me <b>💳 Wallet</b> tab par jayein!`;
+      }
+
+      if (q.includes('min') || q.includes('limit') || q.includes('kitna') || q.includes('minimum')) {
+        return `🎯 <b>Minimum Payout Limits:</b>\n\n` +
+          `• UPI: <b>5,000 Coins = ₹50 INR</b>\n` +
+          `• Bybit UID: <b>9,000 Coins = 1.00 USDT</b>\n` +
+          `• Binance Pay ID: <b>9,000 Coins = 1.00 USDT</b>\n` +
+          `• CELO Network: <b>27,000 Coins = 3.00 USDT</b>\n` +
+          `• BEP20 USDT: <b>45,000 Coins = 5.00 USDT</b>\n\n` +
+          `All requests are processed securely with Net-7 audit verification.`;
+      }
+
+      if (q.includes('task') || q.includes('youtube') || q.includes('instagram') || q.includes('facebook') || q.includes('bybit') || q.includes('binance') || q.includes('code') || q.includes('secret')) {
+        return `🌐 <b>Tasks & Creator Codes Guide:</b>\n\n` +
+          `• <b>YouTube (+200 Coins):</b> Video me chupaya hua 4-digit Secret Code enter karein (e.g. 8421).\n` +
+          `• <b>Instagram (+150 Coins):</b> Bio ya post me diya gaya Secret Code enter karein (e.g. 4123).\n` +
+          `• <b>Facebook (+150 Coins):</b> Community post se Secret Code enter karein (e.g. 9988).\n` +
+          `• <b>Binance Square (+300 Coins):</b> Apna genuine 7-10 digit Binance Pay ID enter karein.\n` +
+          `• <b>Bybit Signup (+500 Coins):</b> Apna genuine 7-10 digit Bybit UID enter karein.\n\n` +
+          `🛡️ <b>Anti-Cheat:</b> Link kholne ke baad 30s timer poora hona zaroori hai tabhi verification unlock hoga! 3 galat code daalne par 24-hour lockout lag jata hai.`;
+      }
+
+      if (q.includes('cheat') || q.includes('lock') || q.includes('shadowban') || q.includes('ban') || q.includes('security')) {
+        return `🛡️ <b>Anti-Cheat & Security Rules:</b>\n\n` +
+          `• <b>30s Timer:</b> Har task ka link kholne par 30 seconds ka countdown chalta hai. Bina link khole ya timer se pehle code enter nahi kar sakte.\n` +
+          `• <b>3-Strike Lockout:</b> Agar lagatar 3 baar galat Secret Code ya UID daala gaya, toh 24 ghante ke liye Task Hub lock ho jayega (Shadowban)!\n` +
+          `• <b>24h Security Hold:</b> Tasks se kamaye gaye coins 24 ghante security hold me rehte hain taaki bots aur multi-accounts ko roka ja sake.`;
+      }
+
+      if (q.includes('spin') || q.includes('wheel') || q.includes('chakkar')) {
+        return `🎡 <b>Lucky Spin Wheel Rules:</b>\n\n` +
+          `• Har user ko rozana <b>10 Free Spins</b> milte hain!\n` +
+          `• Wheel me 20, 30, 40, 50, 100, 150, 200, aur 500 coins tak ke rewards hain.\n` +
+          `• Daily spins midnight 12:00 AM IST par reset hote hain. Bottom nav me <b>🎡 Spin</b> tab par jakar abhi spin karein!`;
+      }
+
+      if (q.includes('earn') || q.includes('kaise') || q.includes('kamaye') || q.includes('coin') || q.includes('how to')) {
+        return `⚡ <b>Earn Duo AI me Coins Kaise Kamayein:</b>\n\n` +
+          `1. 🔥 <b>Daily Login Streak:</b> Rozana app open karke apna daily streak reward claim karein (+100 se +500 coins).\n` +
+          `2. 📺 <b>Sponsor Ads (Adsterra & Monetag):</b> Fast sponsor ads dekhkar instant coins earn karein.\n` +
+          `3. 🌐 <b>Social Tasks:</b> YouTube, Instagram, Facebook, Bybit aur Binance tasks complete karke +1,300 coins tak kamayein.\n` +
+          `4. 🎡 <b>Lucky Spin:</b> Rozana 10 free spins ghumayein aur coins jeetein!`;
+      }
+
+      if (q.includes('net-7') || q.includes('audit') || q.includes('kab milega') || q.includes('time') || q.includes('timing')) {
+        return `🛡️ <b>Net-7 Compliance & Audit Timeline:</b>\n\n` +
+          `• Sabhi withdrawal submissions fraud aur anti-cheat compliance check se guzarte hain.\n` +
+          `• Net-7 policy ke mutabik 3 se 7 working days ke andar verification complete hokar funds aapke account (UPI / Bybit / Binance) me transfer ho jate hain.\n` +
+          `• Genuine users ko 100% time par payout milta hai!`;
+      }
+
+      if (q.includes('support') || q.includes('help') || q.includes('admin') || q.includes('contact')) {
+        return `📩 <b>Official Support Ticket:</b>\n\n` +
+          `• Agar aapko kisi transaction ya account issue ke liye support chahiye, toh isi tab ke neeche ticket form bharein.\n` +
+          `• Message aur optional screenshot attach karke seedhe support team ko ticket submit kar sakte hain!`;
+      }
+
+      // Default smart response
+      return `🤖 <b>Earn Duo AI Bot:</b>\n` +
+        `Main aapki madad ke liye yahan hoon! Aap pooch sakte hain:\n` +
+        `• <i>"Withdrawal kaise karein?"</i>\n` +
+        `• <i>"Minimum payout limit kya hai?"</i>\n` +
+        `• <i>"Social tasks aur secret codes kaise use karein?"</i>\n` +
+        `• <i>"Anti-cheat lockout kya hai?"</i>\n` +
+        `• <i>"Lucky Spin ke rules kya hain?"</i>\n\n` +
+        `Neeche diye gaye chips par click karein ya apna sawal type karein!`;
+    }
+
+    // --- 14. 5-COLUMN BOTTOM NAVIGATION SYSTEM ---
+    function switchTab(tabId) {
+      try { sound.click(); } catch(e) {}
+      const panes = document.querySelectorAll('.tab-pane');
+      panes.forEach(p => p.classList.remove('active'));
+
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach(n => n.classList.remove('active'));
+
+      const targetPane = document.getElementById(tabId);
+      if (targetPane) {
+        targetPane.classList.add('active');
+      }
+
+      const navBtn = document.getElementById('nav' + tabId.replace('tab', ''));
+      if (navBtn) {
+        navBtn.classList.add('active');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (tabId === 'tabTasks') {
+        if (!activeTaskKey) selectTask('youtube');
+      }
+
+      if (tabId === 'tabSpin') {
+        setTimeout(() => {
+          if (typeof drawWheel === 'function') drawWheel(currentWheelAngle);
+        }, 50);
       }
     }
-
-    function sendMainAiMessage() {
-      const input = document.getElementById('mainAiInput');
-      const q = input.value.trim();
-      if (!q) return;
-      input.value = '';
-      addMainAiMessage(q, true);
-      sound.click();
-
-      setTimeout(() => {
-        respondAiQuery(q.toLowerCase());
-      }, 400);
-    }
-
-    function handleAiPrompt(type) {
-      sound.click();
-      if (type === 'upi') {
-        addMainAiMessage('UPI ID kaise dalein aur payout rules kya hain?', true);
-        setTimeout(() => respondAiQuery('upi'), 300);
-      } else if (type === 'monetag') {
-        addMainAiMessage('Monetag ads ki kamai zero kyu aa rahi hai?', true);
-        setTimeout(() => respondAiQuery('monetag'), 300);
-      } else if (type === 'spin') {
-        addMainAiMessage('Spin wheel touch karne par ads kaise aate hain?', true);
-        setTimeout(() => respondAiQuery('spin'), 300);
-      } else if (type === 'secret') {
-        addMainAiMessage('Tasks ke secret codes kahan milenge?', true);
-        setTimeout(() => respondAiQuery('secret'), 300);
-      } else if (type === 'hold') {
-        addMainAiMessage('24h Hold aur Net-7 Audit kya hota hai?', true);
-        setTimeout(() => respondAiQuery('hold'), 300);
-      }
-    }
-
-    function respondAiQuery(q) {
-      if (q.includes('monetag') || q.includes('uplcm') || q.includes('zero') || q.includes('kamai') || q.includes('earning zero')) {
-        addMainAiMessage(`📺 <b>Monetag Ads Earning Guide:</b><br>
-1. <b>Direct Link Model:</b> Monetag (<code>https://uplcm.com/4/11969912</code>) par kamai tab record hoti hai jab user sponsor link ko open karke 5 se 10 second tak page browse kare.<br>
-2. <b>Pehle Zero Kyu Tha:</b> Pehle browser popup blocker ad ko open hone se rok raha tha jisse Monetag dashboard par impression nahi pahunch raha tha.<br>
-3. <b>Abhi Fix Ho Gaya:</b> Ab humne Android Native Intent aur Guaranteed Fallback jod diya hai. Har baar <b>Spin Wheel</b> touch karne par aur <b>Watch Ad 2</b> dabane par Monetag sponsor ad real browser me khulega aur aapki dollar ($) kamai Monetag me credit hogi!`);
-      } else if (q.includes('upi') || q.includes('paisa') || q.includes('bank') || q.includes('withdraw') || q.includes('payout')) {
-        addMainAiMessage(`🇮🇳 <b>UPI Payout & Withdrawal Guide:</b><br>
-1. <b>Method Select Karein:</b> Withdrawal Hub me <b>'UPI'</b> badge par tap karein.<br>
-2. <b>UPI ID Format:</b> Input box me apna sahi Virtual Payment Address enter karein (jaise: <code>9876543210@paytm</code>, <code>name@okhdfcbank</code>, ya <code>user@oksbi</code>).<br>
-3. <b>Minimum Coins:</b> 5,000 Coins = <b>₹50 INR</b> (1,000 Coins = ₹10 INR).<br>
-4. <b>Fee:</b> 0% Zero Fee!<br>
-5. <b>Disbursement:</b> Net-7 (3 se 7 working days) security compliance review ke baad funds seedhe aapke bank/UPI app me credit ho jate hain.`);
-      } else if (q.includes('spin') || q.includes('wheel') || q.includes('ad nahi')) {
-        addMainAiMessage(`🎡 <b>Lucky Spin Wheel & Ads System:</b><br>
-1. <b>Daily 10 Spins:</b> Har user ko rozana 10 free spins milte hain (midnight 12:00 AM IST reset).<br>
-2. <b>Ad Experience:</b> Jaise hi aap 'SPIN NOW' ya wheel canvas par touch karenge, Monetag Sponsor Ad turant activate hoga.<br>
-3. <b>Sponsor Page:</b> 'Open Monetag Ad' par tap karke 5-10 sec sponsor offer dekhein.<br>
-4. <b>Claim Rewards:</b> Wheel ghumne ke baad land huye coins (20 se 500) aapke wallet me add honge!`);
-      } else if (q.includes('code') || q.includes('secret') || q.includes('task') || q.includes('youtube') || q.includes('instagram')) {
-        addMainAiMessage(`🔑 <b>Social Tasks Secret Verification Codes:</b><br>
-• <b>YouTube Task:</b> Secret Code <code>8421</code> (+200 Coins)<br>
-• <b>Instagram Task:</b> Secret Code <code>4123</code> (+150 Coins)<br>
-• <b>Facebook Task:</b> Secret Code <code>9988</code> (+150 Coins)<br>
-• <b>Binance Square:</b> 7-10 Digit Numeric Pay ID (+300 Coins)<br>
-• <b>Bybit Signup:</b> 7-10 Digit Numeric UID (+500 Coins)<br>
-<i>Rules:</i> Pehle 'Open Task Link' dabayein, 30s timer pura hone dein, fir code enter karein!`);
-      } else if (q.includes('hold') || q.includes('net-7') || q.includes('audit') || q.includes('security')) {
-        addMainAiMessage(`🛡️ <b>24h Security Hold & Net-7 Audit:</b><br>
-• <b>24h Hold:</b> Fake accounts aur automation bot fraud rokne ke liye social task coins 24 ghante hold me rehte hain, fir automatically wallet me credit hote hain.<br>
-• <b>Net-7 Audit:</b> Har withdrawal request par 3-7 din ka compliance check hota hai taaki genuine users ko bina kisi dikkat ke payout mile.`);
-      } else if (q.includes('html') || q.includes('apk') || q.includes('convert') || q.includes('github')) {
-        addMainAiMessage(`📱 <b>Native Android APK Info:</b><br>
-Aapko kisi 3rd-party 'HTML to APK' app ki bilkul zaroorat nahi hai! Yeh project already 100% complete Native Android Studio Kotlin app hai. GitHub Actions ya AI Studio export se seedhe <code>app-debug.apk</code> download karke apne phone me install kar sakte hain!`);
-      } else {
-        addMainAiMessage(`🤖 Mai aapka <b>Earn Duo AI Assistant</b> hu. Aap mujhse UPI ID dalne, Monetag sponsor ads se kamai badhane, Spin wheel ke rules, ya social tasks ke secret codes ke bare me kuch bhi pooch sakte hain!`);
-      }
-    }
-
-    function addChatMessage(text, isUser = false) {
-      addMainAiMessage(text, isUser);
-    }
-
-    function sendChatMessage() {
-      const input = document.getElementById('chatInput');
-      const q = input.value.trim();
-      if (!q) return;
-      input.value = '';
-      addMainAiMessage(q, true);
-      sound.click();
-
-      setTimeout(() => {
-        respondAiQuery(q.toLowerCase());
-      }, 400);
-    }
-
-    function handleFaqChip(type) {
-      handleAiPrompt(type);
-    }
+    window.switchTab = switchTab;
 
     // --- 14. SOUND TOGGLE BUTTON ---
     const btnSoundToggle = document.getElementById('btnSoundToggle');
@@ -2959,6 +3380,7 @@ Aapko kisi 3rd-party 'HTML to APK' app ki bilkul zaroorat nahi hai! Yeh project 
       updateSoundBtnUI();
       renderMetrics();
       updateWithdrawFormUI();
+      selectTask('youtube');
       state.loadFromFirebase();
     });
 
