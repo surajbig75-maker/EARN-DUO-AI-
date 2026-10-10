@@ -36,6 +36,7 @@ import com.example.ui.theme.MyApplicationTheme
 class MainActivity : ComponentActivity() {
 
   private var fileChooserCallback: ValueCallback<Array<Uri>>? = null
+  private var activeWebView: WebView? = null
 
   private val filePickerLauncher =
     registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -51,6 +52,10 @@ class MainActivity : ComponentActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    window.setFlags(
+      android.view.WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+      android.view.WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
+    )
     enableEdgeToEdge()
 
     setContent {
@@ -70,6 +75,7 @@ class MainActivity : ComponentActivity() {
         ) {
           AppWebView(
             onWebViewCreated = { webView ->
+              activeWebView = webView
               webViewInstance = webView
             },
             onOpenFileChooser = { callback, params ->
@@ -97,6 +103,22 @@ class MainActivity : ComponentActivity() {
         }
       }
     }
+  }
+
+  override fun onResume() {
+    super.onResume()
+    activeWebView?.onResume()
+  }
+
+  override fun onPause() {
+    activeWebView?.onPause()
+    super.onPause()
+  }
+
+  override fun onDestroy() {
+    activeWebView?.destroy()
+    activeWebView = null
+    super.onDestroy()
   }
 
   @SuppressLint("SetJavaScriptEnabled")
@@ -129,8 +151,6 @@ class MainActivity : ComponentActivity() {
           }
 
           setBackgroundColor(android.graphics.Color.parseColor("#0A0D12"))
-          // Set software layer type to eliminate MESA rendernode errors on virtualized emulators without physical GPU DRI nodes
-          setLayerType(android.view.View.LAYER_TYPE_SOFTWARE, null)
           isFocusable = true
           isFocusableInTouchMode = true
           isClickable = true
@@ -140,6 +160,17 @@ class MainActivity : ComponentActivity() {
           // Expose native bridge to JavaScript for foolproof popup & ad launching
           addJavascriptInterface(WebAppBridge(this@MainActivity), "AndroidBridge")
 
+          val configuredUrl = try {
+            context.getString(R.string.web_app_url).trim()
+          } catch (_: Exception) {
+            ""
+          }
+          val initialUrl = if (configuredUrl.isNotEmpty() && (configuredUrl.startsWith("http://") || configuredUrl.startsWith("https://"))) {
+            configuredUrl
+          } else {
+            "file:///android_asset/index.html"
+          }
+
           webViewClient = object : WebViewClient() {
             override fun onRenderProcessGone(
               view: WebView?,
@@ -148,14 +179,38 @@ class MainActivity : ComponentActivity() {
               return true
             }
 
+            override fun onReceivedError(
+              view: WebView?,
+              request: WebResourceRequest?,
+              error: android.webkit.WebResourceError?
+            ) {
+              super.onReceivedError(view, request, error)
+              if (request?.isForMainFrame == true && initialUrl != "file:///android_asset/index.html") {
+                android.util.Log.w("EarnDuoApp", "Remote URL failed, falling back to local asset: ${error?.description}")
+                view?.loadUrl("file:///android_asset/index.html")
+              }
+            }
+
             override fun shouldOverrideUrlLoading(
               view: WebView?,
               request: WebResourceRequest?
             ): Boolean {
-              val url = request?.url?.toString() ?: return false
-              if (url.startsWith("file:///android_asset/")) {
+              val requestUri = request?.url ?: return false
+              val url = requestUri.toString()
+              if (url.startsWith("file:///android_asset/") || url.startsWith("data:") || url.startsWith("blob:")) {
                 return false
               }
+
+              // Allow navigation within the same host (e.g. GitHub Pages or app domain)
+              val currentUrl = view?.url
+              if (currentUrl != null) {
+                val currentHost = Uri.parse(currentUrl).host
+                val targetHost = requestUri.host
+                if (currentHost != null && targetHost != null && currentHost.equals(targetHost, ignoreCase = true)) {
+                  return false
+                }
+              }
+
               return try {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
                   addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -215,7 +270,8 @@ class MainActivity : ComponentActivity() {
             }
           }
 
-          loadUrl("file:///android_asset/index.html")
+          clearCache(false)
+          loadUrl(initialUrl)
           onWebViewCreated(this)
         }
       }
